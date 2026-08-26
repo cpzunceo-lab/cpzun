@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로스트 인 블루2 시스템 분석</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --green: #6fa17e; --green-soft: #223225;
+    --red: #c9695a; --red-soft: #331f1c;
+    --blue: #6f9bab; --blue-soft: #1e2b30;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+      --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --green: #3f7a52; --green-soft: #dfeadf;
+      --red: #a8452f; --red-soft: #f3ded9;
+      --blue: #3f7186; --blue-soft: #dbe7ea;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+    --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+    --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+    --green: #3f7a52; --green-soft: #dfeadf;
+    --red: #a8452f; --red-soft: #f3ded9;
+    --blue: #3f7186; --blue-soft: #dbe7ea;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15.5px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 28px 120px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 18px 90px; } }
+
+  header.top { margin-bottom: 30px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(28px, 4.2vw, 40px); margin: 0 0 12px; text-wrap: balance; line-height: 1.25; }
+  header.top .dek { color: var(--ink-dim); max-width: 66ch; margin: 0 0 20px; font-size: 15px; line-height: 1.7; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .meta a { color: var(--ink-dim); }
+
+  nav.quicknav { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 0; }
+  nav.quicknav a { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; background: var(--panel); }
+  nav.quicknav a:hover { color: var(--ink); border-color: var(--accent); }
+
+  section { margin-top: 50px; }
+  section h2.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 23px; margin: 0 0 14px; text-wrap: balance; }
+  section > p.lead { color: var(--ink-dim); max-width: 68ch; margin: 0 0 20px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  .cardgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin: 16px 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 17px; }
+  .card h4 { margin: 0 0 6px; font-size: 14px; color: var(--ink); }
+  .card p { margin: 0; font-size: 12.5px; color: var(--ink-faint); line-height: 1.6; }
+
+  ul.bullets { margin: 10px 0; padding-left: 20px; color: var(--ink-dim); font-size: 14px; }
+  ul.bullets li { margin: 7px 0; line-height: 1.65; }
+  ul.bullets strong { color: var(--ink); }
+
+  .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink-dim); }
+  .callout.gold { border-color: var(--gold); background: var(--gold-soft); }
+  .callout.gold .label { color: var(--gold); }
+  .callout.blue { border-color: var(--blue); background: var(--blue-soft); }
+  .callout.blue .label { color: var(--blue); }
+
+  .applygrid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+  .apply { display: flex; gap: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; align-items: flex-start; }
+  .apply .from { flex: 1; font-size: 13px; color: var(--ink-dim); }
+  .apply .from strong { color: var(--ink); }
+  .apply .arrow { color: var(--accent); font-family: var(--mono); flex: none; padding-top: 2px; }
+  .apply .to { flex: 1; font-size: 13px; color: var(--ink-dim); }
+  .apply .to strong { color: var(--ink); }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; margin-bottom: 6px; }
+  .chip.done { background: var(--green-soft); color: var(--green); }
+  .chip.gap { background: var(--red-soft); color: var(--red); }
+  .chip.new { background: var(--blue-soft); color: var(--blue); }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12.5px; font-family: var(--mono); }
+  footer a { color: var(--ink-dim); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">참고 자료 · 타이틀 분석</div>
+    <h1>로스트 인 블루2 — 아이템 &amp; 시스템 구성</h1>
+    <p class="dek">
+      나무위키 「로스트 인 블루2」 분류 문서 6개 + 메인/가이드 문서를 근거로 정리.
+      같은 "무인도 표류 생존" 장르의 선례로서 아이템·시스템 구조만 분석 — 호감도/연애 노하우는
+      요청대로 제외했다. 맨 아래에 환장의 아일랜드에 바로 적용해볼 만한 지점을 따로 뽑았다.
+    </p>
+    <div class="meta">
+      <span>2026-08-26 작성 (2차 보강 — 재생·부패 주기, 엔딩 5종 반영)</span>
+      <a href="liblue2-catalog.html" target="_blank" rel="noopener">전체 목록(레시피 80개·재생주기·엔딩 5종 등 원문 데이터)</a>
+      <a href="https://namu.wiki/w/%EB%B6%84%EB%A5%98:%EB%A1%9C%EC%8A%A4%ED%8A%B8%20%EC%9D%B8%20%EB%B8%94%EB%A3%A82" target="_blank" rel="noopener">나무위키 원본 분류</a>
+    </div>
+    <nav class="quicknav">
+      <a href="#stats">생존 스탯</a>
+      <a href="#loop">자원 순환</a>
+      <a href="#tools">도구</a>
+      <a href="#recipes">레시피</a>
+      <a href="#materials">재료</a>
+      <a href="#shelter">거점·건축</a>
+      <a href="#map">맵 구조</a>
+      <a href="#chars">캐릭터 비대칭</a>
+      <a href="#cycles">재생·부패·엔딩</a>
+      <a href="#apply">우리 게임에 적용</a>
+    </nav>
+  </header>
+
+  <section id="stats">
+    <h2 class="eyebrow">01 · 핵심 시스템</h2>
+    <h3 class="title">생존 스탯 4종 — 비대칭 압박 설계</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>스탯</th><th>소모 방식</th><th>회복</th><th>특이사항</th></tr></thead>
+        <tbody>
+          <tr><td>체력(생명력)</td><td>기력이 바닥나면 대신 깎임</td><td>수면·휴식</td><td>스태미나의 "다음 방어선" 역할</td></tr>
+          <tr><td>기력(스태미나)</td><td>달리기·등반·밀기 등 물리 행동</td><td>휴식·수면</td><td>0이 되면 체력이 대신 깎이기 시작</td></tr>
+          <tr><td>포만감</td><td>모든 활동에서 서서히 감소</td><td>채집·사냥한 음식 섭취</td><td>너무 낮으면 수면 자체가 불가능</td></tr>
+          <tr><td>수분</td><td>가장 빠르게, 항상 감소</td><td>물 섭취</td><td><strong>물 없이는 3일, 음식 없이는 한 달 생존</strong> — 극단적 비대칭</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout gold">
+      <div class="label">설계 포인트</div>
+      <p>4개 스탯을 똑같이 취급하지 않고 <strong>수분을 압도적으로 급한 것으로 못박아</strong> 플레이어의
+      우선순위 판단을 강제한다. 날씨도 개입 — 더운 날은 수분 소모가, 비 오는 날은 기력 소모가 커진다.</p>
+    </div>
+  </section>
+
+  <section id="loop">
+    <h2 class="eyebrow">02 · 순환 구조</h2>
+    <h3 class="title">사냥·낚시·채집 → 제작 → 소모</h3>
+    <p class="lead">
+      자원을 모아 도구/가구/음식을 만들고, 그 결과물이 다시 자원 채집 효율을 올려주는 순환이 기본
+      골격. 여기에 <strong>동료와의 상성(요리 궁합)</strong>이 결과물 품질에 영향을 주는 게 특징 —
+      "호감도가 높은 캐릭터와 요리하면 더 좋은 결과가 나온다"는 설계.
+    </p>
+  </section>
+
+  <section id="tools">
+    <h2 class="eyebrow">03 · 도구</h2>
+    <h3 class="title">7개 카테고리, 재료 조합이 성능을 결정</h3>
+    <div class="cardgrid">
+      <div class="card"><h4>불 피우기</h4><p>나뭇가지+나무껍질로 기본 발화. 활을 이용한 마찰식으로 업그레이드하면 점화 속도 향상.</p></div>
+      <div class="card"><h4>창</h4><p>초반 필수 — 낚시와 전투 겸용. 나무/대나무 자루에 돌촉·뼈촉을 달면 내구도·공격력 상승.</p></div>
+      <div class="card"><h4>낚시 도구</h4><p>낚싯대(나무/대나무)+낚싯바늘(뼈/돌)+나뭇가지 미끼. "도구 성능과 플레이어 테크닉 둘 다 영향" — 순수 스탯빨이 아님.</p></div>
+      <div class="card"><h4>덫</h4><p>소형 덫(잡동물, 효율 보통) / 대형 덫(큰 동물, 대기시간 김) / 어망(수변 전용).</p></div>
+      <div class="card"><h4>활과 화살</h4><p>원거리 전투 + 일부 덫 기믹 발동에 필요. 깃털을 달면 명중률 향상.</p></div>
+      <div class="card"><h4>횃불</h4><p>나무/대나무+기름. 생존 실용성보다는 유적 탐사용 조명 목적이 강함.</p></div>
+      <div class="card"><h4>장신구</h4><p>조개껍데기·보석으로 제작 — 동료에게 주는 선물 용도(호감도 상승, 본 분석에서는 상세 생략).</p></div>
+    </div>
+  </section>
+
+  <section id="recipes">
+    <h2 class="eyebrow">04 · 레시피</h2>
+    <h3 class="title">조리법 6종 + 조미료 보너스</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>조리법</th><th>필요 도구/자원</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>자르기</td><td>없음</td><td>샐러드·생식 계열</td></tr>
+          <tr><td>굽기</td><td>불</td><td>생선·고기 그릴 요리</td></tr>
+          <tr><td>볶기</td><td>평평한 돌</td><td>-</td></tr>
+          <tr><td>끓이기</td><td>오목한 돌 + 물 1L 소모</td><td>-</td></tr>
+          <tr><td>튀기기</td><td>대형 동물 기름</td><td>-</td></tr>
+          <tr><td>찌기</td><td>오목한 돌 + 물 1L 소모</td><td>-</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <div class="label">현실적인 코멘트 (원문 요지)</div>
+      <p>"대부분의 레시피는 영양가가 낮다 — 탈출을 노린다면 정해진 레시피를 따르기보다 포만감이 높은
+      재료를 그냥 먹는 게 낫다. 레시피는 주로 도감 완성용." 암염·후추·색깔 있는 과일 등 조미료를
+      더하면 회복량이 보너스로 붙는다.</p>
+    </div>
+  </section>
+
+  <section id="materials">
+    <h2 class="eyebrow">05 · 재료</h2>
+    <h3 class="title">4대 분류 + 날씨 연동 파밍</h3>
+    <ul class="bullets">
+      <li><strong>목재·식물</strong> — 나뭇잎/통나무/나뭇가지, 해변·초원에서 흔하게 채집. 가구·도구의 기초 재료.</li>
+      <li><strong>동물 부산물</strong> — 사냥으로 얻는 큰 뼈·모피. 도구 제작과 침구류에 사용.</li>
+      <li><strong>광물</strong> — 돌·철막대. 철막대는 <strong>잠수나 특정 기후 이벤트 이후 해변에서만</strong> 발견되는 희귀 자원.</li>
+      <li><strong>양념류</strong> — 수액·향신료·열매. 요리 시 맛(회복 보너스) 개선용.</li>
+    </ul>
+    <div class="callout blue">
+      <div class="label">날씨 → 자원 스폰 연동</div>
+      <p>"쓰나미 다음날 해변에 특별한 자원이 나타난다" — 날씨 이벤트 이후 특정 구역을 도는 파밍
+      전략이 성립할 만큼 날씨가 자원 스폰에 실제로 개입한다.</p>
+    </div>
+  </section>
+
+  <section id="shelter">
+    <h2 class="eyebrow">06 · 거점 &amp; 건축</h2>
+    <h3 class="title">우선순위가 명확한 가구 트리 + 거점 3곳 동시 운용</h3>
+    <ul class="bullets">
+      <li><strong>침대</strong> — "밤새 자면 체력·기력 회복량이 크게 오른다"는 이유로 최우선 추천. 완성 단계가 높을수록 회복량도 오름.</li>
+      <li><strong>선반</strong> — 2순위. 인벤토리를 5칸→최대 20칸까지 3단계로 확장. 침대와 같은 기초 재료 사용.</li>
+      <li><strong>훈제장</strong> — 재료는 적게 들지만(통나무+밧줄) 육포 완성까지 3일 걸림 — 그동안 재료가 상할 수 있어 소형 덫과 병행 운용 권장.</li>
+      <li><strong>식탁 세트</strong> — 최대 업그레이드 시 식사 만족도 +30%, 동료 작업 효율도 상승.</li>
+      <li><strong>뗏목 2단계</strong> — 업그레이드마다 호수·유적·낚시 구역이 새로 열림.</li>
+    </ul>
+    <div class="callout gold">
+      <div class="label">거점을 하나가 아니라 "여러 곳"에 둘 수 있음</div>
+      <p>동굴(버섯·다이빙 스팟 근접, 자원지와는 멀다) / 초원(정글 재생 자원에 최적 접근) /
+      해변(엔드게임 구역, 통나무 25+밧줄 25로 7단계 건축) — <strong>세 거점을 동시에 운용</strong>할
+      수 있게 설계돼 있고, 각각 트레이드오프(접근성 vs 자원)가 다르다.</p>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2 class="eyebrow">07 · 맵 구조</h2>
+    <h3 class="title">12개 구역, 구역마다 고유 이벤트</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구역</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>해변 1</td><td>시작 지점, 동굴 거점, 조수 웅덩이, 다이빙 스팟</td></tr>
+          <tr><td>해변 2</td><td>바위·통나무 밀기 기믹 이벤트</td></tr>
+          <tr><td>해변 3</td><td>늑대 조우, 다이빙 스팟</td></tr>
+          <tr><td>정글</td><td>통나무 굴리기 기믹, 호랑이 보스</td></tr>
+          <tr><td>초원</td><td>2번째 거점, 온천</td></tr>
+          <tr><td>늪지</td><td>악어 전투, 유적으로 연결</td></tr>
+          <tr><td>호수</td><td>뗏목 건조 지점, 온천</td></tr>
+          <tr><td>평원</td><td>3번째 구역, 강 낚시</td></tr>
+          <tr><td>유적</td><td>고대 구조물, 숨겨진 통로, 횃불 퍼즐</td></tr>
+          <tr><td>해변 4</td><td>구명보트 발견, 다이빙 스팟</td></tr>
+          <tr><td>곶(Cape)</td><td>최종 구역 — 구조신호/뗏목/무전기 엔딩 분기</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:14px">
+      구역마다 고유 목재·돌·덩굴·밧줄, 과일·채소·생선·조개, 시간대별로 다른 소형 동물이 배치돼
+      "여기까지 온 이유"가 항상 있게 설계됨 — 환장의 아일랜드 GDD 07장이 이미 채택한 원칙과 동일.
+    </p>
+  </section>
+
+  <section id="chars">
+    <h2 class="eyebrow">08 · 캐릭터 비대칭</h2>
+    <h3 class="title">유키(남) vs 아이(여) — 이동·전투·요리 3축 차별화</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th>유키</th><th>아이</th></tr></thead>
+        <tbody>
+          <tr><td>이동</td><td>2블록 높이를 한 번에 등반</td><td>2블록 간격을 한 번에 건너뜀</td></tr>
+          <tr><td>전투</td><td>이동 속도 빠름, 창 데미지 +10~20%</td><td>활 명중률 우수</td></tr>
+          <tr><td>요리</td><td>버섯 요리 레시피 전용 해금</td><td>서양식 레시피 전용 해금</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="cycles">
+    <h2 class="eyebrow">09 · 가이드 문서 보강</h2>
+    <h3 class="title">재생 주기 · 부패 차등화 · 엔딩 5종</h3>
+    <p class="lead">
+      메인 분류 문서 6개에는 없던, 별도 「가이드」 문서에서만 다루는 실전 수치 정보. 전체 원문은
+      <a href="liblue2-catalog.html#cycles" target="_blank" rel="noopener">전체 목록 문서 08·09장</a>에 표로 정리해 뒀고, 여기서는 우리 게임과의 관련성만 짚는다.
+    </p>
+    <ul class="bullets">
+      <li><strong>채집물 재생</strong> — 종류별로 정해진 시간이 지나야 같은 자리에 다시 자란다. 동물·어류도 사냥/포획 후 일정 시간을 두고 리스폰되며, <strong>낚시는 하루 30마리 상한</strong>을 넘기면 희귀종이 대신 잡히기 시작한다.</li>
+      <li><strong>부패는 재료군마다 다르게 흐른다</strong> — 고기·해산물류는 2일, 과일·채소류는 6일 만에 상하고, <strong>조리된 도시락류는 아예 상하지 않는다</strong>는 예외가 있다.</li>
+      <li><strong>온천</strong> — 하루 1회, 체력 30% 즉시 회복. 침대 수면과 별개의 회복 수단.</li>
+      <li><strong>취침 전 동료 부탁</strong> — 잠들기 전 동료에게 작업을 맡겨두면 자는 동안 대신 처리해준다.</li>
+    </ul>
+    <div class="callout">
+      <div class="label">엔딩 5종 — 공통 구조: 시간대 + 장소 + 준비물</div>
+      <p>구조신호 / 뗏목 / 보트 / 무전기 / 촛대, 다섯 엔딩 모두 "정해진 시간대에, 정해진 장소에서,
+      정해진 준비물을 갖췄을 때"라는 동일한 3항 조건 패턴을 따른다 — 엔딩 개수를 늘려도 플레이어가
+      배워야 할 규칙은 하나뿐이라는 뜻.</p>
+    </div>
+  </section>
+
+  <section id="apply">
+    <h2 class="eyebrow">10 · 적용 지점</h2>
+    <h3 class="title">환장의 아일랜드에 바로 참고해볼 만한 것</h3>
+    <div class="applygrid">
+      <div class="apply">
+        <div class="from"><strong>날씨 → 자원 스폰 연동</strong><br>쓰나미/폭풍 다음날 해변에 특수 자원 등장 — 날씨가 파밍 전략에 실제로 개입</div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip gap">우리 게임 격차</span> 로드맵에 이미 "날씨는 시각 연출뿐, 스탯에 영향 없음"이라고 명시된 항목 — 이 사례가 구체적 구현 방향이 될 수 있음(예: 비 온 다음날 특정 채집 노드 스폰율 상승)</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>채집물·동물 재생(리스폰) 시스템</strong><br>종류별 고정 재생 시간 + 낚시 일일 30마리 상한</div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip gap">우리 게임 격차</span> 로드맵의 "노드 리스폰 도입" 항목이 아직 미구현 상태인데, 여기서 <strong>구체적 구현 형태의 선례</strong>를 확보함 — 재료군별 재생 시간표 + 사냥/낚시는 별도로 일일 상한을 두는 2단 구조를 그대로 참고 가능</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>부패 시간 차등화 (고기·해산물 2일 vs 과일·채소 6일, 도시락 불변)</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip done">이미 같은 방향, 수치 교차검증 가능</span> state.js의 <code>spoilTick()</code>/<code>FRESH_LIMIT</code>이 이미 재료군별 부패를 구분하고 있음 — 이 게임의 "2일 vs 6일" 비율(3배 차이)과 "가공식품은 안 상함" 예외를 우리 수치와 나란히 대조해볼 만함</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>엔딩 5종 — "시간대+장소+준비물" 공통 3항 조건</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip gap">우리 게임 격차</span> GDD에 계획만 있고 미구현인 3분기 엔딩 설계에 그대로 적용 가능한 템플릿 — 엔딩 자체는 서로 다르게 만들되, 조건을 만드는 규칙(언제+어디서+무엇을 준비)은 하나로 통일하면 데모 이후 확장이 쉬워짐</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>온천(1일 1회, 체력 30%)·취침 전 동료 부탁</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip new">새 아이디어</span> 둘 다 지금 설계에 없는 독립 메커닉 — 온천은 수면과 별개의 "장소 기반" 회복 수단으로, 동료 부탁은 이미 설계된 오두막·동료 시스템에 얹을 수 있는 "밤 동안 대신 작업" 개념으로 나중에 검토해볼 만함(1막 범위 밖, 참고용으로만 기록)</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>조미료로 회복량 보너스</strong><br>암염·향신료·과일을 요리에 더하면 회복 효율이 오르는 별도 레이어</div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip gap">우리 게임 격차</span> 지금 음식 아이템은 고정 회복량뿐 — "조미료 아이템 추가 시 보너스" 레이어가 채집/요리 손맛을 늘릴 수 있는 저비용 확장 후보</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>거점 3곳 동시 운용(접근성 vs 자원 트레이드오프)</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip done">우리는 반대로 결정함</span> 우리는 최근에 "이동식 집은 섬 전체에 1채만"으로 의도적으로 단순화했음(2026-08-26) — 이 차이를 인지하고 있을 것. 나중에 스테이지 2·3이 열리면 "구역별 거점" 개념을 재검토할 여지는 있음</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>가구 우선순위가 명시적(침대→선반→훈제장→테이블)</strong><br>각 가구가 "왜 먼저 지어야 하는지" 이유가 텍스트로 붙어 있음</div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip gap">우리 게임 격차</span> 로드맵의 "건축 레벨업 체감 이득" 우선순위 항목과 정확히 맞아떨어짐 — 이동식 집 레벨마다 "왜 좋은지"를 이런 식으로 명시하면 참고가 됨</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>물 &gt;&gt;&gt; 음식 (3일 vs 한 달)</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip done">이미 같은 방향</span> 우리 게임도 이미 "갈증이 배고픔보다 더 치명적"으로 설계돼 있음(THIRST_ZERO_HP_DPS &gt; HUNGER_ZERO_HP_DPS) — 같은 장르의 다른 게임도 같은 결론에 도달했다는 교차 검증</div>
+      </div>
+      <div class="apply">
+        <div class="from"><strong>캐릭터별 이동/전투/요리 3축 비대칭</strong></div>
+        <div class="arrow">→</div>
+        <div class="to"><span class="chip done">이미 같은 방향</span> 오빠/여동생/할머니의 난이도·소모율·특기 차별화와 같은 설계 원칙 — 우리 쪽이 축이 하나 더 많음(난이도까지 캐릭터로 조절)</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>출처: 나무위키 「로스트 인 블루2」 분류(메인·가구·도구·레시피·재료·맵) + 가이드 문서, 2026-08-26 조사(2차 보강).
+    호감도/연애 관련 내용은 요청에 따라 의도적으로 제외했다.</div>
+  </footer>
+</div>
+</body>
+</html>

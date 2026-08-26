@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로스트 인 블루2 전체 목록</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --green: #6fa17e; --green-soft: #223225;
+    --red: #c9695a; --red-soft: #331f1c;
+    --blue: #6f9bab; --blue-soft: #1e2b30;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+      --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --green: #3f7a52; --green-soft: #dfeadf;
+      --red: #a8452f; --red-soft: #f3ded9;
+      --blue: #3f7186; --blue-soft: #dbe7ea;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+    --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+    --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+    --green: #3f7a52; --green-soft: #dfeadf;
+    --red: #a8452f; --red-soft: #f3ded9;
+    --blue: #3f7186; --blue-soft: #dbe7ea;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 56px 28px 120px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 16px 90px; } }
+
+  header.top { margin-bottom: 26px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(26px, 4vw, 36px); margin: 0 0 12px; text-wrap: balance; }
+  header.top .dek { color: var(--ink-dim); max-width: 68ch; margin: 0 0 18px; font-size: 14.5px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 11px 0; }
+  .meta a { color: var(--ink-dim); }
+
+  nav.quicknav { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 5; }
+  nav.quicknav a { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--panel); }
+  nav.quicknav a:hover { color: var(--ink); border-color: var(--accent); }
+
+  section { margin-top: 44px; }
+  section h2.eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 21px; margin: 0 0 10px; }
+  section > p.lead { color: var(--ink-dim); max-width: 70ch; margin: 0 0 16px; font-size: 13.5px; }
+  h4.sub { font-family: var(--sans); font-size: 13.5px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.04em; margin: 22px 0 8px; }
+  h4.sub:first-of-type { margin-top: 10px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 10px 0 18px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--panel-2); }
+  .note { font-size: 12px; color: var(--ink-faint); margin: 4px 0 10px; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; font-weight: 600; padding: 1px 7px; border-radius: 999px; }
+  .chip.m { background: var(--blue-soft); color: var(--blue); }
+  .chip.f { background: var(--red-soft); color: var(--red); }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); }
+  footer a { color: var(--ink-dim); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">참고 자료 · 전체 데이터</div>
+    <h1>로스트 인 블루2 — 아이템·레시피 전체 목록</h1>
+    <p class="dek">
+      나무위키 원문의 표를 그대로 옮긴 완전판 카탈로그. 큐레이션된 분석은
+      <a href="liblue2-analysis.html" target="_blank" rel="noopener">시스템 분석 문서</a>
+      쪽을 볼 것 — 이 문서는 순수 데이터 나열용.
+    </p>
+    <div class="meta">
+      <span>2026-08-26 작성(2차 보강) · 총 레시피 80개 · 도구 9종 · 가구 7종 · 동물 23종 · 어패류 34종 · 엔딩 5종</span>
+      <a href="https://namu.wiki/w/%EB%B6%84%EB%A5%98:%EB%A1%9C%EC%8A%A4%ED%8A%B8%20%EC%9D%B8%20%EB%B8%94%EB%A3%A82" target="_blank" rel="noopener">나무위키 원본</a>
+    </div>
+    <nav class="quicknav">
+      <a href="#recipes">레시피(80)</a>
+      <a href="#furniture">가구</a>
+      <a href="#tools">도구</a>
+      <a href="#materials">재료</a>
+      <a href="#plants">식물</a>
+      <a href="#animals">동물</a>
+      <a href="#fish">어패류</a>
+      <a href="#cycles">재생·부패</a>
+      <a href="#endings">엔딩(5)</a>
+    </nav>
+  </header>
+
+  <section id="recipes">
+    <h2 class="eyebrow">01</h2>
+    <h3 class="title">레시피 — 총 80개, 6가지 조리법</h3>
+    <p class="lead">남주인공(유키)/여주인공(아이) 전용 레시피는 <span class="chip m">유키</span>/<span class="chip f">아이</span>로 표시.</p>
+
+    <h4 class="sub">자르기 (도구 불필요)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>계란 샐러드</td><td>계란, 당근</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>무 샐러드</td><td>무</td><td>돌소금, 물빛열매</td><td>-</td></tr>
+        <tr><td>우엉 샐러드</td><td>우엉</td><td>보랏빛 콩, 고추</td><td>-</td></tr>
+        <tr><td>미역 샐러드</td><td>미역</td><td>보랏빛 콩, 물빛열매</td><td>-</td></tr>
+        <tr><td>버섯 샐러드</td><td>버섯, 채소</td><td>돌소금, 후추</td><td><span class="chip m">유키</span></td></tr>
+        <tr><td>전갱이 무침</td><td>전갱이, 산파</td><td>보랏빛 콩</td><td>-</td></tr>
+        <tr><td>농어 무침</td><td>농어, 산파</td><td>물빛열매, 보랏빛 콩</td><td>-</td></tr>
+        <tr><td>모둠 생선회</td><td>물고기(종류무관), 산파</td><td>보랏빛 콩</td><td>-</td></tr>
+        <tr><td>모둠 과일</td><td>구아바, 시계꽃 열매 외</td><td>나무 수액</td><td><span class="chip f">아이</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">굽기 (불)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>구운 감자</td><td>감자</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>장어 구이</td><td>뱀장어</td><td>보랏빛 콩, 나무 수액</td><td>-</td></tr>
+        <tr><td>은어 소금구이</td><td>은어</td><td>돌소금</td><td>효율 최고(은어2+소금2=회복 42%)</td></tr>
+        <tr><td>대합 구이</td><td>대합</td><td>보랏빛 콩</td><td>-</td></tr>
+        <tr><td>닭꼬치</td><td>닭고기</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>연어 스테이크</td><td>연어</td><td>돌소금, 보랏빛 콩</td><td>-</td></tr>
+        <tr><td>도미 구이</td><td>도미</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>산천어 소금구이</td><td>산천어</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>송어 버터구이</td><td>무지개송어, 양파</td><td>돌소금, 갈색 열매</td><td>-</td></tr>
+        <tr><td>농어 통구이</td><td>농어</td><td>돌소금</td><td><span class="chip m">유키</span></td></tr>
+        <tr><td>산천어 꼬치구이</td><td>산천어, 당근</td><td>후추, 돌소금</td><td>-</td></tr>
+        <tr><td>뱅에돔 포와레</td><td>뱅에돔, 양파</td><td>갈색 열매, 돌소금</td><td><span class="chip f">아이</span></td></tr>
+        <tr><td>늑대고기 포와레</td><td>늑대고기, 우유, 당근</td><td>갈색 열매</td><td>-</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">볶기 (평평한 돌 필요, 호수 뗏목 개통 후)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>돼지고기 열대식 구이</td><td>멧돼지고기, 파인애플</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>넙치 뫼니에르</td><td>넙치</td><td>갈색 열매, 후추</td><td><span class="chip f">아이</span></td></tr>
+        <tr><td>게 오믈렛</td><td>게, 계란</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>버섯 오믈렛</td><td>버섯, 계란</td><td>갈색 열매, 후추</td><td><span class="chip m">유키</span></td></tr>
+        <tr><td>이탈리안 오믈렛</td><td>감자, 양파, 계란</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>바지락조개 버터구이</td><td>바지락</td><td>돌소금, 갈색 열매</td><td>-</td></tr>
+        <tr><td>버섯 소테</td><td>버섯</td><td>돌소금, 후추</td><td><span class="chip m">유키</span></td></tr>
+        <tr><td>우엉 뿌리</td><td>우엉, 당근</td><td>보랏빛 콩, 나무수액</td><td>-</td></tr>
+        <tr><td>계란 후라이</td><td>계란</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>송어 소테</td><td>무지개송어, 당근, 감자</td><td>갈색 열매, 후추</td><td>-</td></tr>
+        <tr><td>농어 뫼니에르</td><td>농어, 당근, 감자, 시계꽃 열매</td><td>갈색 열매, 후추</td><td><span class="chip f">아이</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">삶기 (오목한 돌 필요, 초원지대 도달 후)</h4>
+    <p class="note">전부 물 1L 소모. 개인 섭취 시 수분 +50%, 단체 섭취 시 수분 +25% 추가(도시락류 제외).</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>샤브샤브 샐러드</td><td>멧돼지고기, 채소</td><td>보랏빛 콩, 물빛열매</td><td>-</td></tr>
+        <tr><td>대합 야채 스프</td><td>대합, 우유, 양파</td><td>노란 봉오리, 돌소금</td><td>-</td></tr>
+        <tr><td>클램차우더</td><td>멧돼지고기, 감자, 당근</td><td>보랏빛 콩, 나무수액</td><td>명칭 오류(원문은 니쿠자가)</td></tr>
+        <tr><td>포토프</td><td>멧돼지고기, 감자, 양파, 당근</td><td>노란 봉오리, 돌소금</td><td>-</td></tr>
+        <tr><td>정어리 경단 스프</td><td>정어리, 산파</td><td>보랏빛 콩, 후추</td><td>-</td></tr>
+        <tr><td>양파 스프</td><td>양파, 당근</td><td>노란 봉오리, 돌소금</td><td>-</td></tr>
+        <tr><td>비둘기 스프</td><td>비둘기 고기, 산파</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>오리 전골</td><td>오리고기, 산파, 당근</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>삶은 계란</td><td>계란</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>연어 전골</td><td>연어, 산파, 당근, 무</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>너구리 전골</td><td>너구리 고기, 당근, 양파</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>돼지고기 된장국</td><td>멧돼지고기, 당근, 무, 산파</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>사슴 전골</td><td>사슴 고기, 당근, 우엉, 산파</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>죽순 찜</td><td>죽순, 당근, 우엉, 무</td><td>보랏빛 콩, 나무수액</td><td>-</td></tr>
+        <tr><td>늑대 전골</td><td>늑대고기, 당근, 무, 산파</td><td>보랏빛 콩, 불빛열매</td><td><span class="chip m">유키</span></td></tr>
+        <tr><td>크림 스튜</td><td>고기, 우유, 당근, 감자</td><td>노란 봉오리, 후추</td><td><span class="chip f">아이</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">튀기기 (오목한 돌 + 기름 필요, 초원지대 도달 후)</h4>
+    <p class="note">기름은 대형 포유류 사냥으로 획득.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>보리멸 튀김</td><td>보리멸</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>양파 튀김</td><td>양파</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>후라이드 포테이토</td><td>감자</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>굴 튀김</td><td>굴</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>전갱이 튀김</td><td>전갱이</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>후라이드 치킨</td><td>닭고기</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>야채 튀김</td><td>감자, 우엉, 당근</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>문절망둑 튀김</td><td>문절망둑, 빵나무 열매</td><td>돌소금</td><td><span class="chip f">아이</span></td></tr>
+        <tr><td>연근칩</td><td>연근</td><td>돌소금</td><td><span class="chip m">유키</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">찌기 (오목한 돌 필요, 초원지대 도달 후)</h4>
+    <p class="note">전부 물 1L 소모. 개인 섭취 시 수분 +50%, 단체 섭취 시 수분 +25% 추가(도시락류 제외).</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피명</th><th>주재료</th><th>향신료</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>감자 샐러드</td><td>감자, 당근</td><td>돌소금, 후추</td><td>-</td></tr>
+        <tr><td>꽃게찜</td><td>게(종류 무관)</td><td>보랏빛 콩</td><td>-</td></tr>
+        <tr><td>토란 찜</td><td>토란</td><td>돌소금</td><td>-</td></tr>
+        <tr><td>계란찜</td><td>닭고기, 버섯, 계란</td><td>보랏빛 콩, 돌소금</td><td>-</td></tr>
+        <tr><td>푸딩</td><td>계란</td><td>나무수액, 갈색 열매</td><td><span class="chip f">아이</span></td></tr>
+        <tr><td>바다 성게</td><td>성게</td><td>보랏빛 콩</td><td><span class="chip m">유키</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="furniture">
+    <h2 class="eyebrow">02</h2>
+    <h3 class="title">가구 — 7종, 단계별 재료</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>가구</th><th>단계별 재료</th><th>총합</th><th>효과</th></tr></thead>
+      <tbody>
+        <tr><td>침대</td><td>1단계: 통나무2+로프1+나뭇잎6 / 2단계: 통나무2+로프2+나뭇잎6 / 3단계: 통나무2+로프3+모피6</td><td>통나무6, 로프6, 나뭇잎12, 모피6</td><td>생명력+30%, 포만감+90%, 수분+80% 회복 증가</td></tr>
+        <tr><td>선반</td><td>1단계: 통나무1+로프1 / 2단계: 통나무2+로프2 / 3단계: 통나무3+로프3</td><td>통나무6, 로프6</td><td>보관 5칸→20칸</td></tr>
+        <tr><td>훈제기</td><td>1단계: 통나무1+로프1</td><td>통나무1, 로프1</td><td>육포·어포 제조(3일 소요)</td></tr>
+        <tr><td>테이블 세트</td><td>1~4단계: 각 통나무1~2+로프2 / 5단계: 통나무2+로프2+모피3</td><td>통나무8, 로프10, 모피3</td><td>식사 포만감+30%, 동료 작업속도 향상</td></tr>
+        <tr><td>집(거점)</td><td>1~4단계: 각 통나무4+로프4 / 5~6단계: 각 통나무3+로프3 / 7단계: 통나무3+로프3+나뭇잎10</td><td>통나무25, 로프25, 나뭇잎10</td><td>거점 3곳(동굴/초원/해변4) 각각 별도 건축</td></tr>
+        <tr><td>뗏목</td><td>1단계: 통나무2+로프1 / 2단계: 통나무2+로프1 / 3단계: 통나무2+로프2</td><td>통나무6, 로프4</td><td>호수 진입, 유적 접근</td></tr>
+        <tr><td>좋은 뗏목</td><td>1~4단계: 각 통나무3+로프3 / 5단계: 통나무3+로프3+모피6</td><td>통나무15, 로프15, 모피6</td><td>선박 조우, 탈출 엔딩 조건</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="tools">
+    <h2 class="eyebrow">03</h2>
+    <h3 class="title">도구 — 9개 카테고리</h3>
+
+    <h4 class="sub">불쏘시개</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>불씨</td><td>나무껍질1, 나뭇가지1</td><td>양손 마찰열</td></tr>
+      <tr><td>활비비(좋은 불씨)</td><td>활1, 불씨1</td><td>회전식, 진보된 발화</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">작살</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>대나무 작살(기본)</td><td>대나무1</td><td>예리하지 않음</td></tr>
+      <tr><td>대나무 작살(돌촉)</td><td>대나무1, 뾰족한 돌1</td><td>예리함 ↑</td></tr>
+      <tr><td>대나무 작살(뼈촉)</td><td>대나무1, 뾰족한 뼈1</td><td>예리함 ↑</td></tr>
+      <tr><td>나무 작살(기본)</td><td>나무막대1</td><td>예리하지 않음</td></tr>
+      <tr><td>나무 작살(돌촉)</td><td>나무막대1, 뾰족한 돌1</td><td>예리함 ↑</td></tr>
+      <tr><td>나무 작살(뼈촉)</td><td>나무막대1, 뾰족한 뼈1</td><td>예리함 ↑</td></tr>
+      <tr><td>철 작살</td><td>철 막대기1</td><td>최상급</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">횃불</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>나무 횃불</td><td>나무막대1, 기름1</td><td>밝기 보통, 지속 최고</td></tr>
+      <tr><td>대나무 횃불</td><td>대나무1, 기름1</td><td>밝기 강함, 지속 짧음</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">덫</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>덫(소)</td><td>바구니1, 나뭇가지1</td><td>소형 동물, 3일 후 소멸</td></tr>
+      <tr><td>덫(대)</td><td>나무막대1, 나무덩굴1</td><td>대형 동물용 올가미</td></tr>
+      <tr><td>어망</td><td>바구니1, 나무덩굴1</td><td>강 전용</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">낚싯대</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>대나무 낚싯대(뼈바늘)</td><td>대나무1, 나무덩굴1, 뾰족한 뼈1</td><td>-</td></tr>
+      <tr><td>대나무 낚싯대(돌바늘)</td><td>대나무1, 나무덩굴1, 뾰족한 돌1</td><td>-</td></tr>
+      <tr><td>나무 낚싯대(뼈바늘)</td><td>나무막대1, 나무덩굴1, 뾰족한 뼈1</td><td>-</td></tr>
+      <tr><td>나무 낚싯대(돌바늘)</td><td>나무막대1, 나무덩굴1, 뾰족한 돌1</td><td>-</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">루어(미끼)</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>둥근 루어 A/B/C</td><td>나뭇가지1(공통)</td><td>호수에서 등급별 효과 상승</td></tr>
+      <tr><td>가는 루어 A/B/C</td><td>나뭇가지1(공통)</td><td>강에서 등급별 효과 상승</td></tr>
+      <tr><td>긴 루어 A/B/C</td><td>나뭇가지1(공통)</td><td>바다에서 등급별 효과 상승</td></tr>
+      <tr><td>스페셜 루어</td><td>나뭇가지1</td><td>최고 성능</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">활 &amp; 화살</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>재료</th><th>비고</th></tr></thead><tbody>
+      <tr><td>나무 활</td><td>나무막대1, 나무덩굴1</td><td>-</td></tr>
+      <tr><td>대나무 활</td><td>대나무1, 나무덩굴1</td><td>-</td></tr>
+      <tr><td>대나무/나무 화살(돌촉, 무깃)</td><td>대나무 또는 나뭇가지1 + 뾰족한 돌1</td><td>명중률 낮음</td></tr>
+      <tr><td>대나무/나무 화살(돌촉, 깃털)</td><td>+ 깃털1</td><td>명중률 ↑</td></tr>
+      <tr><td>대나무/나무 화살(뼈촉, 무깃)</td><td>대나무 또는 나뭇가지1 + 뾰족한 뼈1</td><td>명중률 낮음</td></tr>
+      <tr><td>대나무/나무 화살(뼈촉, 깃털)</td><td>+ 깃털1</td><td>명중률 ↑</td></tr>
+      <tr><td>철 화살(무깃/깃털)</td><td>철 막대기1 (+깃털1)</td><td>최상급</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">액세서리(목걸이용 보석)</h4>
+    <div class="tablewrap"><table><thead><tr><th>보석</th><th>획득 방법</th><th>목걸이명</th><th>난이도</th></tr></thead><tbody>
+      <tr><td>붉은 돌</td><td>고릴라 호감도5 후 랜덤</td><td>태양의 목걸이</td><td>최상</td></tr>
+      <tr><td>오렌지 돌</td><td>곶 발밑 탐사</td><td>석양의 목걸이</td><td>보통</td></tr>
+      <tr><td>노란 돌</td><td>해변4 발밑 탐사</td><td>달의 목걸이</td><td>보통</td></tr>
+      <tr><td>녹색 돌</td><td>늪지대 발밑 탐사</td><td>새잎의 목걸이</td><td>하</td></tr>
+      <tr><td>청색 돌</td><td>개울가 발밑 탐사</td><td>푸른 하늘의 목걸이</td><td>하</td></tr>
+      <tr><td>감색 돌</td><td>다이빙 해저 탐사</td><td>심해의 목걸이</td><td>상</td></tr>
+      <tr><td>마을 앞의 돌</td><td>유적 내부 촛대 주변</td><td>밤하늘의 목걸이</td><td>보통</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="materials">
+    <h2 class="eyebrow">04</h2>
+    <h3 class="title">재료 — 5개 분류</h3>
+
+    <h4 class="sub">기본(목재)</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>장소</th><th>용도</th></tr></thead><tbody>
+      <tr><td>나무덩굴</td><td>정글</td><td>가구 핵심 재료</td></tr>
+      <tr><td>나무껍질</td><td>해변1~4, 초원, 평원</td><td>불씨 제작</td></tr>
+      <tr><td>나뭇잎</td><td>해변1~3, 초원</td><td>가구 외관</td></tr>
+      <tr><td>통나무</td><td>해변2, 정글, 습지</td><td>대형 가구 판재</td></tr>
+      <tr><td>나무막대</td><td>해변2·4, 초원, 평원</td><td>도구 제작</td></tr>
+      <tr><td>나뭇가지</td><td>해변1~4, 초원, 평원</td><td>장작/도구</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">동물성</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>획득</th><th>용도</th></tr></thead><tbody>
+      <tr><td>큰 뼈</td><td>대형동물 요리 후 조리대 옆 생성</td><td>낚시바늘, 무기</td></tr>
+      <tr><td>모피</td><td>대·소형동물 사냥</td><td>침대 제작</td></tr>
+      <tr><td>깃털</td><td>해변4·평원(폭풍우 후), 소형조류 사냥</td><td>화살</td></tr>
+      <tr><td>기름</td><td>대형동물 사냥</td><td>연료, 조리</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">광물</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>장소</th><th>용도</th></tr></thead><tbody>
+      <tr><td>돌</td><td>해변1~3</td><td>낚시바늘, 무기</td></tr>
+      <tr><td>뾰족한 돌</td><td>돌 가공</td><td>무기 끝, 낚시바늘</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">특수</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>장소/방법</th><th>용도</th></tr></thead><tbody>
+      <tr><td>대나무</td><td>해변3(정글 경유)</td><td>막대·바구니</td></tr>
+      <tr><td>뾰족한 뼈</td><td>뼈 가공</td><td>무기 끝, 낚시바늘</td></tr>
+      <tr><td>바구니</td><td>파트너 제작 요청</td><td>덫 설치</td></tr>
+      <tr><td>철 막대기</td><td>해변1·3·4 잠수, 해변4(폭풍우 후), 해변1(쓰나미 후)</td><td>고급 도구</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">양념(랜덤 채집)</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>맛</th></tr></thead><tbody>
+      <tr><td>돌소금</td><td>미네랄 풍부한 천염소금</td></tr>
+      <tr><td>후추</td><td>고기와 최고 궁합</td></tr>
+      <tr><td>나무 수액</td><td>달콤하고 끈적함</td></tr>
+      <tr><td>보랏빛 콩</td><td>간장 유사</td></tr>
+      <tr><td>고추</td><td>매운맛</td></tr>
+      <tr><td>노란 봉오리</td><td>된장 유사</td></tr>
+      <tr><td>갈색 열매</td><td>버터 유사</td></tr>
+      <tr><td>물빛 열매</td><td>신맛, 산뜻함</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="plants">
+    <h2 class="eyebrow">05</h2>
+    <h3 class="title">식물 — 채소·과일·버섯</h3>
+
+    <h4 class="sub">채소</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>포만감</th><th>장소</th><th>비고</th></tr></thead><tbody>
+      <tr><td>죽순</td><td>10%</td><td>해변3 대나무 군락</td><td>어린 대나무, 성장 빠름</td></tr>
+      <tr><td>당근</td><td>5%</td><td>해변2·4, 평지</td><td>-</td></tr>
+      <tr><td>민들레</td><td>-</td><td>곶</td><td>노란 꽃, 하얀 솜털 씨</td></tr>
+      <tr><td>우엉</td><td>8%</td><td>초원, 늪지대</td><td>단맛</td></tr>
+      <tr><td>양파</td><td>5%</td><td>해변4(나무집 근처)</td><td>-</td></tr>
+      <tr><td>감자</td><td>8%</td><td>초원, 늪지대, 평지</td><td>싹에 독성</td></tr>
+      <tr><td>무우</td><td>5%</td><td>초원, 해변4</td><td>-</td></tr>
+      <tr><td>토란</td><td>8%</td><td>늪지대</td><td>포만감 높음</td></tr>
+      <tr><td>산파</td><td>3%</td><td>늪지대</td><td>향신료용</td></tr>
+      <tr><td>고사리</td><td>-</td><td>늪지대</td><td>-</td></tr>
+      <tr><td>쑥</td><td>-</td><td>호수 온천 남쪽</td><td>소독 작용</td></tr>
+      <tr><td>연근</td><td>8%</td><td>늪 중좌측</td><td>-</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">과일</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>포만감</th><th>수분</th><th>장소</th><th>비고</th></tr></thead><tbody>
+      <tr><td>코코넛</td><td>5%</td><td>10%</td><td>해변1~3 야자나무</td><td>-</td></tr>
+      <tr><td>파파야</td><td>5%</td><td>10%</td><td>정글 우측</td><td>1~2일 3개 재생</td></tr>
+      <tr><td>산딸기</td><td>3%</td><td>-</td><td>해변3, 평지</td><td>-</td></tr>
+      <tr><td>빵나무 열매</td><td>5%</td><td>-</td><td>정글</td><td>감자 맛</td></tr>
+      <tr><td>바나나</td><td>5%</td><td>-</td><td>정글 좌측</td><td>씨 없음</td></tr>
+      <tr><td>파인애플</td><td>8%</td><td>10%</td><td>정글 좌측</td><td>-</td></tr>
+      <tr><td>구아바</td><td>5%</td><td>-</td><td>정글 최남측</td><td>-</td></tr>
+      <tr><td>시계꽃 열매</td><td>5%</td><td>-</td><td>정글 최북측</td><td>루비색, 씨 많음</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">버섯 (전부 포만감 3%)</h4>
+    <div class="tablewrap"><table><thead><tr><th>색</th><th>장소</th><th>비고</th></tr></thead><tbody>
+      <tr><td>검은색</td><td>해변1(2), 늪지대(3)</td><td>흰 점</td></tr>
+      <tr><td>파란색</td><td>해변1(2), 늪지대(2)</td><td>-</td></tr>
+      <tr><td>갈색</td><td>해변1(4)</td><td>-</td></tr>
+      <tr><td>오렌지색</td><td>해변1(2)</td><td>-</td></tr>
+      <tr><td>보라색</td><td>해변1(2), 늪지대(2)</td><td>-</td></tr>
+      <tr><td>빨간색</td><td>해변1(4)</td><td>흰 점</td></tr>
+      <tr><td>하얀색</td><td>해변1(4)</td><td>-</td></tr>
+      <tr><td>노란색</td><td>해변1(2)</td><td>슈퍼버섯 가능성</td></tr>
+    </tbody></table></div>
+    <p class="note">색상별 효과는 매 게임마다 무작위 재배정 — 한 색상만 "슈퍼버섯"(각성, 체력 비소모), 나머지는 갈증/수면/중독/소화불량 등 무작위 부작용.</p>
+  </section>
+
+  <section id="animals">
+    <h2 class="eyebrow">06</h2>
+    <h3 class="title">동물 — 23종</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>이름</th><th>장소</th><th>포획 방법</th><th>획득 재료</th></tr></thead>
+      <tbody>
+        <tr><td>소라 게</td><td>해변가 모래사장</td><td>발밑 터치</td><td>-</td></tr>
+        <tr><td>모래 게</td><td>해변가 모래사장</td><td>발밑 터치</td><td>-</td></tr>
+        <tr><td>코코넛 게</td><td>해변가 모래사장</td><td>발밑 터치</td><td>-</td></tr>
+        <tr><td>남생이</td><td>정글</td><td>발밑 터치</td><td>-</td></tr>
+        <tr><td>도마뱀</td><td>정글</td><td>발밑 터치</td><td>-</td></tr>
+        <tr><td>반시뱀</td><td>풀밭</td><td>포획 불가</td><td>독만 전달(위협)</td></tr>
+        <tr><td>독거미</td><td>풀밭</td><td>포획 불가</td><td>독만 전달(위협)</td></tr>
+        <tr><td>멧돼지</td><td>초원, 정글</td><td>덫(대), 활</td><td>-</td></tr>
+        <tr><td>오리</td><td>숲 전체, 호수</td><td>덫(소), 활</td><td>고기</td></tr>
+        <tr><td>사슴</td><td>초원, 정글</td><td>덫(대)</td><td>고기</td></tr>
+        <tr><td>너구리</td><td>초원</td><td>활(철화살)</td><td>고기</td></tr>
+        <tr><td>닭</td><td>숲 전체</td><td>덫(소), 활</td><td>고기, 깃털(활 사용시)</td></tr>
+        <tr><td>토끼</td><td>초원, 해변3</td><td>활</td><td>고기</td></tr>
+        <tr><td>쥐</td><td>숲 전체</td><td>덫(소)</td><td>고기</td></tr>
+        <tr><td>비둘기</td><td>숲 전체, 호수</td><td>덫(소), 활</td><td>고기, 깃털(활 사용시)</td></tr>
+        <tr><td>염소</td><td>초원</td><td>덫(대)</td><td>우유(가축화 후)</td></tr>
+        <tr><td>살쾡이</td><td>초원(야간)</td><td>활(철화살)</td><td>고기</td></tr>
+        <tr><td>다람쥐</td><td>숲 전체</td><td>덫(소)</td><td>고기</td></tr>
+        <tr><td>늑대</td><td>해변3, 정글, 초원</td><td>무기 타격</td><td>모피, 기름, 고기</td></tr>
+        <tr><td>호랑이</td><td>해변3, 호수, 정글</td><td>포획 불가(스토리 보스)</td><td>-</td></tr>
+        <tr><td>악어</td><td>늪지대</td><td>포획 불가(스토리 보스)</td><td>-</td></tr>
+        <tr><td>고릴라</td><td>정글 큰 바위 위</td><td>포획 불가(상호작용)</td><td>호감도별 물건 교환</td></tr>
+        <tr><td>백상어</td><td>다이빙 지역(해변1·3·4)</td><td>포획 불가(위협)</td><td>-</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="fish">
+    <h2 class="eyebrow">07</h2>
+    <h3 class="title">어패류 — 조개 8종 + 어류 26종</h3>
+
+    <h4 class="sub">조개류</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>서식지</th><th>획득</th></tr></thead><tbody>
+      <tr><td>전복</td><td>해변1·3·4</td><td>잠수</td></tr>
+      <tr><td>바지락</td><td>해변1~4</td><td>수집/잠수</td></tr>
+      <tr><td>대합</td><td>해변1~4</td><td>잠수, 발밑 탐사</td></tr>
+      <tr><td>가리비</td><td>해변1·3·4</td><td>수집(해변3), 잠수</td></tr>
+      <tr><td>굴</td><td>해변1·3·4</td><td>수집(해변3), 잠수</td></tr>
+      <tr><td>가막조개</td><td>해변1</td><td>수집</td></tr>
+      <tr><td>미역</td><td>해변1~3</td><td>수집</td></tr>
+      <tr><td>성게</td><td>해변1·3·4</td><td>잠수</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">어류</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>서식지</th><th>획득</th><th>비고</th></tr></thead><tbody>
+      <tr><td>전갱이</td><td>해변2</td><td>낚시</td><td>잡기 쉬움</td></tr>
+      <tr><td>등목어</td><td>간조 때 해변2</td><td>낚시</td><td>힘이 셈</td></tr>
+      <tr><td>보리멸</td><td>해변1</td><td>작살, 낚시</td><td>잡기 쉬움</td></tr>
+      <tr><td>복어</td><td>해변1·3</td><td>작살, 낚시</td><td>독 없음, 가시 많음</td></tr>
+      <tr><td>곰치</td><td>해변3</td><td>낚시</td><td>날카로운 이빨</td></tr>
+      <tr><td>정어리</td><td>해변1~3</td><td>작살, 낚시</td><td>힘 약함</td></tr>
+      <tr><td>볼락</td><td>해변1·4</td><td>작살, 낚시</td><td>지느러미 침</td></tr>
+      <tr><td>쥐치</td><td>해변2·3</td><td>작살, 낚시</td><td>-</td></tr>
+      <tr><td>넙치</td><td>간조 때 해변3·4</td><td>낚시</td><td>눈이 한쪽에</td></tr>
+      <tr><td>돔</td><td>만조 때 해변3</td><td>낚시</td><td>최고급</td></tr>
+      <tr><td>비늘돔</td><td>만조 때 해변4</td><td>낚시</td><td>낚싯줄 자를 수 있음</td></tr>
+      <tr><td>뱅에돔</td><td>만조 때 해변2</td><td>낚시</td><td>나이들수록 꼬리 길어짐</td></tr>
+      <tr><td>문절망둑</td><td>간조 때 해변3</td><td>낚시</td><td>단백질 풍부</td></tr>
+      <tr><td>농어</td><td>만조 때 해변4</td><td>낚시</td><td>가짜 미끼 가능</td></tr>
+      <tr><td>은어</td><td>해변1 강가</td><td>작살, 낚시</td><td>깨끗한 강 지표종</td></tr>
+      <tr><td>메기</td><td>호수 우측 상단</td><td>낚시</td><td>진흙 속 서식</td></tr>
+      <tr><td>검농어</td><td>초원 강 상류</td><td>낚시</td><td>흰살 생선</td></tr>
+      <tr><td>아로와나</td><td>해변2 유적 왼쪽 방</td><td>낚시</td><td>거대 고대어종</td></tr>
+      <tr><td>잉어</td><td>해변2 유적 중앙 방</td><td>낚시</td><td>비린내 심함</td></tr>
+      <tr><td>뱀장어</td><td>한밤중 호수의 섬</td><td>작살, 낚시</td><td>밤에 잡기 쉬움</td></tr>
+      <tr><td>붕어</td><td>모든 강</td><td>작살, 낚시</td><td>잡기 쉬움</td></tr>
+      <tr><td>곤들매기</td><td>초원 징검다리</td><td>작살, 낚시</td><td>비 오는 날 활동적</td></tr>
+      <tr><td>연어</td><td>호수</td><td>낚시</td><td>분홍색, 비교적 큼</td></tr>
+      <tr><td>산천어</td><td>해변2 강</td><td>작살, 낚시</td><td>강에서 일생</td></tr>
+      <tr><td>일본 송어</td><td>해변2 유적 오른쪽 방</td><td>낚시</td><td>경계심 강함</td></tr>
+      <tr><td>무지개송어</td><td>호수</td><td>낚시</td><td>루어 낚시 추천</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="cycles">
+    <h2 class="eyebrow">08</h2>
+    <h3 class="title">재생·부패 주기 (가이드 문서 추가 조사)</h3>
+    <p class="lead">메인 6개 문서엔 없고 별도 "가이드" 문서에만 있던 수치 — 자원 순환의 실제 타이밍.</p>
+
+    <h4 class="sub">채집물 재생 시간</h4>
+    <div class="tablewrap"><table><thead><tr><th>대상</th><th>재생 주기</th></tr></thead><tbody>
+      <tr><td>야자 열매</td><td>2~3일</td></tr>
+      <tr><td>나뭇가지</td><td>약 2일</td></tr>
+      <tr><td>나무껍질 / 나뭇잎</td><td>약 3일</td></tr>
+      <tr><td>산딸기·구아바 등 일반 과일</td><td>약 3일</td></tr>
+      <tr><td>파인애플</td><td>5일</td></tr>
+      <tr><td>죽순</td><td>채집 후 2일간 소멸, 3일째 재생</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">동물·어류 포획 관련</h4>
+    <ul class="bullets" style="margin-top:6px">
+      <li>활 사냥은 최대한 근접해야 성공률이 높다.</li>
+      <li>대형 덫은 확인하려면 화면(구역) 전환이 필요 — 세이브·로드로 우회 가능.</li>
+      <li><strong>일반 어종은 하루 최대 30마리까지만 잡힘</strong> — 그 이후엔 희귀 어종이 활성화되는 구조(자원 소진→상위 보상 전환).</li>
+    </ul>
+
+    <h4 class="sub">부패 시간</h4>
+    <div class="tablewrap"><table><thead><tr><th>분류</th><th>부패까지</th></tr></thead><tbody>
+      <tr><td>육류·어패류</td><td>2일</td></tr>
+      <tr><td>과일·채소</td><td>6일</td></tr>
+      <tr><td>불로 구운 도시락</td><td>부패하지 않음</td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">기타 회복·편의 시스템</h4>
+    <ul class="bullets" style="margin-top:6px">
+      <li><strong>온천</strong> — 하루 1회, 체력 30% 회복.</li>
+      <li><strong>파트너에게 취침 전 부탁</strong> — 식량·장작을 미리 요청해두면 다음날 회복된 상태로 귀환.</li>
+      <li><strong>취침 조건</strong> — 허기·수분이 일정 수준 이상 충족돼야 잘 수 있음(우리 게임의 "포만감 낮으면 수면 불가"와 동일 규칙).</li>
+      <li><strong>버섯 8색 분류</strong> — 상태이상 4종 / 식용(무해) 2종 / 유익(버프) 2종. 색상-효과 매핑은 매 게임 무작위 재배정, 감별은 자신과 파트너에게 하나씩 먹여서 시행착오로 알아내는 방식.</li>
+    </ul>
+  </section>
+
+  <section id="endings">
+    <h2 class="eyebrow">09</h2>
+    <h3 class="title">엔딩 5종 전체 조건</h3>
+    <p class="lead">별도 엔딩 문서는 없고 메인 문서에 흩어져 있던 걸 취합. 전부 "정확한 시간대 + 특정 장소 + 특정 준비물" 조합이라는 공통 구조를 가진다.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>엔딩</th><th>조건</th></tr></thead>
+      <tbody>
+        <tr><td>구조신호</td><td>통나무 1개를 소지하고 파트너와 함께 곶(섬 최북단) 최고점에서 오후 4시를 넘기면 자동 발생 (오후 5시엔 헬기 포착 이벤트도 있음)</td></tr>
+        <tr><td>뗏목</td><td>해변4에서 뗏목 제작(통나무15+로프15+모피6) → 오전 10~11시에 곶 최고점에서 배 포착 이벤트 확인 → 오전 10~11시 사이 파트너와 함께 탑승</td></tr>
+        <tr><td>보트</td><td>해변4 잠수 포인트에서 지도A 습득 → 플레이어+파트너 인벤토리에 도시락·물·음식 합계 20개 이상 확보 → 보트 탑승</td></tr>
+        <tr><td>무전기</td><td>유적에서 생존자를 찾아 메모 입수 → 고릴라 친밀도 최대치 달성 후 무전기 획득 → 곶 최고점에서 무전기 사용</td></tr>
+        <tr><td>촛대</td><td>활+화살+횃불+불씨+나뭇가지4 이상과 식량 준비 → 파트너와 함께 유적(2곳)·호수·늪·정글, 총 5개 촛대에 불을 붙임 → 오후 6시 이전 완료 필수</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note" style="margin-top:8px">전부 "특정 시간대 + 특정 장소 + 준비물"의 3중 조건 — 아무 때나 되는 게 아니라 타이밍을 맞춰야 하는 이벤트형 엔딩이라는 공통점이 있다.</div>
+  </section>
+
+  <footer>
+    <div>출처: 나무위키 「로스트 인 블루2」 분류(레시피·가구·도구·재료·식물·동물·어패류·가이드·메인 9개 문서),
+    2026-08-26 조사. 원문 표를 그대로 옮긴 데이터 나열용 문서 — 해석·적용은
+    <a href="liblue2-analysis.html" target="_blank" rel="noopener">시스템 분석 문서</a> 참고.</div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제작 시스템 업데이트 비교</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --green: #6fa17e; --green-soft: #223225;
+    --red: #c9695a; --red-soft: #331f1c;
+    --blue: #6f9bab; --blue-soft: #1e2b30;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+      --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --green: #3f7a52; --green-soft: #dfeadf;
+      --red: #a8452f; --red-soft: #f3ded9;
+      --blue: #3f7186; --blue-soft: #dbe7ea;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+    --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+    --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+    --green: #3f7a52; --green-soft: #dfeadf;
+    --red: #a8452f; --red-soft: #f3ded9;
+    --blue: #3f7186; --blue-soft: #dbe7ea;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15.5px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 28px 120px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 18px 90px; } }
+
+  header.top { margin-bottom: 30px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(28px, 4.2vw, 40px); margin: 0 0 12px; text-wrap: balance; line-height: 1.25; }
+  header.top .dek { color: var(--ink-dim); max-width: 66ch; margin: 0 0 20px; font-size: 15px; line-height: 1.7; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .meta a { color: var(--ink-dim); }
+
+  nav.quicknav { display: flex; flex-wrap: wrap; gap: 6px; margin: 22px 0 0; }
+  nav.quicknav a { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; background: var(--panel); }
+  nav.quicknav a:hover { color: var(--ink); border-color: var(--accent); }
+
+  section { margin-top: 50px; }
+  section h2.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 23px; margin: 0 0 14px; text-wrap: balance; }
+  section > p.lead { color: var(--ink-dim); max-width: 68ch; margin: 0 0 20px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  ul.bullets { margin: 10px 0; padding-left: 20px; color: var(--ink-dim); font-size: 14px; }
+  ul.bullets li { margin: 7px 0; line-height: 1.65; }
+  ul.bullets strong { color: var(--ink); }
+
+  .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 16px 0; }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink-dim); }
+  .callout.gold { border-color: var(--gold); background: var(--gold-soft); }
+  .callout.gold .label { color: var(--gold); }
+  .callout.green { border-color: var(--green); background: var(--green-soft); }
+  .callout.green .label { color: var(--green); }
+  .callout.red { border-color: var(--red); background: var(--red-soft); }
+  .callout.red .label { color: var(--red); }
+
+  /* Before/After split cards */
+  .baGrid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; margin: 16px 0; align-items: stretch; }
+  @media (max-width: 640px) { .baGrid { grid-template-columns: 1fr; } .baGrid .baArrow { display: none; } }
+  .baCol { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .baCol.before { border-left: 3px solid var(--red); }
+  .baCol.after { border-left: 3px solid var(--green); }
+  .baCol .baLabel { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .baCol.before .baLabel { color: var(--red); }
+  .baCol.after .baLabel { color: var(--green); }
+  .baCol p { margin: 0; font-size: 13.5px; color: var(--ink-dim); line-height: 1.65; }
+  .baCol p strong { color: var(--ink); }
+  .baArrow { display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-family: var(--mono); font-size: 18px; }
+
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; margin-bottom: 6px; margin-right: 4px; }
+  .chip.same { background: var(--blue-soft); color: var(--blue); }
+  .chip.diff { background: var(--gold-soft); color: var(--gold); }
+  .chip.bug { background: var(--red-soft); color: var(--red); }
+
+  code.pathref { font-family: var(--mono); font-size: 12.5px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink-dim); }
+
+  .filelist { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+  .filelist .frow { display: flex; gap: 12px; align-items: baseline; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; font-size: 13px; }
+  .filelist .frow .fpath { font-family: var(--mono); color: var(--ink); flex: none; min-width: 140px; }
+  .filelist .frow .fdesc { color: var(--ink-faint); }
+
+  .changelog { display: flex; flex-direction: column; gap: 4px; margin: 14px 0 0; font-size: 12.5px; color: var(--ink-faint); font-family: var(--mono); }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12.5px; font-family: var(--mono); }
+  footer a { color: var(--ink-dim); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">적용 기록 · Before / After (누적 갱신)</div>
+    <h1>제작 시스템 업데이트 — 로스트 인 블루2 대비 비교</h1>
+    <p class="dek">
+      "제작이 너무 엉성하다"는 피드백으로, 정리해둔 로스트 인 블루2 분석의 "적용 지점" 중
+      지금 코드로 바로 반영 가능한 항목들을 실제로 구현하고 있다. <strong>그대로 베끼지 않고
+      우리 게임 사정에 맞게 다르게 튜닝한 부분</strong>을 항목별로 명시한다 — 새 변경이 생길
+      때마다 이 문서 하나에 계속 누적한다(별도 문서를 새로 만들지 않음).
+    </p>
+    <div class="meta">
+      <span>2026-08-26 작성 · 2차 갱신(재료/도구)</span>
+      <a href="liblue2-analysis.html" target="_blank" rel="noopener">참고한 분석 문서(원본, 미수정)</a>
+      <a href="liblue2-catalog.html" target="_blank" rel="noopener">참고한 전체 목록(원본, 미수정)</a>
+      <a href="roadmap.html" target="_blank" rel="noopener">로드맵(격차 항목 출처)</a>
+    </div>
+    <nav class="quicknav">
+      <a href="#nodes">채집 노드 리스폰</a>
+      <a href="#seasoning">조미료 레이어</a>
+      <a href="#materials">동물 부산물 · 도구 티어</a>
+      <a href="#diff">그대로 안 베낀 것</a>
+      <a href="#files">변경 파일</a>
+      <a href="#next">다음 후보</a>
+    </nav>
+  </header>
+
+  <section id="nodes">
+    <h2 class="eyebrow">01 · 채집 노드</h2>
+    <h3 class="title">한 번 캐면 사라짐 → 자원별 시간차 리스폰</h3>
+    <p class="lead">
+      로드맵에 이미 "노드 리스폰 도입"이 미구현 항목으로 적혀 있었다 — LiB2의 "채집물마다 정해진
+      재생 시간이 있다"는 구조를 그 구현 형태의 선례로 삼았다.
+    </p>
+    <div class="baGrid">
+      <div class="baCol before">
+        <div class="baLabel">Before</div>
+        <p>F로 캐면 <code class="pathref">scene.remove(g.node)</code> + 배열에서 완전히 제거.
+        섬을 오래 돌아다닐수록 나무·돌·베리·섬유 자리가 하나씩 영구히 비었다.</p>
+      </div>
+      <div class="baArrow">→</div>
+      <div class="baCol after">
+        <div class="baLabel">After</div>
+        <p>모델은 씬에 남기고 <code class="pathref">visible=false</code> + <code class="pathref">depleted=true</code>로
+        숨김. 5초 주기 타이머가 자원별 리스폰 시간을 지난 노드를 다시 보이게 함 — 재로딩 없이 가벼움.</p>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>자원</th><th class="num">리스폰 시간</th><th>채집 지역</th></tr></thead>
+        <tbody>
+          <tr><td>나무</td><td class="num">240초</td><td>섬 전역</td></tr>
+          <tr><td>돌</td><td class="num">300초</td><td>섬 전역</td></tr>
+          <tr><td>베리</td><td class="num">150초</td><td>섬 전역</td></tr>
+          <tr><td>섬유</td><td class="num">180초</td><td>섬 전역</td></tr>
+          <tr><td>소금 <span class="chip diff">신규</span></td><td class="num">200초</td><td>해안가 전용</td></tr>
+          <tr><td>허브 <span class="chip diff">신규</span></td><td class="num">150초</td><td>내륙 관목 전용</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout gold">
+      <div class="label">표류물(flotsam)은 리스폰 대상에서 제외</div>
+      <p>해변에 떠밀려오는 물병/사과/가족 유품 등은 이미 자체 스포너(주기적 랜덤 등장, 개수 상한)가
+      따로 있어서 그대로 영구 제거 방식을 유지했다 — 채집 노드와 표류물은 성격이 다르다고 판단.</p>
+    </div>
+  </section>
+
+  <section id="seasoning">
+    <h2 class="eyebrow">02 · 조미료 레이어</h2>
+    <h3 class="title">고정 회복량 요리 → 조미료로 업그레이드하는 요리</h3>
+    <p class="lead">
+      LiB2는 조미료를 별도 "맛" 스탯으로 관리하지만, 우리는 그 개념만 가져오고 구현은 훨씬
+      단순화했다 — <strong>새 UI 없이 기존 제작 메뉴에 상위 레시피로 얹는 방식.</strong>
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>기존 요리</th><th>재료</th><th class="num">허기</th><th class="num">수분</th><th>→ 조미 요리</th><th>추가 재료</th><th class="num">허기</th><th class="num">수분</th></tr></thead>
+        <tbody>
+          <tr><td>구운 생선</td><td>물고기+불</td><td class="num">25</td><td class="num">6</td><td><strong>소금구이 생선</strong></td><td>+소금 1</td><td class="num">34</td><td class="num">10</td></tr>
+          <tr><td>구운 고기</td><td>생고기+불</td><td class="num">30</td><td class="num">0</td><td><strong>허브 스테이크</strong></td><td>+허브 1</td><td class="num">40</td><td class="num">4</td></tr>
+          <tr><td>—</td><td>—</td><td class="num">—</td><td class="num">—</td><td><strong>허브차</strong></td><td>허브 2+베리 1</td><td class="num">4</td><td class="num">22</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout green">
+      <div class="label">허브차의 추가 효과</div>
+      <p>90초간 허기/수분 감소 속도를 25% 완화하는 버프가 붙는다 — 기존 "생존력 보양식"과 같은
+      버프 체계(<code class="pathref">status.buffMult</code>)를 재사용, 새 시스템을 만들지 않았다.</p>
+    </div>
+    <p class="lead" style="margin-top:20px">
+      기존 조리(굽기)를 대체하지 않고 그 위에 얹히는 구조라 <strong>"그냥 구워 먹기"도 여전히
+      유효한 선택지</strong>로 남는다 — 소금/허브가 없으면 못 먹는 게 아니라, 있으면 더 낫다.
+    </p>
+  </section>
+
+  <section id="materials">
+    <h2 class="eyebrow">03 · 동물 부산물 &amp; 도구 티어</h2>
+    <h3 class="title">아이템/레시피 전체 목록을 다시 훑다가 발견한 죽은 레시피 3종</h3>
+    <p class="lead">
+      "아이템, 레시피 전체 목록에서도 유사하게 변경해달라"는 요청으로 카탈로그 문서의 재료 섹션을
+      다시 대조하다가 <strong>실제 버그</strong>를 하나 찾았다 — LiB2 분석이 새 기능 아이디어뿐
+      아니라 우리 코드의 구멍을 찾는 체크리스트로도 쓸모 있었던 사례.
+    </p>
+    <div class="callout red">
+      <div class="label">발견한 버그 <span class="chip bug">확인됨</span></div>
+      <p><code class="pathref">leather_armor</code> / <code class="pathref">leather_boots</code> /
+      <code class="pathref">leather_hat</code> 레시피는 처음부터 <code class="pathref">leather</code>/<code class="pathref">bone</code>을
+      요구했지만, 이 두 재료를 얻는 경로가 사냥(meat만 드롭)·채집·표류물 어디에도 없었다 —
+      방어구 3종이 데모 출시 이후로 <strong>영구히 제작 불가능한 죽은 레시피</strong>였다.</p>
+    </div>
+    <div class="baGrid">
+      <div class="baCol before">
+        <div class="baLabel">Before</div>
+        <p>사냥하면 <code class="pathref">meat</code>만 나옴. leather/bone은 ITEM_META와
+        레시피 원가에만 존재하고 세상 어디에도 실물이 없었다.</p>
+      </div>
+      <div class="baArrow">→</div>
+      <div class="baCol after">
+        <div class="baLabel">After</div>
+        <p>LiB2 재료 섹션의 "동물 부산물" 개념대로, 처치 시 종별 확률로 가죽/뼈가 같이 드롭.
+        방어구 3종이 실제로 크래프팅 가능해짐.</p>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>동물</th><th>고기</th><th>가죽</th><th>뼈</th></tr></thead>
+        <tbody>
+          <tr><td>늑대</td><td>2</td><td>70% 확률 1개</td><td>50% 확률 1개</td></tr>
+          <tr><td>소</td><td>4</td><td>90% 확률 2개</td><td>40% 확률 1개</td></tr>
+          <tr><td>사슴</td><td>3</td><td>60% 확률 1개</td><td>50% 확률 1개</td></tr>
+          <tr><td>닭</td><td>1</td><td>—</td><td>30% 확률 1개</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:20px">
+      같은 참고 자료의 도구 섹션("자루에 돌촉·뼈촉을 달면 공격력 상승")도 함께 적용 — 새 무기를
+      처음부터 만드는 대신, <strong>이미 만든 창을 재료로 소모해 업그레이드</strong>하는 레시피로
+      구현했다. axe→iron_axe와 같은 기존 티어링 패턴을 그대로 재사용.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>무기</th><th>재료</th><th class="num">공격력</th></tr></thead>
+        <tbody>
+          <tr><td>창</td><td>나무 2+돌 1</td><td class="num">6</td></tr>
+          <tr><td><strong>뼈창 <span class="chip diff">신규</span></strong></td><td>창 1(소모)+뼈 2+섬유 1</td><td class="num">9</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="diff">
+    <h2 class="eyebrow">04 · 원본과 다르게 만든 지점</h2>
+    <h3 class="title">"유사하게"이지 "그대로"가 아닌 이유</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>로스트 인 블루2 원본</th><th>환장의 아일랜드 버전</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>조미료 조작 방식</td>
+            <td>요리 시 조미료를 넣는 전용 "맛" 스탯/조리 단계</td>
+            <td><span class="chip diff">단순화</span> 완성된 요리+조미료 → 상위 아이템으로 만드는 별도 레시피 (새 UI 불필요)</td>
+          </tr>
+          <tr>
+            <td>재생(리스폰) 수치</td>
+            <td>자원별 실측 재생 시간표(원문 그대로의 구체적 수치)</td>
+            <td><span class="chip diff">임의 산정</span> 우리 게임의 기존 밸런스(허기/수분 감소 속도, 세션 길이)에 맞춰 150~300초 사이에서 새로 정함 — LiB2 수치를 그대로 옮기지 않음</td>
+          </tr>
+          <tr>
+            <td>자원-지역 분리</td>
+            <td>거점 3곳(동굴/초원/해변)이 자원 접근성으로 갈림</td>
+            <td><span class="chip same">개념만 채택</span> 거점은 이미 "1채만"으로 단순화하기로 결정된 상태라, 대신 채집물 2종(소금=해안/허브=내륙)만 지역으로 가름 — 거점 자체는 안 늘림</td>
+          </tr>
+          <tr>
+            <td>동물 부산물 드롭</td>
+            <td>부위·희귀도별로 세분화된 사냥 드롭 표</td>
+            <td><span class="chip diff">단순화</span> 종당 가죽/뼈 확률 하나씩만 — 정교한 표 대신 "죽은 레시피를 살릴 만큼만" 구현</td>
+          </tr>
+          <tr>
+            <td>도구 성능 강화</td>
+            <td>자루+촉(돌/뼈) 조합을 자유롭게 선택하는 제작 트리</td>
+            <td><span class="chip diff">단순화</span> 완제품(창)을 소모해 상위 무기로 바꾸는 단방향 업그레이드 레시피 하나</td>
+          </tr>
+          <tr>
+            <td>날씨 → 자원 스폰</td>
+            <td>날씨 이벤트 다음날 특수 자원 등장</td>
+            <td><span class="chip diff">이번엔 보류</span> 로드맵에 격차로 남아있던 항목, 이번 턴 범위 밖 — 아래 "다음 후보" 참고</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="files">
+    <h2 class="eyebrow">05 · 변경 파일</h2>
+    <h3 class="title">코드가 실제로 바뀐 곳</h3>
+    <div class="filelist">
+      <div class="frow"><span class="fpath">src/state.js</span><span class="fdesc">salt/herb/seasoned_fish/seasoned_meat/herb_tea/bone_spear ITEM_META, 조미료 레시피 3종+뼈창 레시피, FRESH_LIMIT에 herb 추가</span></div>
+      <div class="frow"><span class="fpath">src/world.js</span><span class="fdesc">scatterProps()에 소금(해안 밴드)·허브(내륙) 채집 노드 스캐터 추가</span></div>
+      <div class="frow"><span class="fpath">src/main.js</span><span class="fdesc">RESPAWN_SECONDS 테이블, F키 채집 핸들러(제거 대신 숨김+타이머), findNearestGatherable에 depleted 필터, animate()에 5초 주기 리스폰 틱, 처치 메시지에 부산물 드롭 반영</span></div>
+      <div class="frow"><span class="fpath">src/wildlife.js</span><span class="fdesc">SPECIES 테이블에 종별 가죽/뼈 드롭률 추가, takeDamage() 사망 분기에서 드롭 굴림</span></div>
+      <div class="frow"><span class="fpath">src/player.js</span><span class="fdesc">HELD_ITEM_MODELS에 뼈창(spear.fbx 재염색) 등록, 처치 메시지에 부산물 텍스트 합성</span></div>
+      <div class="frow"><span class="fpath">ASSETS.md</span><span class="fdesc">소금/허브/뼈창의 재염색-재사용 출처 기록</span></div>
+    </div>
+    <div class="callout">
+      <div class="label">검증 방법</div>
+      <p>헤드리스 크롬(CDP)으로 실제 게임을 띄워 확인: ① 소금 노드 채집 → 인벤토리 반영+노드 숨김,
+      ② respawnAt을 과거로 되돌려 5초 리스폰 틱이 실제로 노드를 되살리고 재채집도 가능함을 확인,
+      ③ 조미료 레시피 3종 재료 소모/결과물 생성 확인, ④ 야생동물 9마리를 전부 처치시켜 종별
+      가죽/뼈 드롭 확인, ⑤ 확보한 재료로 뼈창·가죽 갑옷·가죽 신발·가죽 모자 4개 레시피 모두
+      craft() 성공 확인(이전엔 재료 부족이 아니라 재료 자체가 존재하지 않아 항상 실패). 콘솔
+      에러 0건.</p>
+    </div>
+  </section>
+
+  <section id="next">
+    <h2 class="eyebrow">06 · 다음 후보</h2>
+    <h3 class="title">분석 문서에 있었지만 아직 안 건드린 것</h3>
+    <ul class="bullets">
+      <li><strong>날씨 → 자원 스폰 연동</strong> — 비/폭풍 다음날 특정 노드 스폰율을 올리는 식으로,
+      기존 weather 시스템에 얹을 수 있음.</li>
+      <li><strong>가구 우선순위 명시</strong> — 이동식 집 레벨마다 "왜 좋은지"를 UI 텍스트로
+      붙이는 것. 코드보다 카피 작업에 가까움.</li>
+      <li><strong>온천 · 취침 전 동료 부탁</strong> — 둘 다 동료 시스템 전제라 1막(동료 비활성)
+      범위 밖. 동료가 다시 켜지는 시점에 재검토.</li>
+      <li><strong>원거리 무기(활/새총)의 실제 데미지</strong> — 이번 조사 중 발견한 별도 갭:
+      현재 화살/새총은 명중해도 데미지 판정이 아예 없는 순수 연출(발사 애니메이션+탄약 소모만)이라,
+      뼈촉 화살 같은 조미료식 업그레이드를 만들어도 의미가 없어 이번엔 손대지 않음 — 원거리 전투
+      자체가 먼저 구현돼야 할 별개 이슈로 남겨둠.</li>
+    </ul>
+  </section>
+
+  <div class="changelog">
+    <span>2026-08-26 (1차): 채집 노드 리스폰, 조미료 레이어 3종</span>
+    <span>2026-08-26 (2차): 동물 부산물(가죽/뼈) 드롭 신설, 방어구 3종 죽은 레시피 복구, 뼈창 도구 티어</span>
+  </div>
+
+  <footer>
+    <div>이 문서는 <a href="liblue2-analysis.html" target="_blank" rel="noopener">로스트 인 블루2 시스템 분석</a>과
+    <a href="liblue2-catalog.html" target="_blank" rel="noopener">전체 목록</a>의
+    적용 지점 중 실제로 구현까지 마친 항목만 추려 Before/After로 대조한 기록이다. 두 원본 문서는 수정하지 않고, 새 변경이
+    생길 때마다 이 문서 하나에 계속 누적한다. 2026-08-26.</div>
+  </footer>
+</div>
+</body>
+</html>
