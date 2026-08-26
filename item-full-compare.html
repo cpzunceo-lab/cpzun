@@ -205,6 +205,7 @@
       <span>2026-08-26: 나머지 전 항목에 원본 사용법 + 설계안 병기 — 미구현, 승인 대기</span>
       <span>2026-08-26: 양념(8종)·기본목재(6종) 제안을 압축안 대신 원작과 동일한 개별 도입안으로 교체 — 문서만, 미구현</span>
       <span>2026-08-26: wood 사용 기존 레시피 16개를 6종 세분화 재료로 재설계(원작 그대로가 아닌 우리 게임식 배정) — 문서만, 미구현</span>
+      <span>2026-08-26: 목재 6종 획득 방법 확정 — 통나무만 도끼 필수, 나머지 5종은 맨손 채집 — 문서만, 미구현</span>
     </div>
   </section>
 
@@ -386,15 +387,27 @@
       <span class="score"><span class="g">구현됨</span> <b>7</b> / <span class="p">제안</span> <b>15</b> / <span class="n">보류</span> <b>2</b> / 총 <b>24</b></span>
     </div>
 
-    <h4 class="sub">기본(목재) — 6종 <span style="color:var(--blue);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(2026-08-26 갱신: 압축 대신 원작과 동일하게 6종 개별 도입으로 제안 변경)</span></h4>
-    <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 장소·용도</th><th class="mine">제안(우리 게임 버전)</th><th>상태</th></tr></thead><tbody>
-      <tr><td>나무덩굴</td><td class="orig">정글 — 가구 핵심 재료</td><td>신규 <code>vine</code>(나무덩굴) 도입 — 정글/내륙 채집, hut·kitchen 등 가구 레시피 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>나무껍질</td><td class="orig">해변1~4·초원·평원 — 불씨 제작</td><td>신규 <code>bark</code>(나무껍질) 도입 — 발화 도구를 별도로 신설할 경우의 전용 재료(지금은 모닥불이 발화를 즉시 해결하지만, 원작처럼 별도 아이템으로 남겨둠)</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>나뭇잎</td><td class="orig">해변1~3·초원 — 가구 외관</td><td>신규 <code>leaf</code>(나뭇잎) 도입 — hut(이동식 집) 레시피의 "나뭇잎" 재료를 이름 그대로 승격</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>통나무</td><td class="orig">해변2·정글·습지 — 대형 가구 판재</td><td>신규 <code>log</code>(통나무) 도입 — 대형 건축(오두막·뗏목 등 상위 구조물) 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>나무막대</td><td class="orig">해변2·4·초원·평원 — 도구 제작</td><td>신규 <code>stick</code>(나무막대) 도입 — 무기/도구 레시피 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>나뭇가지</td><td class="orig">해변1~4·초원·평원 — 장작/도구</td><td><strong>twig</strong> — 이름·역할 이미 동일</td><td><span class="st done">구현됨</span></td></tr>
+    <h4 class="sub">기본(목재) — 6종 <span style="color:var(--blue);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(2026-08-26 갱신: 압축 대신 원작과 동일하게 6종 개별 도입으로 제안 변경, 획득 방법 확정)</span></h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 장소·용도</th><th class="mine">제안(우리 게임 버전)</th><th>획득 방법</th><th>상태</th></tr></thead><tbody>
+      <tr><td>나무덩굴</td><td class="orig">정글 — 가구 핵심 재료</td><td>신규 <code>vine</code>(나무덩굴) 도입 — 정글/내륙 채집, hut·kitchen 등 가구 레시피 전용 재료로 wood와 분리</td><td><strong>맨손 채집</strong> — 도구 불필요</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나무껍질</td><td class="orig">해변1~4·초원·평원 — 불씨 제작</td><td>신규 <code>bark</code>(나무껍질) 도입 — 발화 도구를 별도로 신설할 경우의 전용 재료(지금은 모닥불이 발화를 즉시 해결하지만, 원작처럼 별도 아이템으로 남겨둠)</td><td><strong>맨손 채집</strong> — 도구 불필요</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나뭇잎</td><td class="orig">해변1~3·초원 — 가구 외관</td><td>신규 <code>leaf</code>(나뭇잎) 도입 — hut(이동식 집) 레시피의 "나뭇잎" 재료를 이름 그대로 승격</td><td><strong>맨손 채집</strong> — 도구 불필요</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>통나무</td><td class="orig">해변2·정글·습지 — 대형 가구 판재</td><td>신규 <code>log</code>(통나무) 도입 — 대형 건축(오두막·뗏목 등 상위 구조물) 전용 재료로 wood와 분리</td><td><strong>도끼 필수</strong> — 맨손으로는 드롭 안 됨, 나무를 실제로 찍어 넘겨야 나오는 유일한 재료</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나무막대</td><td class="orig">해변2·4·초원·평원 — 도구 제작</td><td>신규 <code>stick</code>(나무막대) 도입 — 무기/도구 레시피 전용 재료로 wood와 분리</td><td><strong>맨손 채집</strong> — 도구 불필요</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나뭇가지</td><td class="orig">해변1~4·초원·평원 — 장작/도구</td><td><strong>twig</strong> — 이름·역할 이미 동일</td><td><strong>맨손 채집</strong> — 이미 그렇게 구현돼 있음</td><td><span class="st done">구현됨</span></td></tr>
     </tbody></table></div>
+    <div class="callout green">
+      <div class="label">통나무만 도구를 필수로 요구 — 이미 있는 시스템을 처음으로 실사용</div>
+      <p>나머지 5종(나무덩굴·나무껍질·나뭇잎·나무막대·나뭇가지)은 전부 맨손 채집 — 나무를
+      흔들거나 바닥에서 줍는 수준의 가벼운 채집. <strong>통나무만 도끼로 직접 찍어야 나오는
+      유일한 재료</strong>로 설계해, "이 섬에서 큰 나무를 베려면 도끼가 있어야 한다"는 감각을
+      살린다. 사실 <code>world.js</code>의 채집 노드 구조에는 이미
+      <code>requiresTool</code>/<code>toolLabel</code> 필드가 있는데("미래에 맨손으로는 못 캐는
+      자원이 생기면 쓰라"는 주석과 함께, 지금은 나무/돌/베리 어디에도 안 쓰이고 있음) — 통나무가
+      이 필드를 실제로 쓰는 첫 사례가 된다. 도구 없이 통나무 노드에 다가가면 "도끼가 있어야겠는데"
+      식의 안내 문구가 이미 나오도록 코드가 준비돼 있다(기존 <code>g.requiresTool</code> 체크
+      로직 그대로 재사용 가능).</p>
+    </div>
     <div class="callout blue">
       <div class="label">6종으로 나누면 기존 레시피 16개를 다시 설계해야 함</div>
       <p>지금은 spear/axe/hut 등 목재 필요 레시피 전부가 <code>wood</code> 하나로 퉁쳐 있다. 아래
