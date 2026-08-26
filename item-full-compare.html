@@ -204,6 +204,7 @@
       <span>2026-08-26: 어류 세분화(도미/장어), 채소 신설(당근) — 실제 코드 반영, 검증 완료</span>
       <span>2026-08-26: 나머지 전 항목에 원본 사용법 + 설계안 병기 — 미구현, 승인 대기</span>
       <span>2026-08-26: 양념(8종)·기본목재(6종) 제안을 압축안 대신 원작과 동일한 개별 도입안으로 교체 — 문서만, 미구현</span>
+      <span>2026-08-26: wood 사용 기존 레시피 16개를 6종 세분화 재료로 재설계(원작 그대로가 아닌 우리 게임식 배정) — 문서만, 미구현</span>
     </div>
   </section>
 
@@ -395,11 +396,50 @@
       <tr><td>나뭇가지</td><td class="orig">해변1~4·초원·평원 — 장작/도구</td><td><strong>twig</strong> — 이름·역할 이미 동일</td><td><span class="st done">구현됨</span></td></tr>
     </tbody></table></div>
     <div class="callout blue">
-      <div class="label">6종으로 나누면 기존 레시피 15개 이상을 다시 설계해야 함</div>
-      <p>지금은 spear/axe/hut 등 목재 필요 레시피 전부가 <code>wood</code> 하나로 퉁쳐 있다. 원작처럼
-      6종으로 쪼개려면 "창=나무막대, 오두막=통나무+나뭇잎, 부엌=통나무" 식으로 <strong>레시피
-      전부의 cost를 다시 정해야 하는 대규모 작업</strong>이다 — 이 표는 그 방향을 제안만 하는
-      것이고, 실제 착수는 별도 승인 필요.</p>
+      <div class="label">6종으로 나누면 기존 레시피 16개를 다시 설계해야 함</div>
+      <p>지금은 spear/axe/hut 등 목재 필요 레시피 전부가 <code>wood</code> 하나로 퉁쳐 있다. 아래
+      표에서 그 16개 전부를 실제로 다시 설계했다 — <strong>LiB2 원작을 그대로 베끼지 않고,
+      "이 도구는 실제로 나무의 어느 부위가 필요한가"를 우리 게임 나름대로 다시 따져서 배정</strong>했다
+      (LiB2엔 창/도끼/오두막 같은 형태의 레시피가 아예 없어 1:1로 옮길 수도 없다). 문서로만 남기고
+      실제 착수는 별도 승인 필요.</p>
+    </div>
+
+    <h4 class="sub">기존 목재 레시피 16개 재설계안 (2026-08-26 신규 — 문서만, 미구현)</h4>
+    <p class="lead" style="margin-top:0">
+      배정 원칙: <strong>stick(나무막대)</strong>=자루·손잡이용 곧은 목재, <strong>log(통나무)</strong>=
+      대형 건축 판재, <strong>vine(나무덩굴)</strong>=결속·시위용, <strong>bark(나무껍질)</strong>=
+      불쏘시개·마감재, <strong>leaf(나뭇잎)</strong>=외장·지붕재, <strong>twig(나뭇가지)</strong>=
+      얇고 가벼운 소모성 자재(이미 구현됨). 돌 촉이 필요 없어 보이는 항목(낚싯대·활 등)은 stone을
+      빼고, 쇠날을 쓰는 철제 도구는 돌 촉이 불필요하다고 보고 뺐다 — 원작 조합을 그대로 옮기지
+      않고 "왜 이 재료가 필요한지" 자체를 다시 판단한 결과라 기존 밸런스(재료 소모량)와도 달라진다.
+    </p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th class="orig">기존(wood 통합)</th><th class="mine">제안(6종 세분화)</th><th>근거</th></tr></thead>
+      <tbody>
+        <tr><td>창(spear)</td><td class="orig">wood2+stone1</td><td><code>stick2+stone1</code></td><td>자루는 곧고 튼튼한 나무막대가 적합, 돌은 그대로 촉으로 유지</td></tr>
+        <tr><td>나무 몽둥이(club)</td><td class="orig">wood2</td><td><code>stick2</code></td><td>몽둥이 자체가 손잡이감 좋은 막대 하나</td></tr>
+        <tr><td>못 박은 나무판(nailboard)</td><td class="orig">wood2+stone2</td><td><code>log1+stick1+stone2</code></td><td>판자는 통나무를 쪼갠 것, 손잡이는 별도 막대</td></tr>
+        <tr><td>돌도끼(axe)</td><td class="orig">wood2+stone2</td><td><code>stick2+vine1+stone2</code></td><td>도끼머리(돌)를 자루(막대)에 덩굴로 결속 — 실제 제작 과정에 더 가까움</td></tr>
+        <tr><td>돌곡괭이(pickaxe)</td><td class="orig">wood2+stone2</td><td><code>stick2+vine1+stone2</code></td><td>도끼와 동일 원리</td></tr>
+        <tr><td>철도끼(iron_axe)</td><td class="orig">wood3+stone2+iron_ore3</td><td><code>stick2+vine1+iron_ore3</code></td><td>쇠날이라 돌 촉 불필요 — 자루+결속재만, stone 제거로 상위 티어다운 재료 구성 변화</td></tr>
+        <tr><td>철곡괭이(iron_pickaxe)</td><td class="orig">wood3+stone2+iron_ore3</td><td><code>stick2+vine1+iron_ore3</code></td><td>철도끼와 동일 원리</td></tr>
+        <tr><td>낚싯대(fishing_rod)</td><td class="orig">wood2+stone1</td><td><code>stick2+vine1</code></td><td>낚싯줄을 덩굴로 묶는 게 핵심 — 돌은 낚싯대에 안 쓰여 제거</td></tr>
+        <tr><td>새총(slingshot)</td><td class="orig">wood1+stone2</td><td><code>stick1+vine1+stone2</code></td><td>Y자 프레임(막대)+고무줄 대용 덩굴+탄환용 돌</td></tr>
+        <tr><td>활(bow)</td><td class="orig">wood3+stone1</td><td><code>stick2+vine2</code></td><td>휘어지는 막대 몸체+시위(덩굴) — 돌은 활에 안 쓰여 제거</td></tr>
+        <tr><td>화살(arrow)</td><td class="orig">wood1+stone1</td><td><code>twig2+stone1</code></td><td>화살대는 굵은 막대보다 가는 나뭇가지가 더 적합</td></tr>
+        <tr><td>횃불(torch)</td><td class="orig">wood1</td><td><code>stick1+bark1</code></td><td>손잡이(막대)+불쏘시개 감쌈(나무껍질)</td></tr>
+        <tr><td>모닥불(campfire_kit)</td><td class="orig">wood3+stone2</td><td><code>log2+bark1+stone2</code></td><td>큰 장작(통나무)+불쏘시개(나무껍질), 화덕 테두리는 그대로 돌</td></tr>
+        <tr><td>이동식 집 1단계(hut)</td><td class="orig">wood8+fiber4</td><td><code>log4+leaf4+vine2+fiber2</code></td><td>골조(통나무)+외피(나뭇잎, 티어명 "나뭇잎"과도 잘 맞음)+결속(덩굴), 섬유 비중은 줄임</td></tr>
+        <tr><td>이동식 집 개선(hut_upgrade)</td><td class="orig">wood12+fiber6</td><td><code>log6+leaf4+vine2+fiber3</code></td><td>상위 단계일수록 골조(통나무) 비중을 늘려 "더 튼튼해진다"는 느낌 강화</td></tr>
+        <tr><td>부엌(kitchen)</td><td class="orig">wood15+stone8+fiber5</td><td><code>log8+leaf3+vine2+stone8+fiber2</code></td><td>고정 건물이라 골조(통나무) 비중이 가장 큼, 화덕 부분은 기존처럼 돌 유지</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout gold">
+      <div class="label">밸런스는 아직 재검증 전</div>
+      <p>재료 종류를 6개로 쪼개면 "뭘 얼마나 모아야 하는지"의 체감이 완전히 달라진다 — 특히
+      돌을 뺀 낚싯대/활/철제 도구 3종은 기존보다 확실히 싸지고, log/leaf/vine을 새로 채집해야
+      하는 오두막·부엌은 초반 진입장벽이 오히려 높아질 수 있다. 실제 착수 승인이 나면 이 표의
+      재료량부터 먼저 플레이테스트로 검증해야 한다.</p>
     </div>
 
     <h4 class="sub">동물성 — 4종 <span style="color:var(--ink-faint);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(이미 압축 없이 1:1 대응 — 변경 없음)</span></h4>
