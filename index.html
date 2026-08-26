@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>환장의 아일랜드 — 문서 허브</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25); }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15.5px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 60px 26px 100px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: var(--serif); font-size: clamp(28px, 4.4vw, 40px); margin: 0 0 12px; text-wrap: balance; }
+  p.dek { color: var(--ink-dim); max-width: 62ch; font-size: 15px; margin: 0 0 36px; }
+  .grid { display: flex; flex-direction: column; gap: 12px; }
+  .card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; text-decoration: none; box-shadow: var(--shadow); transition: border-color 0.15s, transform 0.15s; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card h2 { font-family: var(--serif); font-size: 19px; margin: 0 0 5px; color: var(--ink); }
+  .card p { margin: 0; font-size: 13.5px; color: var(--ink-faint); line-height: 1.6; }
+  .card .badge { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); background: var(--gold-soft); border-radius: 999px; padding: 2px 9px; margin-bottom: 8px; }
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">환장의 아일랜드 · 문서 허브</div>
+  <h1>기획·개발 문서 모음</h1>
+  <p class="dek">
+    로그인이나 인터넷 연결 없이 이 폴더를 그대로 열어서 볼 수 있다 — 각 파일을 더블클릭하거나
+    브라우저로 직접 열면 된다. 문서끼리의 링크도 전부 이 폴더 안 파일을 가리키도록 돼 있다.
+  </p>
+  <div class="grid">
+    <a class="card" href="act1.html">
+      <div class="badge">지금 최우선</div>
+      <h2>1막 — 정착</h2>
+      <p>지금 만들고 있는 범위만 떼어낸 문서. 구현 상태, 꺼놓은 것, 다음 우선순위.</p>
+    </a>
+    <a class="card" href="roadmap.html">
+      <div class="badge">로드맵</div>
+      <h2>로드맵 &amp; 마일스톤</h2>
+      <p>완성까지 남은 우선순위와 일정 — "다음에 뭘 할지"의 기준 문서.</p>
+    </a>
+    <a class="card" href="devplan.html">
+      <div class="badge">계획</div>
+      <h2>개발 계획서</h2>
+      <p>지금 뭘, 왜 그 순서로 하는지 — 결론부터 콤팩트하게.</p>
+    </a>
+    <a class="card" href="gdd.html">
+      <div class="badge">전체 비전</div>
+      <h2>기획서 (GDD)</h2>
+      <p>게임 전체 라이프타임 비전 — 세계관·구역·시스템 풀 설계.</p>
+    </a>
+    <a class="card" href="dashboard.html">
+      <div class="badge">현황판</div>
+      <h2>통합 대시보드</h2>
+      <p>지금까지 이관·구현된 항목 체크리스트.</p>
+    </a>
+    <a class="card" href="spreadsheet.html">
+      <div class="badge">데이터</div>
+      <h2>마스터 스프레드시트</h2>
+      <p>아이템·레시피·에셋 전체 데이터 목록.</p>
+    </a>
+  </div>
+  <footer>
+    이 폴더(islandsurvival/docs/)는 원본이 아니라 사본이다 — Claude Artifact가 원본이고,
+    Claude가 이 폴더를 그때그때 다시 내보낸다. 최신 버전인지 확실치 않으면 로드맵 문서의
+    "최종 감사" 날짜를 확인할 것.
+  </footer>
+</div>
+</body>
+</html>

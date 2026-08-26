@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>환장의 아일랜드 개발 계획서</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --green: #6fa17e; --green-soft: #223225;
+    --red: #c9695a; --red-soft: #331f1c;
+    --blue: #6f9bab; --blue-soft: #1e2b30;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+      --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --green: #3f7a52; --green-soft: #dfeadf;
+      --red: #a8452f; --red-soft: #f3ded9;
+      --blue: #3f7186; --blue-soft: #dbe7ea;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+    --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+    --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+    --green: #3f7a52; --green-soft: #dfeadf;
+    --red: #a8452f; --red-soft: #f3ded9;
+    --blue: #3f7186; --blue-soft: #dbe7ea;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15.5px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 52px 26px 100px; }
+  @media (max-width: 640px) { .wrap { padding: 36px 16px 80px; } }
+
+  header.top { margin-bottom: 28px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(26px, 4vw, 36px); margin: 0 0 10px; text-wrap: balance; line-height: 1.25; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 16px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 11px 0; margin-top: 16px; }
+  .meta a { color: var(--ink-dim); }
+
+  /* ---- TL;DR conclusion box — the whole point of "결론부터" ---- */
+  .tldr { background: var(--panel); border: 1px solid var(--gold); border-radius: 12px; padding: 22px 24px; margin: 26px 0 0; box-shadow: var(--shadow); }
+  .tldr .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .tldr ul { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .tldr li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.6; }
+  .tldr li::before { content: '→'; color: var(--accent); flex: none; font-weight: 700; }
+  .tldr strong { color: var(--ink); }
+
+  section { margin-top: 44px; }
+  section h2 { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 21px; margin: 0 0 14px; text-wrap: balance; }
+  section p { color: var(--ink-dim); font-size: 14.5px; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.02em; white-space: nowrap; }
+  .chip.done { background: var(--green-soft); color: var(--green); }
+  .chip.now { background: var(--gold-soft); color: var(--gold); }
+  .chip.warn { background: var(--gold-soft); color: var(--gold); }
+  .chip.risk { background: var(--red-soft); color: var(--red); }
+  .chip.info { background: var(--blue-soft); color: var(--blue); }
+
+  ul.bullets { margin: 10px 0; padding-left: 20px; color: var(--ink-dim); font-size: 14px; }
+  ul.bullets li { margin: 7px 0; line-height: 1.65; }
+  ul.bullets strong { color: var(--ink); }
+
+  .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; margin: 14px 0; }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink-dim); }
+
+  footer { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); }
+  footer a { color: var(--ink-dim); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">환장의 아일랜드 · 개발 계획서</div>
+    <h1>지금 뭘, 왜 그 순서로 하는가</h1>
+    <div class="meta">
+      <span>2026-08-25 콤팩트 개정(결론 우선 재구성)</span>
+      <a href="act1.html" target="_blank" rel="noopener">1막 단독 문서</a>
+      <a href="gdd.html" target="_blank" rel="noopener">기획서(GDD)</a>
+      <a href="roadmap.html" target="_blank" rel="noopener">로드맵·마일스톤</a>
+      <a href="dashboard.html" target="_blank" rel="noopener">대시보드</a>
+    </div>
+  </header>
+
+  <div class="tldr">
+    <div class="label">결론</div>
+    <ul>
+      <li><strong>데모 스코프 = 1막(솔로 생존)만.</strong> 동료·엔딩·추가 구역은 코드는 다 있지만 꺼둔 상태 — 정식 출시 때 다시 켠다.</li>
+      <li><strong>데모까지 남은 시간: 약 2~5개월</strong>(주 10~12시간 기준). 핵심 시스템은 대부분 구현 완료, 남은 건 사운드 나머지·아이콘·라이선스 정리·실기기 성능 검증.</li>
+      <li><strong>지금 할 일 1순위:</strong> 아래 "다음 우선순위" 표 순서대로. 2위 이하를 먼저 만지면 안 됨 — 순서가 곧 이 문서의 요지.</li>
+      <li><strong>스코프를 자르는 이유:</strong> 이 게임은 업계 벤치마크상 "중형"급(4,000~8,000시간)인데, 직장인 1인이 주 10~12시간 투입하면 원안 그대로는 6~13년 걸림. 자세한 계산은 맨 아래 "왜 이렇게 잘랐나" 참고.</li>
+    </ul>
+  </div>
+
+  <section id="priority">
+    <h2>다음 우선순위 · 01</h2>
+    <h3 class="title">이 순서대로 처리할 것</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>상태</th><th>남은 일</th></tr></thead>
+        <tbody>
+          <tr><td>1막 생존 루프 심화</td><td><span class="chip done">대부분 완료</span></td><td>2026-08-25 타격/채집/먼지 이펙트, 발소리·타격음 교체, 사망 팝업, 스탯 HUD 정리까지 처리됨 — 남은 건 날씨의 실질적 생존 압박, 건축 레벨업 체감 이득</td></tr>
+          <tr><td>사운드 나머지</td><td><span class="chip warn">부분</span></td><td>발소리·채집·타격·UI·경고음 완료 — 물소리(수영/낚시)·배경음악 아직 없음</td></tr>
+          <tr><td>아이템 아이콘 잔여</td><td><span class="chip warn">부분</span></td><td>14/약 30종 확보 — 나머지는 이모지 대역 중</td></tr>
+          <tr><td>에셋 라이선스 정리</td><td><span class="chip risk">미착수</span></td><td><code>bed.fbx</code>(Furniture Mega Pack) 실사용 중 — 배포 전 필수, 의도적 최후순위</td></tr>
+          <tr><td>실기기 성능 검증</td><td><span class="chip risk">미검증</span></td><td>헤드리스로는 GPU 성능 측정 불가 — 실브라우저 확인 필요</td></tr>
+          <tr><td>밸런스 튜닝</td><td><span class="chip info">지속</span></td><td>사람이 직접 플레이하며 반복 조정 — 완료 시점 없음, 발견 즉시 최우선 처리</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="scope">
+    <h2>스코프 · 02</h2>
+    <h3 class="title">뭘 넣고 뭘 뺐나</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>축</th><th>GDD 풀비전</th><th>v1.0(정식 출시)</th><th>데모(지금)</th></tr></thead>
+        <tbody>
+          <tr><td>구역</td><td>8개</td><td>2~3개</td><td><strong>1개</strong>(해변+밀림)</td></tr>
+          <tr><td>동료</td><td>3인 완전 구현</td><td>2인</td><td><strong>0인</strong>(비활성)</td></tr>
+          <tr><td>엔딩</td><td>3분기</td><td>1개</td><td><strong>없음</strong>(코드는 있음)</td></tr>
+          <tr><td>레시피</td><td>~50종</td><td>15~20종</td><td>26종(이미 초과)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:10px">동료·엔딩은 "1막만" 문서(아래 링크)에 자세한 사유가 있음 — 요약하면 데모의 목적이 "가족 서사 증명"이 아니라 "코어 루프가 재밌다는 첫인상"이기 때문.</p>
+  </section>
+
+  <section id="timeline">
+    <h2>일정 · 03</h2>
+    <h3 class="title">버전별 예상 도달 시점</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>버전</th><th class="num">필요 시간</th><th>예상 시점</th></tr></thead>
+        <tbody>
+          <tr><td>1차 프로토타입</td><td class="num">8~12h</td><td><span class="chip done">완료</span> 2026-08-23</td></tr>
+          <tr><td>데모(1막)</td><td class="num">약 100~180h</td><td><strong>2026년 11월~2027년 3월경</strong></td></tr>
+          <tr><td>정식 출시 v1.0</td><td class="num">약 320~520h 추가</td><td>2027년 7월~2028년 7월경</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>정식 출시엔 동료 재활성화+튜닝, 엔딩 잔여 튜닝, 버그·밸런싱 마무리, Steam 페이지·번역이 포함된다. 뒤로 갈수록 오차가 커짐(데모 단계 ±1개월 → 정식 출시 ±6개월) — 참고용 추정치.</p>
+  </section>
+
+  <section id="why">
+    <h2>근거 · 04</h2>
+    <h3 class="title">왜 이렇게 잘랐나 (요약)</h3>
+    <ul class="bullets">
+      <li>이 게임은 시스템 복잡도상 업계 벤치마크 "중형"급(2~4년, 4,000~8,000시간 — 전업 개발자 기준).</li>
+      <li>직장인 1인이 주 10~12시간을 투입하면 그 시간은 그대로 <strong>6.4~12.8년</strong>이 된다 — 완주가 사실상 불가능한 범위.</li>
+      <li>Claude Code + 무료/CC0 에셋 조합이 코드·그래픽 제작 시간은 크게 줄여주지만, <strong>동료 감정 밸런싱(가출 타이밍 등)처럼 사람이 직접 플레이하며 체감해야 하는 튜닝 노동은 그대로</strong> — AI가 못 줄이는 부분.</li>
+      <li>그래서 물량(구역 수·동료 수·엔딩 분기)을 줄이고 아낀 시간을 밀도(핵심 루프의 손맛)에 몰아준다 — 스코프를 줄이면 실측 v1.0 총 소요가 <strong>약 590~1,000시간</strong>까지 내려온다.</li>
+      <li>Steam 데모의 목적은 위시리스트 전환이지 서사 완결이 아니다 — 3~10분 안에 "이 조작감·이 생존 루프가 재밌다"는 인상을 주는 게 5막 스토리를 다 보여주는 것보다 중요하다는 판단.</li>
+    </ul>
+    <div class="callout">
+      <div class="label">더 깊이 보려면</div>
+      <p>1막 단독 계획은 <a href="act1.html" target="_blank" rel="noopener">「환장의 아일랜드 1막」</a> 문서에, 전체 라이프타임 비전은 <a href="gdd.html" target="_blank" rel="noopener">기획서(GDD)</a>에 따로 있다. 이 문서는 "지금 뭘 왜 하는가"만 다룬다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>이 문서는 개발 진행에 따라 계속 갱신된다 — 최신 상태는 <a href="roadmap.html" target="_blank" rel="noopener">로드맵·마일스톤</a> 문서와 함께 볼 것.</div>
+  </footer>
+</div>
+</body>
+</html>

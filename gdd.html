@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>환장의 아일랜드 기획서</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #14100b;
+    --panel: #1c1712;
+    --panel-2: #241d15;
+    --line: #362c20;
+    --ink: #ede4d3;
+    --ink-dim: #a89a82;
+    --ink-faint: #776a56;
+    --accent: #d97b3f;
+    --accent-ink: #1c1712;
+    --accent-soft: #3a2c1c;
+    --green: #6fa17e;
+    --green-soft: #223225;
+    --red: #c9695a;
+    --red-soft: #331f1c;
+    --blue: #6f9bab;
+    --blue-soft: #1e2b30;
+    --gold: #d9b74a;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #efe8d8;
+      --panel: #f8f3e7;
+      --panel-2: #f1ead9;
+      --line: #d9cbae;
+      --ink: #241d14;
+      --ink-dim: #6b5d47;
+      --ink-faint: #9c8c70;
+      --accent: #b85f28;
+      --accent-ink: #fff9ef;
+      --accent-soft: #f1dcc4;
+      --green: #3f7a52;
+      --green-soft: #dfeadf;
+      --red: #a8452f;
+      --red-soft: #f3ded9;
+      --blue: #3f7186;
+      --blue-soft: #dbe7ea;
+      --gold: #9c7a1f;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8;
+    --panel: #f8f3e7;
+    --panel-2: #f1ead9;
+    --line: #d9cbae;
+    --ink: #241d14;
+    --ink-dim: #6b5d47;
+    --ink-faint: #9c8c70;
+    --accent: #b85f28;
+    --accent-ink: #fff9ef;
+    --accent-soft: #f1dcc4;
+    --green: #3f7a52;
+    --green-soft: #dfeadf;
+    --red: #a8452f;
+    --red-soft: #f3ded9;
+    --blue: #3f7186;
+    --blue-soft: #dbe7ea;
+    --gold: #9c7a1f;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 15.5px; line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .layout { display: grid; grid-template-columns: 272px minmax(0,1fr); max-width: 1320px; margin: 0 auto; }
+  @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } .toc { display: none; } }
+
+  /* ---------- sidebar TOC ---------- */
+  .toc {
+    position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+    padding: 40px 22px 40px 32px; border-right: 1px solid var(--line);
+  }
+  .toc .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: var(--ink-faint); text-transform: uppercase; margin-bottom: 6px; }
+  .toc .gname { font-family: var(--serif); font-size: 21px; font-weight: 700; margin-bottom: 2px; text-wrap: balance; }
+  .toc .gsub { font-size: 12px; color: var(--ink-dim); margin-bottom: 28px; }
+  .toc nav { display: flex; flex-direction: column; gap: 2px; }
+  .toc nav a {
+    font-size: 13px; color: var(--ink-dim); text-decoration: none; padding: 7px 10px; border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+  .toc nav a:hover { color: var(--ink); background: var(--panel); }
+  .toc nav a.lvl2 { padding-left: 22px; font-size: 12.5px; }
+  .toc .meta { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--ink-faint); line-height: 1.9; }
+
+  /* ---------- main column ---------- */
+  main { padding: 56px 56px 140px; min-width: 0; }
+  @media (max-width: 640px) { main { padding: 32px 20px 100px; } }
+
+  .cover { margin-bottom: 64px; }
+  .cover .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+  .cover h1 { font-family: var(--serif); font-size: clamp(32px, 5vw, 50px); line-height: 1.15; margin: 0 0 18px; text-wrap: balance; }
+  .cover .pitch { font-size: 18px; color: var(--ink-dim); max-width: 640px; line-height: 1.65; margin-bottom: 28px; text-wrap: balance; }
+  .tagrow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-family: var(--mono); font-size: 11.5px; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--line); color: var(--ink-dim); }
+
+  section { margin-bottom: 76px; scroll-margin-top: 24px; }
+  section > .num { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 8px; }
+  section > h2 { font-family: var(--serif); font-size: 28px; margin: 0 0 6px; text-wrap: balance; }
+  section > .dek { color: var(--ink-dim); font-size: 14.5px; margin: 0 0 28px; max-width: 66ch; }
+  h3 { font-family: var(--sans); font-weight: 700; font-size: 17px; margin: 32px 0 12px; }
+  h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin: 20px 0 8px; }
+  p { max-width: 68ch; margin: 0 0 14px; }
+  ul, ol { max-width: 66ch; padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code { font-family: var(--mono); font-size: 0.88em; background: var(--panel-2); padding: 1px 5px; border-radius: 4px; }
+
+  .callout {
+    background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 4px; padding: 18px 22px; margin: 22px 0; max-width: 68ch;
+  }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .quote {
+    font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink);
+    border-left: 2px solid var(--accent); padding-left: 22px; margin: 26px 0; max-width: 60ch;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; font-size: 13.5px; }
+  .tablewrap { overflow-x: auto; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); font-weight: 600; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-dim); }
+  td:first-child, th:first-child { color: var(--ink); font-weight: 500; }
+  tr:hover td { background: var(--panel); }
+
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .chip.done { background: var(--green-soft); color: var(--green); }
+  .chip.warn { background: var(--accent-soft); color: var(--accent); }
+  .chip.risk { background: var(--red-soft); color: var(--red); }
+  .chip.info { background: var(--blue-soft); color: var(--blue); }
+
+  .cardgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 20px 0 28px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; }
+  .card h4 { margin-top: 0; }
+  .card .big { font-family: var(--mono); font-size: 26px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .card p { font-size: 13px; margin-bottom: 0; }
+
+  /* comparison / benchmark cards */
+  .benchgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0 28px; }
+  .bench { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; }
+  .bench .title { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+  .bench .sub { font-size: 11.5px; color: var(--ink-faint); margin-bottom: 12px; }
+  .bench .row { display: flex; gap: 8px; font-size: 12.5px; margin-bottom: 6px; }
+  .bench .row .k { flex: none; width: 56px; color: var(--ink-faint); }
+
+  /* playtime timeline */
+  .timeline { margin: 24px 0 32px; }
+  .tbar { display: flex; height: 40px; border-radius: 8px; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--line); }
+  .tbar > div { display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--accent-ink); white-space: nowrap; overflow: hidden; }
+  .tbar .seg1 { background: var(--gold); }
+  .tbar .seg2 { background: var(--accent); }
+  .tbar .seg3 { background: var(--green); }
+  .tbar .seg4 { background: var(--blue); }
+  .tlegend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: var(--ink-dim); }
+  .tlegend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+  /* roadmap milestone list */
+  .milestones { display: flex; flex-direction: column; gap: 0; margin: 20px 0 28px; border-top: 1px solid var(--line); }
+  .milestone { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .milestone .when { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); padding-top: 2px; }
+  .milestone h4 { margin: 0 0 6px; font-size: 15px; }
+  .milestone p { font-size: 13px; margin-bottom: 6px; }
+  @media (max-width: 560px) { .milestone { grid-template-columns: 1fr; gap: 6px; } }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 56px 60px; font-size: 12px; color: var(--ink-faint); }
+  @media (max-width: 640px) { footer { padding: 28px 20px 60px; } }
+</style>
+
+<div class="layout">
+  <aside class="toc">
+    <div class="kicker">Game Design Document</div>
+    <div class="gname">환장의 아일랜드</div>
+    <div class="gsub">가족 서바이벌 · 기획서 v1.0 · 2026-08-23</div>
+    <nav>
+      <a href="#pitch">한눈에 보기</a>
+      <a href="#vision">1 · 비전 &amp; 포지셔닝</a>
+      <a href="#audience">2 · 타겟층</a>
+      <a href="#bench">3 · 벤치마킹</a>
+      <a href="#gameplay">4 · 게임성 &amp; 플레이 방식</a>
+      <a href="#gameplay-loop" class="lvl2">코어 루프</a>
+      <a href="#gameplay-family" class="lvl2">가족 관리 축</a>
+      <a href="#story">5 · 스토리 &amp; 캐릭터</a>
+      <a href="#art">6 · 그래픽 목표 방향</a>
+      <a href="#world">7 · 월드 설계</a>
+      <a href="#gathering">8 · 채집 시스템</a>
+      <a href="#crafting">9 · 제작 시스템</a>
+      <a href="#quests">10 · 퀘스트 설계</a>
+      <a href="#balance">11 · 밸런스 설계</a>
+      <a href="#playtime">12 · 플레이타임 설계</a>
+      <a href="#commercial">13 · 상업성</a>
+      <a href="#roadmap">14 · 로드맵 &amp; 마일스톤</a>
+      <a href="#problems">15 · 현재 문제점</a>
+      <a href="#solutions">16 · 해결 방안</a>
+      <a href="#risks">17 · 리스크</a>
+    </nav>
+    <div class="meta">
+      <a href="dashboard.html" target="_blank" rel="noopener">← 통합 대시보드로</a><br>
+      <a href="spreadsheet.html" target="_blank" rel="noopener">← 마스터 스프레드시트로</a><br><br>
+      프로젝트(3D, 유일 트랙) · islandsurvival/<br>
+      레거시 이관 참고 소스 · islandsurvival/legacy-2d/<br>
+      전체 데이터(엑셀 원본) · IslandSurvival_MasterDoc.xlsx
+    </div>
+  </aside>
+
+  <main>
+    <div class="cover" id="pitch">
+      <div class="kicker">Steam 출시 목표 · 싱글플레이 서바이벌</div>
+      <h1>가족을 다시 만나기 위해, 무인도에서 환장할 만큼 버틴다</h1>
+      <p class="pitch">
+        폭풍에 난파해 홀로 깨어난 섬. 오빠·여동생·할머니 중 하나를 골라 시작하지만,
+        나머지 둘도 이 섬 어딘가에 흩어져 살아있다 — 찾아내고, 먹이고, 재워야 하고,
+        너무 오래 붙어있으면 짜증을 내며 가출하기도 하는, <strong>진짜 가족</strong>처럼.
+        생존은 배경이고, 진짜 게임은 이 세 사람과의 관계다.
+      </p>
+      <div class="tagrow">
+        <span class="tag">서바이벌 크래프팅</span>
+        <span class="tag">가족 동료 관리</span>
+        <span class="tag">싱글플레이</span>
+        <span class="tag">PC / Steam</span>
+        <span class="tag">Lost in Blue 계열</span>
+        <span class="tag">3인 캐릭터 선택</span>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <section id="vision">
+      <div class="num">01</div>
+      <h2>비전 &amp; 포지셔닝</h2>
+      <p class="dek">이 게임이 존재해야 하는 이유와, 장르 안에서 서 있을 자리.</p>
+
+      <p>
+        서바이벌 크래프팅 장르는 <strong>자원 관리의 재미</strong>는 잘 풀지만, <strong>사람 사이의 재미</strong>는
+        대부분 손대지 않는다. 협동 서바이벌(Raft, Valheim 등)은 사람을 실제 플레이어로 대체해버리고,
+        솔로 서바이벌(그린헬, Stranded Deep)은 철저히 혼자다. <strong>환장의 아일랜드</strong>는 그 사이 —
+        진짜 사람 같은 AI 동료 셋(오빠·여동생·할머니)을 서바이벌의 자원 관리 루프 안으로 끌어들여서,
+        "오늘 뭘 모을까"만큼 "오늘 누구랑 얼마나 붙어 있어도 될까"가 똑같이 중요한 결정이 되게 만든다.
+      </p>
+      <p>
+        장르적으로는 <strong>Lost in Blue</strong>(닌텐도DS, 2인 관리 축)를 직접적인 레퍼런스로 삼아
+        시작했지만, 거기서 한 걸음 더 들어가 "가족이라서 생기는 마찰"(밀착 스트레스 → 가출 → 재회,
+        손주 사기 시스템)까지 게임 메커닉으로 만든 게 이 게임의 실질적인 차별점이다. 최종 목표(부모님과의
+        재회)도 전투나 보스가 아니라 <strong>탐험 → 단서 수집 → 가족 재결합</strong>이라는, 장르치고는
+        드문 감정적 클라이맥스를 향해 설계돼 있다.
+      </p>
+      <div class="quote">"생존 시스템은 무대장치다. 진짜 주인공은 이 세 사람의 관계다."</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="audience">
+      <div class="num">02</div>
+      <h2>타겟층</h2>
+      <p class="dek">누구를 위해 만드는가.</p>
+
+      <div class="cardgrid">
+        <div class="card">
+          <h4>핵심층</h4>
+          <p>25~40대, 서바이벌 크래프팅을 이미 몇 편 클리어해본 PC/Steam 유저. Stardew Valley·Raft·
+          Don't Starve Together에 100시간 이상 투자한 경험이 있고, "또 자원 채집만 하는 게임"에
+          살짝 피로를 느끼기 시작한 층.</p>
+        </div>
+        <div class="card">
+          <h4>2차층</h4>
+          <p>서사 중심 인디게임 팬 — A Short Hike, Spiritfarer, Coffee Talk처럼 "따뜻하지만 슬픈"
+          톤을 좋아하는 유저. 전투·최적화보다 캐릭터 관계에 더 끌리는 플레이어.</p>
+        </div>
+        <div class="card">
+          <h4>지역/언어</h4>
+          <p>1차 출시는 한국어 원어 개발 + 영어 자막. K-가족 정서(할머니의 잔소리, 손주 도리, 죄책감
+          유발형 화법)가 국내 유저에게는 즉시 와닿는 훅이고, 해외에는 "로컬라이즈된 감정선"이라는
+          차별점으로 작용할 수 있음(Coffee Talk, 산나비 등 K-인디의 해외 반응 참고).</p>
+        </div>
+        <div class="card">
+          <h4>비타겟</h4>
+          <p>하드코어 PvP·멀티플레이 서바이벌 유저, 로그라이크 반복 플레이를 원하는 유저 — 이 게임은
+          선형적 스토리 종착점이 있는 <strong>싱글 캠페인형</strong> 서바이벌이라 방향이 다름.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="bench">
+      <div class="num">03</div>
+      <h2>유사 게임 벤치마킹</h2>
+      <p class="dek">뭘 가져오고, 뭘 의도적으로 안 가져오는가.</p>
+
+      <div class="benchgrid">
+        <div class="bench">
+          <div class="title">Lost in Blue <span class="chip info">직접 레퍼런스</span></div>
+          <div class="sub">닌텐도DS · 2005</div>
+          <div class="row"><span class="k">가져옴</span>남녀 2인 관리 축, 채집→제작→생존 루프의 기본 골격</div>
+          <div class="row"><span class="k">확장함</span>2인 → 3인(오빠/여동생/할머니), 단순 스탯 관리를 "관계"로 — 밀착 스트레스·가출·사기 시스템</div>
+        </div>
+        <div class="bench">
+          <div class="title">Raft</div>
+          <div class="sub">Redbeet Interactive · 2022</div>
+          <div class="row"><span class="k">가져옴</span>"부족한 자원을 쪼개 쓰는" 초반 긴장감, 명확한 제작 티어링</div>
+          <div class="row"><span class="k">안 가져옴</span>멀티플레이 전제 설계 — 우린 AI 동료로 그 자리를 채움</div>
+        </div>
+        <div class="bench">
+          <div class="title">Green Hell</div>
+          <div class="sub">Creepy Jar · 2019</div>
+          <div class="row"><span class="k">가져옴</span>상태이상(중독/출혈/감염)의 실감나는 압박감, 조리로 위험을 관리하는 구조</div>
+          <div class="row"><span class="k">안 가져옴</span>극한의 하드코어 리얼리즘 — 우린 가족 서사가 우선이라 진입장벽을 낮춤</div>
+        </div>
+        <div class="bench">
+          <div class="title">Don't Starve</div>
+          <div class="sub">Klei · 2013</div>
+          <div class="row"><span class="k">가져옴</span>낮/밤 압박, 캐릭터별 비대칭 능력치 설계 철학</div>
+          <div class="row"><span class="k">안 가져옴</span>로그라이크 반복 사망 루프 — 우린 죽음이 "다시 처음부터"가 아니라 서사 진행의 일부</div>
+        </div>
+        <div class="bench">
+          <div class="title">Stardew Valley / My Time at Sandrock</div>
+          <div class="sub">ConcernedApe · 2016 / Pathea · 2024</div>
+          <div class="row"><span class="k">가져옴</span>NPC와의 "돌봄"이 감정적 보상이 되는 루프, 따뜻한 톤</div>
+          <div class="row"><span class="k">안 가져옴</span>마을 시뮬레이션 규모 — 우린 3인 가족으로 훨씬 좁고 깊게</div>
+        </div>
+        <div class="bench">
+          <div class="title">Unpacking / A Short Hike</div>
+          <div class="sub">Witch Beam / adamgryu · 2021</div>
+          <div class="row"><span class="k">가져옴</span>텍스트 최소, 상황과 소품으로 감정을 전달하는 스토리텔링 태도</div>
+          <div class="row"><span class="k">안 가져옴</span>비생존 장르 — 다만 발견 대사·잔소리 대사의 절제된 톤은 이 계열에서 참고</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="gameplay">
+      <div class="num">04</div>
+      <h2>게임성 &amp; 플레이 방식</h2>
+      <p class="dek">플레이어가 실제로 매 순간 뭘 하는가.</p>
+
+      <h3 id="gameplay-loop">코어 루프 (분 단위)</h3>
+      <ol>
+        <li><strong>관찰</strong> — HUD의 허기/수분/기력, 동료 스트레스 게이지를 훑는다</li>
+        <li><strong>채집</strong> — 필요한 자원을 가진 타일/노드로 이동해 모은다(도구가 있으면 더 빠르게)</li>
+        <li><strong>가공/제작</strong> — 모닥불에서 조리하거나, 제작 메뉴에서 도구·의료품·건축물을 만든다</li>
+        <li><strong>동료 케어</strong> — 할머니가 배고프면 급여, 오빠/여동생이 반항 조짐이면 칭찬([G])</li>
+        <li><strong>탐험</strong> — 안개 걷힌 새 구역으로 나가 단서·자원을 찾는다(리스크: 야생동물, 밤)</li>
+        <li>1~5를 반복하며 하루(낮/밤 사이클)를 넘기고, 그 사이 스토리 비트(재회/단서/가출)가 자연스럽게 끼어든다</li>
+      </ol>
+
+      <h3 id="gameplay-family">가족 관리 축 — 이 게임의 실질적 차별점</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>메커닉</th><th>플레이어가 체감하는 것</th><th>설계 의도</th></tr></thead>
+          <tbody>
+            <tr><td>밀착 스트레스 → 가출</td><td>"어? 계속 옆에 있었는데 왜 화났지?"</td><td>동료를 "항상 옆에 있는 버프 셔틀"로 소모하지 못하게 막는 마찰력</td></tr>
+            <tr><td>할머니 4대 스탯 + 잔병치레</td><td>진짜 어르신을 돌보는 부담감</td><td>난이도를 "적과 싸우기"가 아니라 "사람을 챙기기"로 옮김</td></tr>
+            <tr><td>손주 사기(morale)</td><td>부려먹기만 하면 대충 일함</td><td>도구/자원 최적화 게임에 "존중"이라는 새 변수를 추가</td></tr>
+            <tr><td>재회 대사(무사/부상/탈진)</td><td>가출 후 상태가 매번 달라 계속 신경 쓰임</td><td>같은 이벤트도 반복 플레이마다 감정적으로 다르게 느껴지게</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="gameplay-agent">AI 에이전트 동료 시스템 — 자유 채팅 지시 <span class="chip warn">신규 컨셉, 미착수</span></h3>
+      <p>
+        지금까지 동료 상호작용은 "가까이 가서 [G] 돌봄" 같은 정해진 버튼뿐이다. 여기서 한 단계 더 —
+        플레이어가 채팅창에 <strong>"동생아, 밀림 가서 땔감 좀 패 와"</strong>처럼 자연어로 지시하면,
+        LLM이 문맥을 해석해 실제 게임 행동(이동·채집·휴식)을 실행하고, 그 자리에서 캐릭터 성격에 맞는
+        대사를 실시간으로 생성하는 컨셉. 버튼 UI를 없애는 게 아니라 <strong>보조 입력 채널</strong>로
+        추가하는 것 — 정해진 선택지에 없던 조합("할머니는 쉬고, 동생이랑 같이 뗏목 부품 찾자" 같은
+        복합 지시)까지 받아낼 수 있다는 게 핵심 차별점.
+      </p>
+      <div class="callout">
+        <div class="label">설계 트릭 — 새 시스템이 아니라 기존 수치의 재활용</div>
+        <p>이 컨셉이 그럴듯한 이유는 <a href="#gameplay-family">위 가족 관리 축</a>에 필요한 데이터가
+        이미 다 있기 때문이다 — 스트레스/사기(morale)/트레잇(성격) 스탯은 3D 코드에도 이미
+        <code>COMPANION_STATS</code>로 존재한다(<code>islandsurvival/src/state.js</code>). 지시를
+        수행할지 거부("싫어, 배고파서 손가락도 못 움직여")할지는 <strong>이 기존 스탯을 LLM 프롬프트에
+        그대로 넣어 판단</strong>하면 된다 — 5장 엔딩 분기와 같은 설계 원칙("새 시스템 만들지 않고
+        기존 수치를 재활용").</p>
+      </div>
+      <h4>구현 구조 (Function Calling)</h4>
+      <p>
+        LLM에게 대사만 받는 게 아니라 <strong>실행할 게임 함수까지 구조화된 데이터로 함께 받는다</strong> —
+        예시 응답:
+      </p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>필드</th><th>예시 값</th><th>용도</th></tr></thead>
+        <tbody>
+          <tr><td>dialogue</td><td>"오빠 하인이야? 궁시렁대면서도 일단 따오긴 할 건데, 다음엔 오빠가 해!"</td><td>대사창에 그대로 출력</td></tr>
+          <tr><td>action</td><td>GATHER_ITEM</td><td>실행할 게임 함수 이름(이동/채집/휴식/거부 중 하나)</td></tr>
+          <tr><td>target</td><td>PALM_TREE</td><td>action의 대상 오브젝트/구역</td></tr>
+          <tr><td>stress_change</td><td>+10</td><td>기존 스트레스 스탯에 바로 반영</td></tr>
+        </tbody>
+      </table></div>
+      <p>
+        게임 코드는 이 응답을 받아 ①<code>dialogue</code>를 대사창에 출력하고 ②<code>action</code>/
+        <code>target</code>으로 실제 NPC를 이동·애니메이션시키고 ③<code>stress_change</code> 등 스탯
+        필드를 상태에 반영 — 세 가지가 한 번의 API 응답으로 동시에 처리된다.
+      </p>
+      <h4>주의할 점</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>비용</td><td>지시 1회당 소액의 API 비용 발생 — 가벼운 모델 사용 또는 유저 본인 API 키 입력 방식으로 최소화 검토</td></tr>
+          <tr><td>응답 지연</td><td>네트워크 왕복 약 0.5~1초 — 로딩감 없이 자연스럽게 보이는 대기 연출(동료가 "잠깐만..." 같은 리액션) 필요</td></tr>
+          <tr><td>Steam 고지 의무</td><td>실시간 생성형 AI로 분류돼 Steamworks 등록 시 체크박스 필수 + 상점 페이지에 공개 표시됨(불이익은 없음, 투명성 요건)</td></tr>
+          <tr><td>콘텐츠 안전장치</td><td>플레이어가 부적절한 지시를 입력했을 때 이상한/불법적 출력이 나오지 않도록 시스템 프롬프트에 필터링 규칙 명시 필요</td></tr>
+        </tbody>
+      </table></div>
+      <p class="dek" style="margin-top:8px">우선순위는 <a href="#roadmap">14장 로드맵</a> "AI 에이전트 동료(실험)" 마일스톤 참고 — 버티컬
+      슬라이스로 기존 시스템부터 이관을 끝낸 뒤 붙이는 게 순서.</p>
+
+      <h3>신규 설계 메커닉 — 구역 확장에 맞춘 게임성 심화</h3>
+      <p>
+        7~10장(월드/채집/제작/퀘스트)의 신규 구역이 단순 자원 창고로 끝나지 않도록, 구역마다
+        핵심 루프에 새 동사(動詞)를 하나씩 추가한다 — 지금까지는 "채집/제작/케어"가 전부였다면,
+        아래는 그 위에 얹는 신규 플레이 동사들이다.
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>신규 동사</th><th>발생 구역</th><th>작동 방식</th></tr></thead>
+          <tbody>
+            <tr><td>등반</td><td>⑤절벽</td><td>로프 장비 소지 시 진입 가능한 수직 이동 구간 — 강풍 타이밍에 맞춰 짧게 붙잡는 타이밍 미니게임(실패 시 낙하 데미지, 즉사 아님)</td></tr>
+            <tr><td>잠수</td><td>⑦난파선</td><td>산소 대신 "체류 기력" 게이지 — 0이 되면 자동으로 수면으로 밀려나며 소지품 손실 없음(처벌보다 리듬 관리에 집중)</td></tr>
+            <tr><td>추적</td><td>③고지대(산양)</td><td>발자국 이펙트를 따라가는 저강도 추적 — 전투가 아니라 관찰과 인내로 완결되는 사냥 유형 하나 추가</td></tr>
+            <tr><td>방치형 포획</td><td>⑥늪지(덫)</td><td>덫을 설치해두면 플레이어가 다른 일을 하는 동안 백그라운드로 소형 동물을 포획 — 항상 전투/채집에만 시간을 쓰지 않아도 되는 숨통</td></tr>
+            <tr><td>조명 관리</td><td>④동굴</td><td>손전등 배터리(연료) 개념 도입 — 완전한 어둠 속에서 이동은 가능하지만 채집 불가, 긴장감의 원천을 "전투"가 아닌 "자원 관리"로 유지</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="story">
+      <div class="num">05</div>
+      <h2>스토리 &amp; 캐릭터</h2>
+      <p class="dek">전체 시나리오와 3인 캐릭터 비대칭 설계.</p>
+
+      <p>
+        할아버지가 돌아가신 뒤 말수가 준 할머니를 위해 온 가족이 크루즈 여행을 떠나고, 항해 이틀째 밤
+        폭풍에 난파한다. 플레이어는 오빠(김도윤·24)/여동생(김하은·19)/할머니(서정숙·71) 중 하나를
+        메인으로 골라 이름 모를 해변에서 홀로 깨어나고, 나머지 둘은 섬 전역에 흩어진 채 근접해야만
+        재회한다. <strong>최종 목표는 부모님과의 재회</strong> — 해변→밀림→고지대 순으로 점점 결정적인
+        단서(찢어진 일기장, 이니셜 나침반, 고장난 무전기 부품)를 모아 조합한다.
+      </p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>캐릭터</th><th>난이도</th><th>메인 특성</th><th>동료 능력</th></tr></thead>
+          <tbody>
+            <tr><td>오빠 · 김도윤(24)</td><td><span class="chip done">쉬움</span></td><td>스프린트 기력 소모 -15%</td><td>근처 채집 +1 보너스, 사기(morale) 관리 대상</td></tr>
+            <tr><td>여동생 · 김하은(19)</td><td><span class="chip warn">보통</span></td><td>이동+8% · 채집시간-10%</td><td>근처 제작 시 재료 1개 할인, 사기 관리 대상</td></tr>
+            <tr><td>할머니 · 서정숙(71)</td><td><span class="chip risk">어려움</span></td><td>이동-8% · 채집+10% · 소모율 1.4배 · 잔병치레</td><td>전용 스탯 4종 + 요리 레벨→생존력 버프 음식 자동 생산</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        난이도 설계 의도: <strong>오빠(쉬움)</strong>는 정석 서바이벌 튜토리얼 캐릭터, <strong>여동생(보통)</strong>은
+        스피드런형 플레이어를 위한 효율 캐릭터, <strong>할머니(어려움)</strong>는 "관리해야 할 대상이 곧
+        나 자신"이 되는 역설적 하드모드 — 이 셋을 다 플레이하게 만드는 것이 리플레이 밸류의 핵심이다.
+      </p>
+
+      <h3>서브플롯 — "먼저 왔던 사람"</h3>
+      <p>
+        본 서사(가족 재회)만으로는 5막 구조 후반부(<a href="#quests">10장</a>)가 단조로워질 위험이
+        있어, ⑧고대 유적에 <strong>수십 년 전 이 섬에 표류했다 끝내 구조되지 못한 다른 조난자</strong>의
+        흔적(일기장, 손수 만든 도구, 마지막 페이지가 뜯겨나간 미완성 신호탄)을 심는다. 직접적인
+        공포 연출이 아니라 <strong>"우리도 저렇게 될 뻔했다"는 조용한 경각심</strong>을 주는 장치 —
+        이 일기장의 마지막 문장("그래도 혼자가 아니었다면...")이 재회 엔딩 직전 플레이어의 감정을
+        예열하는 복선으로 기능한다.
+      </p>
+
+      <h3>엔딩 설계 — 3가지 분기 (지금까지 미정이었던 부분)</h3>
+      <p>
+        기존 문서는 재회 엔딩을 "미정/보류"로만 표기했다. 아래는 <strong>단서 수집의 완성도와 사기
+        (morale) 수치</strong>를 조합해 갈리는 3분기 엔딩 설계 — 죽이거나 실패시키는 배드엔딩이 아니라
+        "감정적으로 다른 결말"로 나눈다(장르 톤 유지).
+      </p>
+      <div class="cardgrid">
+        <div class="card"><h4>A. 완전한 재회</h4><p>단서 3종 전부 + 가족 평균 사기 70 이상: 무전기로 부모님과 실시간 교신 성공, 구조대 도착 장면까지 직접 플레이. 4인 전원이 등장하는 유일한 엔딩.</p></div>
+        <div class="card"><h4>B. 흔적을 통한 재회</h4><p>단서 3종 확보했으나 사기 낮음: 무전기가 부분 고장 — 음성 대신 마지막으로 남긴 좌표만 수신, 구조대는 오지만 부모님과의 재회는 다음 장면(암전 후 항구)으로 미뤄짐 — 여운 중심 엔딩.</p></div>
+        <div class="card"><h4>C. 스스로 살아남음</h4><p>단서 수집이 불완전한 채 5막 진입: 무전기 복구 실패, 대신 가족 4남매(할머니 포함)가 자체 신호탄으로 구조 — 부모님과의 재회는 엔딩 크레딧 이후 쿠키 장면으로 짧게 암시만.</p></div>
+      </div>
+      <div class="callout">
+        <div class="label">설계 의도</div>
+        <p>세 엔딩 모두 "구조된다"는 결말 자체는 보장해 서바이벌 장르 특유의 허무한 배드엔딩을
+        피하되, <strong>사기 관리와 탐험 완성도라는 이미 존재하는 시스템</strong>(추가 개발 없이도
+        기존 <a href="#gameplay">4장 가족 관리 축</a>과 <a href="#quests">10장 메인 퀘스트</a> 진행도만으로
+        판정 가능)을 그대로 재활용해 엔딩을 분기시킨다 — 새 시스템을 만들지 않고 기존 수치를 결말에
+        연결하는 것이 핵심 설계 트릭.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="art">
+      <div class="num">06</div>
+      <h2>그래픽 목표 방향</h2>
+      <p class="dek">3D(유일한 제품 트랙)의 그래픽 목표와 legacy-2d 콘텐츠 이관 상황.</p>
+
+      <p>
+        2026-08-23부로 <strong>3D(Three.js)가 유일한 제품 트랙</strong>으로 확정됐다 — 이전에 병행
+        개발하던 캔버스 프로토타입(절차적 섬+가족 시스템 성숙)은 <code>legacy-2d/</code> 폴더에 이관
+        참고 소스로만 보존한다. 다만 <strong>거기 쌓인 콘텐츠(동료 AI, 구역/안개, 40+ 아이템, 대사
+        시스템)는 3D가 아직 못 따라간 상태</strong>고, 3D는 참고 영상("As One We Survive")을 보고
+        새로 시작해 분위기·이동·전투·사냥까지만 1차 구현된 상태다. 지금부터의 작업은 두 트랙을
+        비교하는 게 아니라 <strong>legacy-2d에 이미 있는 걸 3D로 옮기는 이식 작업</strong> 그 자체다.
+      </p>
+      <h3>목표 톤</h3>
+      <p>
+        참고 영상 재분석(2026-08-23)에서 확인한 실제 HUD 레이아웃(좌하단 상태 아이콘+바, 우상단
+        "★ First Steps"류 퀘스트, 좌측 도킹 건설 패널)을 3D UI에 이미 반영했다. 남은 과제는
+        <strong>비주얼 톤 통일</strong>이다 — Kenney 로우폴리 소품(장난감 블록 느낌)과 이번에 확보한
+        고품질 Unity 에셋(늑대의 리얼한 털 텍스처, PBR 바위)이 한 화면에 섞이면서 생기는 스타일 불일치가
+        지금 가장 눈에 띄는 문제. 2026-08-23에 SSAO(접지 그림자)·지형 스무스 셰이딩·비등방 필터링을
+        1차로 넣어 완화했지만, 근본 해결은 <strong>일관된 아트 소스로 통일</strong>하거나(예산 문제),
+        렌더링 스타일화(툰 셰이더 등)로 격차를 의도적으로 좁히는 것 — 둘 다 아직 결정 안 됨.
+      </p>
+      <div class="callout">
+        <div class="label">결정 필요</div>
+        <p>①리얼리즘 방향(PBR 통일, 예산 소모 큼) vs ②스타일라이즈 방향(툰/셀 셰이딩으로 로우폴리와
+        PBR 자산을 같은 톤으로 재해석, 상대적으로 저비용) — 다음 아트 논의에서 확정 필요.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="world">
+      <div class="num">07</div>
+      <h2>월드 설계 — 8개 구역</h2>
+      <p class="dek">지금 구현된 건 사실상 "해변 하나"뿐이다. 팔 수 있는 게임이 되려면 실제로 걸어서
+      넘어갈 이유가 있는 세계가 있어야 한다 — 아래는 그 전체 지도 설계.</p>
+
+      <p>
+        섬 전체는 <strong>3×3 격자 + 정상 1칸</strong>(기존 레이아웃 결정 유지) 위에 8개의
+        구분되는 구역으로 짜여 있다. 남쪽(해변)에서 시작해 북쪽(고지대→유적)으로 갈수록 위험하고
+        보상이 크며, 동/서로는 <strong>등대(동)</strong>·<strong>늪지(서)</strong>라는 곁가지 구역이
+        본선을 벗어나 탐험하는 재미를 준다. 동쪽 앞바다의 <strong>난파선 잔해</strong>와 지하의
+        <strong>동굴</strong>은 진입 조건(장비/능력)이 있어야 열리는 2단계 구역이다.
+      </p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>구역</th><th>위치</th><th>테마</th><th>진입 조건</th><th>핵심 위험</th></tr></thead>
+          <tbody>
+            <tr><td>① 표류 해변</td><td>남쪽 시작점</td><td>튜토리얼 · 안전지대</td><td>없음(시작 지점)</td><td>없음 — 야생동물 진입 불가 지대로 명시</td></tr>
+            <tr><td>② 밀림</td><td>중앙</td><td>자원의 핵심지, 오빠/여동생 재회</td><td>없음</td><td>낮은 확률 늑대 조우, 밤 시야 제한</td></tr>
+            <tr><td>③ 고지대 능선</td><td>북쪽</td><td>험지, 광물, 최종 단서 근접</td><td>돌도끼 이상 도구 권장</td><td>늑대 밀집, 낙석, 저체온(밤)</td></tr>
+            <tr><td>④ 지저 동굴</td><td>고지대 지하</td><td>광물 채굴, 완전한 어둠</td><td>횃불/손전등 필수</td><td>박쥐떼, 좁은 시야, 산소 아님(고립감 위주)</td></tr>
+            <tr><td>⑤ 해안 절벽 &amp; 등대</td><td>동쪽 곶</td><td>랜드마크, SOS 신호 퀘스트 허브</td><td>등반 장비(로프+곡괭이 조합)</td><td>강풍, 발 헛디딤(추락 데미지), 매 조우</td></tr>
+            <tr><td>⑥ 안개 늪지</td><td>서쪽 저지대</td><td>독성 자원, 방향감각 상실</td><td>없음(권장: 해독제 상시 휴대)</td><td>중독 위험 높음, 짙은 안개로 시야 제한</td></tr>
+            <tr><td>⑦ 난파선 잔해</td><td>동쪽 앞바다 암초</td><td>부모님 최종 단서, 수중 탐사</td><td>뗏목/보트 + 잠수 장비</td><td>익사(기력 소진 시 강제 귀환), 날카로운 잔해로 출혈</td></tr>
+            <tr><td>⑧ 고대 유적</td><td>섬 정상</td><td>최종 목적지, 스토리 클라이맥스</td><td>단서 3종 전부 확보</td><td>퍼즐 실패 페널티(시간 소모), 전투 없음(의도적)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="label">설계 의도</div>
+        <p>구역이 늘어날수록 "왜 굳이 위험을 무릅쓰고 더 가야 하나"에 항상 답이 있어야 한다 — 그래서
+        모든 구역에 <strong>①고유 자원 ②단 하나뿐인 랜드마크 ③작은 서사 조각</strong>을 세트로
+        묶었다. 예를 들어 ⑤등대는 자원(매 사냥)만이 아니라 불을 켜면 가족 전원이 짧은 대사를 나누는
+        연출이 있어야 "가야 할 이유"가 감정적으로도 성립한다.</p>
+      </div>
+
+      <h3>구역별 랜드마크 &amp; 서사 조각</h3>
+      <div class="cardgrid">
+        <div class="card"><h4>② 밀림 — 쓰러진 통나무 다리</h4><p>오빠를 처음 발견하는 고정 지점. 다리 옆에 그가 패던 장작더미가 쌓여있다는 디테일로 "혼자서도 버텨왔다"는 걸 대사 없이 전달.</p></div>
+        <div class="card"><h4>③ 고지대 — 무너진 전망대</h4><p>일제강점기/구식 관측소 잔해 컨셉. 이니셜 나침반 발견 지점이자, 이후 ⑧유적으로 가는 유일한 통로가 열리는 곳.</p></div>
+        <div class="card"><h4>⑤ 등대 — 꺼진 등대탑</h4><p>기름(자원 조합)을 넣고 불을 켜면 밤에 섬 전체에서 보임 — 이후 할머니의 "저 불빛 보이니, 옛날 생각나네" 잔소리 대사 신규 트리거.</p></div>
+        <div class="card"><h4>⑦ 난파선 — 부모님이 타셨던 배의 잔해</h4><p>고장난 무전기 부품의 실제 발견 장소로 재설계(기존엔 고지대였음 — 감정적으로 더 강한 위치로 이동 제안). 선실에서 가족사진이 담긴 방수 케이스 발견.</p></div>
+        <div class="card"><h4>⑧ 유적 — 오래된 조난자의 캠프</h4><p>NEW 서브플롯: 수십 년 전 이 섬에 표류했다 못 나간 다른 조난자의 흔적(해골은 아니고 오래된 일기장) — "우리도 저렇게 될 뻔했다"는 무게감 부여, 엔딩 직전 마지막 텐션.</p></div>
+        <div class="card"><h4>⑥ 늪지 — 버려진 사냥꾼 오두막</h4><p>NPC는 아니지만 안에서 해독제 레시피 도면과 낡은 덫 발견 — 새 제작 레시피(사냥용 덫) 해금 지점.</p></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="gathering">
+      <div class="num">08</div>
+      <h2>채집 시스템</h2>
+      <p class="dek">지금(3D)은 나무/돌/베리 3종이 전부다. 8개 구역이 각자 다른 이유로 가치 있으려면
+      구역마다 고유 자원이 있어야 한다 — 전체 재설계안.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>구역</th><th>자원</th><th>티어</th><th>주 용도</th></tr></thead>
+          <tbody>
+            <tr><td>① 해변</td><td>유목, 조개, 야자열매, 바닷소금, 게</td><td>기초</td><td>초반 생존, 조미료(음식 버프)</td></tr>
+            <tr><td>② 밀림</td><td>나무, 섬유, 베리, 버섯(식용), 벌꿀, 덩굴</td><td>기초~중급</td><td>목공/섬유 계열 전 레시피 기반</td></tr>
+            <tr><td>③ 고지대</td><td>돌, 철광석, 매 깃털, 산양 가죽, 냉기 결정</td><td>중급</td><td>도구 티어업(철), 방한구</td></tr>
+            <tr><td>④ 동굴</td><td>구리, 은, 수정, 형광이끼, 박쥐 구아노(비료)</td><td>중~고급</td><td>고급 장비, 조명원, 농사(후속 확장 시)</td></tr>
+            <tr><td>⑤ 등대·절벽</td><td>등대 기름(매 지방 가공), 갈매기 알, 절벽 이끼(지혈제 재료)</td><td>중급</td><td>등대 점화, 고급 의료품</td></tr>
+            <tr><td>⑥ 늪지</td><td>독버섯, 갈대, 점토, 늪가스(연료)</td><td>중급(위험)</td><td>해독제, 도자기 그릇, 특수 연료</td></tr>
+            <tr><td>⑦ 난파선</td><td>고철, 밧줄, 화약, 유리병, 방수 천</td><td>고급</td><td>고급 도구, 신호탄, 유리병 편지(사이드 콘텐츠)</td></tr>
+            <tr><td>사냥(전 구역)</td><td>고기, 가죽, 뼈, 이빨/발톱</td><td>공용</td><td>음식, 방어구, 장신구</td></tr>
+            <tr><td>낚시(해안 전역)</td><td>일반 물고기, 심해어(밤 전용), 진주(희귀)</td><td>공용</td><td>음식, 진주는 고가 교환/장식 재료</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>채집 설계 원칙</h3>
+      <ul>
+        <li><strong>노드 리스폰 도입</strong> — 지금 3D는 한 번 캐면 영구 소멸(“Known simplifications”에 명시된 결함). 정식판은
+        자원 종류별 리스폰 타이머(나무 4~6시간, 광물 24시간 등)를 반드시 붙여야 장기 플레이가 성립.</li>
+        <li><strong>도구 상위호환 원칙 유지</strong> — 기존 설계의 "돌도끼→철도끼(시간-15%→-30%, 수확+1→+2)" 패턴을
+        모든 채집원에 동일하게 적용해 일관된 성장감을 준다.</li>
+        <li><strong>위험도가 높을수록 채집 자체가 미니게임화</strong> — 예: 늪지 독버섯은 "잘못 캐면 즉시
+        중독 판정"인 반면, 절벽 이끼는 로프 위에서 캐는 동안 시간제한(강풍 타이밍)을 준다 — 단순
+        "F키 연타"에서 벗어나는 구역별 차별화.</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="crafting">
+      <div class="num">09</div>
+      <h2>제작 시스템 — 전체 테크트리</h2>
+      <p class="dek">지금(3D) 제작 가능한 건 무기 7종뿐이다. 아래는 6티어 · 약 50종 레시피로 확장한
+      전체 설계 — 기존 15종 레시피를 골격으로 삼아 8구역 신규 자원을 흡수하도록 확장했다.</p>
+
+      <h4>Tier 0 · 맨손 시작 (정착 0~30분)</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td>돌칼</td><td>돌1+나무1</td><td>기본 채집 도구, 손질 가능하게 함</td></tr>
+          <tr><td>모닥불</td><td>나무5+돌3</td><td>요리, 밤 체온</td></tr>
+          <tr><td>이동식 집(3단계: 나뭇잎→나뭇잎텐트→텐트)</td><td>나뭇잎8+섬유4(레벨업마다 나무12+섬유6)</td><td>취침·저장 지점. <strong>2026-08-25 사용자 결정: 섬 전체에 1채만</strong> — 이미 있으면 새로 못 짓고 레벨업만 가능(중복 건축 차단). 내구도 존재, 닳으면 회복 효과 저하</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout">
+        <div class="label">2026-08-25 사용자 결정 — 쉘터 2단계 체계로 재설계</div>
+        <p>기존엔 "오두막 Lv.1~3" 하나가 정착~엔드게임을 전부 커버했지만, <strong>이동식 집(임시,
+        동료 무관, 1막부터 사용 가능)</strong>과 <strong>진짜 오두막(영구 정착지, 아래 Tier 3
+        참고)</strong>을 분리하기로 함. 이동식 집은 "오빠를 깨야 한다"(로드맵 참고)의 실제 구현체 —
+        1막 동안은 이 3단계 진행이 유일한 건축 콘텐츠다.</p>
+      </div>
+
+      <h4>Tier 1 · 기초 도구 (정착~밀림 진입)</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td>돌도끼 / 돌곡괭이</td><td>나무3+돌4~5</td><td>채집시간-15%, 수확+1(이관값 유지)</td></tr>
+          <tr><td>낚싯대</td><td>나무3+섬유2</td><td>낚시 가능</td></tr>
+          <tr><td>배낭 Lv.1</td><td>섬유4+가죽2</td><td>인벤토리 슬롯 +6</td></tr>
+          <tr><td>창</td><td>나무4+돌2</td><td>근접 무기(이관값)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Tier 2 · 생존 심화 (고지대 진입 전)</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td>가죽 갑옷/신발/모자</td><td>가죽·섬유(이관값)</td><td>방어력 합계 +8</td></tr>
+          <tr><td>붕대 / 지혈대 / 해독제</td><td>섬유·늪지 자원</td><td>의료(이관값 + 해독제 재료를 늪지 독버섯으로 명시)</td></tr>
+          <tr><td>훈제장</td><td>나무6+돌4</td><td>고기/생선 대량 보존(부패 없이 저장)</td></tr>
+          <tr><td>방한 망토</td><td>산양가죽3+섬유3</td><td>고지대 밤 저체온 저항</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Tier 3 · 정착 &amp; 건축</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td><strong>진짜 오두막</strong>(영구 정착지)</td><td>③고지대 능선에서만, 나무·섬유 대량</td><td>동료와 함께 사는 곳 — <strong>동료를 한 명도 못 만났으면 부지가 있어도 지을 수 없다</strong>(2026-08-25 결정)</td></tr>
+          <tr><td>수리 키트</td><td>가죽2+철광석1(여동생 재회 후 해금)</td><td>이동식 집·도구 내구도 회복 — 여동생이 없으면 레시피 자체가 안 보임</td></tr>
+          <tr><td>부엌</td><td>나무15+돌8+섬유5(기존 값)</td><td>할머니 요리 레벨 → 버프 음식 자동 생산</td></tr>
+          <tr><td>등대 기름통</td><td>매지방3+유리병2</td><td>⑤등대 점화(1회성 스토리 아이템)</td></tr>
+          <tr><td>덫(사냥용)</td><td>나무2+철광석1(늪지 오두막 도면 필요)</td><td>방치형 사냥 — 순찰 중 자동으로 소형 동물 포획</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout">
+        <div class="label">2026-08-25 사용자 결정 — 동료 없이는 정착 불가, 동료의 죽음 = 게임 종료</div>
+        <p><strong>진짜 오두막은 ③고지대 능선(부지 자체는 있음)에서만 지을 수 있고, 동료를 최소
+        1명 만나야 건축 가능</strong>하다 — 동료가 0명이면 자재가 충분해도 건축이 막힌다("동료를
+        못 만나면 장소가 있어도 집을 만들 수 없다"). 여기서 함께 사는 동료가 죽으면 <strong>기절도
+        리스폰도 아니고 게임이 그대로 종료</strong>된다 — 플레이어 본인의 죽음(쉘터 리스폰, 몇 번이든
+        재도전 가능)과는 완전히 다른, 훨씬 무거운 페널티로 의도적으로 설계. 진행 중 간간이 독백으로
+        복선을 깐다 — "부모님은 지금 뭐 하고 계실까", "동생이 있으면 이것보다 좋은 걸 만들 수
+        있을 텐데", "할머니가 해주시던 음식이 먹고 싶다" 등, 아직 만나지 못한 가족을 그리워하는
+        대사를 휴식·취침 시점에 확률적으로 노출한다(<a href="#story">5장</a> 대사 시스템과 같은
+        결의 콘텐츠).</p>
+      </div>
+
+      <h4>Tier 4 · 탐험 장비</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td>등반 로프 세트</td><td>섬유6+철광석2</td><td>⑤절벽 진입 조건 충족</td></tr>
+          <tr><td>손전등</td><td>철광석2+형광이끼3</td><td>④동굴 필수 장비, 횃불 상위호환(꺼지지 않음)</td></tr>
+          <tr><td>뗏목</td><td>유목10+밧줄4</td><td>⑦난파선 진입 조건 충족</td></tr>
+          <tr><td>잠수 장비</td><td>방수천3+대나무관2</td><td>수중 체류시간 2배, ⑦진입 완전 조건</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Tier 5~6 · 고급 &amp; 엔드게임</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>아이템</th><th>재료</th><th>효과</th></tr></thead>
+        <tbody>
+          <tr><td>철도끼/철곡괭이</td><td>나무3+돌2+철광석3(기존 값)</td><td>채집시간-30%, 수확+2</td></tr>
+          <tr><td>활 &amp; 화살</td><td>나무3+섬유2 / 나무1+깃털1</td><td>원거리 공격(이전 설계에서 보류였던 항목을 정식 편입)</td></tr>
+          <tr><td>은/수정 장신구</td><td>은2+수정1</td><td>패시브 버프(스탯 소모율 완화) — 신규 장신구 슬롯 도입 필요</td></tr>
+          <tr><td>신호탄</td><td>화약2+종이1</td><td>⑧유적 최종 퍼즐 아이템</td></tr>
+          <tr><td>생명의 영약</td><td>붕대2+지혈대2+해독제2+열매6(기존 값)</td><td>생명력 즉시 완전 회복(2026-08-25 재정의 — 기절 시스템 자체가 폐기돼 옛 용도인 "기절 누적 초기화"는 더 이상 없음)</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout">
+        <div class="label">경제 설계 노트</div>
+        <p>티어를 오를수록 <strong>"단일 구역 자원만으로는 못 만든다"</strong>는 원칙을 지켰다 — 예:
+        등반 로프는 밀림(섬유)+고지대(철광석)를 동시에 요구해, 상위 제작이 자연스럽게 여러 구역
+        순회를 강제하도록 설계.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="quests">
+      <div class="num">10</div>
+      <h2>퀘스트 설계</h2>
+      <p class="dek">지금은 "나무 5개 모으기" 수준 체크리스트 3개뿐이다. 정식판 퀘스트 전체 구조 —
+      메인 퀘스트 5막 + 캐릭터별 개인 퀘스트 + 구역 탐험 퀘스트.</p>
+
+      <h3>메인 퀘스트 — 5막 구조</h3>
+      <div class="milestones">
+        <div class="milestone">
+          <div class="when">1막</div>
+          <div><h4>표류</h4><p>난파 → 캐릭터 선택 → "일단 살아야 한다" — 모닥불 피우기, 첫 식수/음식 확보, 즉석 대피소 건설까지가 목표.</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">2막</div>
+          <div><h4>흩어진 가족</h4><p>오빠·여동생·할머니 순차 발견(순서는 플레이어 선택에 따라 유동). 각 재회 직후 소형 개인 퀘스트 하나씩 트리거(아래 참고). 첫 동료 재회로 ③고지대에 <strong>진짜 오두막</strong> 건축이 열리고, 완공으로 막 종료(2026-08-25 결정 — <a href="#crafting">9장</a> 참고. 1막의 이동식 집과는 별개 건물).</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">3막</div>
+          <div><h4>세 갈래 길</h4><p>③고지대 · ⑤등대 · ⑥늪지 중 원하는 순서로 탐험, 각 구역에서 부모님 단서 후보를 수집(붉은 청어 포함 — 가짜 단서로 긴장감 유지). 등대를 밝히는 게 이 막의 상징적 마일스톤.</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">4막</div>
+          <div><h4>난파선</h4><p>뗏목 제작 → ⑦난파선 진입 → 진짜 마지막 단서(가족사진 방수 케이스) 발견. 가장 위험한 구역이라 장비 요구치가 가장 높음 — 다른 3개 구역을 다 거쳐야 자연스럽게 준비됨.</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">5막</div>
+          <div><h4>유적과 재회</h4><p>⑧고대 유적 진입, 조난자 흔적으로 "우리가 못 나갔다면"의 무게감 부여 → 신호탄 발사 → 엔딩 시퀀스(3안, <a href="#story">5장</a> 참고).</p></div>
+        </div>
+      </div>
+
+      <h3>캐릭터별 개인 퀘스트 (2막 재회 직후 트리거)</h3>
+      <div class="cardgrid">
+        <div class="card"><h4>오빠 — "괜찮은 척"</h4><p>재회 직후엔 씩씩하지만 사실 다친 곳을 숨기고 있었다는 걸 밤에 우연히 발견 → 몰래 붕대를 챙겨주는 선택지가 이후 사기(morale) 시스템에 영구 보너스로 연결.</p></div>
+        <div class="card"><h4>여동생 — "무섭지 않은 척"</h4><p>혼자 버티는 동안 만든 "가짜 안전 표시"(나뭇가지로 만든 표식들)를 섬 곳곳에서 발견하는 소형 수집 퀘스트 — 다 모으면 그녀가 처음으로 무서웠다고 털어놓는 대사 발생.</p></div>
+        <div class="card"><h4>할머니 — "할아버지의 나침반"</h4><p>할머니가 몰래 챙겨온 할아버지의 유품(나침반)을 찾아달라는 요청 — ②밀림 어딘가에 떨어뜨렸다는 설정. 이니셜 나침반(부모님 단서)과 시각적으로 짝을 이루는 오브젝트로 디자인해 "잃어버림"의 모티프 반복.</p></div>
+      </div>
+
+      <h3>구역 탐험 퀘스트 (사이드)</h3>
+      <ul>
+        <li><strong>등대지기의 기록</strong>(⑤) — 등대 안에서 발견하는 낡은 항해일지, 섬의 과거 조난 사고 역사를 암시(⑧유적 서브플롯과 연결)</li>
+        <li><strong>늪지의 덫사냥꾼</strong>(⑥) — 오두막 주인이 누구였는지 추적하는 3단계 수집 퀘스트, 완료 시 사냥 특화 장비 도면 보상</li>
+        <li><strong>동굴의 메아리</strong>(④) — 동굴 깊은 곳에서 이상한 소리가 들린다는 루머 → 진입 시 그냥 박쥐떼(장난스러운 반전, 공포 연출을 의도적으로 배신하는 톤)</li>
+        <li><strong>유리병 편지</strong>(⑦, 반복형) — 난파선 주변에서 무작위로 발견되는 다른 조난자/선원들의 편지 — 수집형 로어 콘텐츠, 전부 모으면 도전과제</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="balance">
+      <div class="num">11</div>
+      <h2>밸런스 철학</h2>
+      <p class="dek">숫자를 어떤 원칙으로 조정하는가.</p>
+
+      <ul>
+        <li><strong>"챙겨야 할 것"이 항상 "싸울 것"보다 위</strong> — 야생동물 위협은 존재하되(해변
+        zone은 안전지대로 명시적 제외) 핵심 압박은 언제나 허기/수분/할머니 케어 쪽에서 온다.</li>
+        <li><strong>난이도는 캐릭터 선택으로 조절</strong>, 전투 난이도 슬라이더 대신 — 오빠/여동생/할머니
+        3인의 소모율·이동속도·잔병치레 유무 자체가 난이도 곡선이다.</li>
+        <li><strong>초기 밸런스는 항상 "너무 빡빡함"으로 시작해 낮춘다</strong> — 실제 조정 이력(레거시):
+        걷기 기력 소모 1.2→0.2/초(대폭 완화), 반대로 허기·수분 감소는 0.11→0.22, 0.17→0.32로 올림 —
+        "이동은 자유롭게, 대신 먹고 마시는 리듬은 계속 신경 쓰게" 라는 명확한 방향 전환이었다.</li>
+        <li><strong>플레이어 본인의 죽음은 가벼운 페널티다</strong> — 2026-08-25 재설계: 기절
+        누적(5회) 시스템은 폐기, 생명력 0 = 즉시 사망 → 쉘터로 리스폰 + 전 스탯 완전 회복 + 원인을
+        명시한 팝업. 몇 번이든 재도전 가능해야 "혼자 생존하는 재미"가 가혹하지 않게 유지된다는
+        판단.</li>
+        <li><strong>단, 동료의 죽음은 완전히 다른 급의 페널티다</strong> — 2026-08-25 결정: 함께
+        지내는 동료가 죽으면 리스폰 없이 <strong>게임이 그대로 종료</strong>된다. 플레이어 자신의
+        죽음은 "내 잘못으로 다시 시작"이지만, 동료의 죽음은 "돌이킬 수 없다"는 이 게임의 진짜
+        테마(가족을 지킨다)를 기계적으로 체감시키는 장치 — 가벼운 페널티(본인)와 무거운
+        페널티(동료)를 의도적으로 비대칭하게 설계.</li>
+      </ul>
+
+      <h3>스탯 소모율 — 캐릭터별 실제 수치</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>캐릭터</th><th>이동속도</th><th>허기 감소/초</th><th>수분 감소/초</th><th>기력 감소(걷기)/초</th><th>특이사항</th></tr></thead>
+          <tbody>
+            <tr><td>오빠</td><td>기준 100%</td><td>0.22</td><td>0.32</td><td>0.20</td><td>채집 속도 +10%, 전투 데미지 +15%</td></tr>
+            <tr><td>여동생</td><td>기준 110%</td><td>0.26</td><td>0.36</td><td>0.20</td><td>이동 빠름·소모 빠름(패널티 상쇄), 은신 발각률 -20%</td></tr>
+            <tr><td>할머니</td><td>기준 85%</td><td>0.18</td><td>0.28</td><td>0.30</td><td>요리 버프 효과 +25%, 기력 회복 더 느림(잔병치레)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>적/위협 난이도 곡선 (구역별)</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>위협</th><th>등장 구역</th><th>HP</th><th>공격력</th><th>대응 난이도</th></tr></thead>
+          <tbody>
+            <tr><td>늑대</td><td>③고지대(밀집), ②밀림(저확률)</td><td>15</td><td>4~6</td><td>돌창(6뎀) 3~4타로 처치, Tier1 장비면 안전</td></tr>
+            <tr><td>야생 소</td><td>①②구역</td><td>20</td><td>비공격(들이받기 회피형)</td><td>전투보다 채집·회피 학습용 저위협 개체</td></tr>
+            <tr><td>매</td><td>⑤등대·절벽</td><td>10</td><td>3(급강하 공격, 회피 가능)</td><td>패턴 학습형 — 타이밍 회피가 정면돌파보다 효율적</td></tr>
+            <tr><td>박쥐떼</td><td>④동굴</td><td>개체당 4</td><td>2(다수 동시)</td><td>물량형 — 광원 확보 시 자동 도주 유도(공포 X, 성가심 위주)</td></tr>
+            <tr><td>산양</td><td>③고지대</td><td>12</td><td>비공격(도주형)</td><td>사냥 난이도(추적) 자체가 도전 — HP 낮지만 잡기 어려움</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>자원 경제 페이싱</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>구간</th><th>목표 자원 축적량</th><th>리스폰 주기</th><th>설계 의도</th></tr></thead>
+          <tbody>
+            <tr><td>정착(0~1.5h)</td><td>나무 40 / 돌 20 / 섬유 15</td><td>해당 없음(1회성 채집으로 충분)</td><td>Tier0~1 전부 제작 가능한 여유 확보</td></tr>
+            <tr><td>탐험 초입(3~5h)</td><td>철광석 10 / 가죽 8</td><td>광물 24시간, 가죽(사냥) 즉시</td><td>Tier2~3 진입 시점에 "부족해서 더 캐야 한다"는 압박 도입</td></tr>
+            <tr><td>탐험 후반(5~7h)</td><td>구리·은·수정 각 3~5</td><td>동굴 자원 48시간(고의로 희소)</td><td>고급 장신구/장비를 "귀한 것"으로 인식시킴</td></tr>
+            <tr><td>엔드게임(7h~)</td><td>화약·방수천 각 5</td><td>난파선 전용, 방문당 고정량</td><td>파밍이 아니라 "정해진 최종 준비물"로 설계해 루프 피로 방지</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="playtime">
+      <div class="num">12</div>
+      <h2>플레이타임 설계 — 데모 3시간 / 정식 10시간</h2>
+      <p class="dek">목표 시간에 콘텐츠를 촘촘히 채우기 위한 구간별 설계.</p>
+
+      <div class="timeline">
+        <div class="tbar">
+          <div class="seg1" style="flex:1.5">정착 (0~1.5h)</div>
+          <div class="seg2" style="flex:1.5">재회 3인 (1.5~3h)</div>
+          <div class="seg3" style="flex:4">탐험·단서 (3~7h)</div>
+          <div class="seg4" style="flex:3">재결합 엔딩 (7~10h)</div>
+        </div>
+        <div class="tlegend">
+          <span><span class="dot" style="background:var(--gold)"></span>데모 구간(3h)</span>
+          <span><span class="dot" style="background:var(--accent)"></span>정식 도입부</span>
+          <span><span class="dot" style="background:var(--green)"></span>정식 중반</span>
+          <span><span class="dot" style="background:var(--blue)"></span>정식 후반</span>
+        </div>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>구간</th><th>목표 시간</th><th>주요 콘텐츠</th><th>감정 곡선</th></tr></thead>
+          <tbody>
+            <tr><td>정착</td><td>0~1.5h</td><td>난파 → 첫 캐릭터 선택 → 기본 채집/제작 튜토리얼 → 오두막 첫 건축</td><td>혼란 → 안정</td></tr>
+            <tr><td>재회 3인 <span class="chip warn">데모 종료점</span></td><td>1.5~3h</td><td>동료 2명 순차 재회, 첫 밀착 스트레스/가출 이벤트 경험, 부모님 회상 대사</td><td>안도 → 불안(가족도 쉽지 않다는 자각)</td></tr>
+            <tr><td>탐험·단서</td><td>3~7h</td><td>③고지대·⑤등대·⑥늪지·④동굴 순차 개방(3막), 단서 후보 수집, 도구 티어업(돌→철), 개인 퀘스트 3종 완료</td><td>목표 의식 상승, 압박감 증가</td></tr>
+            <tr><td>재결합 엔딩</td><td>7~10h</td><td>⑦난파선(4막)·⑧유적(5막) 진입, 최종 단서 조합, 3분기 엔딩 중 하나로 수렴, 엔딩 이후 자유 플레이(사이드 퀘스트/도전과제)</td><td>클라이맥스 → 카타르시스</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <div class="label">데모 설계 원칙</div>
+        <p>데모는 정식판을 "잘라서" 주지 않는다 — <strong>정착 + 재회 3인</strong> 구간을 완결된
+        감정적 단위(가족 전원과의 첫 재회)로 마무리하고, "이 다음 무슨 단서가 나올까"라는 궁금증을
+        남긴 채 끊는다. Steam 데모 표준(위시리스트 전환 목적)에 맞춰 3시간을 넘기지 않되, 정식판
+        구매 없이도 하나의 이야기로 완결감을 준다.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="commercial">
+      <div class="num">13</div>
+      <h2>상업성</h2>
+      <p class="dek">포지셔닝과 대략적인 사업성 가정. 1인 개발 기준 스팀 출시까지 걸리는 시간 벤치마크와
+      AI 활용 시 단축 폭, Steam AI 공개 정책은 별도 <a href="devplan.html" target="_blank" rel="noopener">개발 계획서</a>에서 다룬다.</p>
+
+      <div class="cardgrid">
+        <div class="card"><h4>가격대</h4><div class="big">₩14,900</div><p>1인 개발/소규모 팀 서바이벌 인디 표준 구간(Green Hell, Raft 초기가 대비 소폭 하단) — 콘텐츠가 얇은 초기 얼리액세스보다는 "완결된 10시간" 프리미엄을 정당화하는 가격</p></div>
+        <div class="card"><h4>플랫폼</h4><div class="big">PC → 후속</div><p>Steam 선출시. 3D 트랙이 안정화되면 Switch/모바일 이식 검토(3인 캐릭터 저사양 최적화가 이미 방향과 맞음)</p></div>
+        <div class="card"><h4>차별화 후크</h4><div class="big">가족</div><p>스토어 페이지 첫 화면부터 "이건 크래프팅 게임이 아니라 가족 이야기다"를 명확히 — 장르 피로층에게 새 앵글로 소구</p></div>
+        <div class="card"><h4>로컬라이즈 전략</h4><div class="big">KR→EN</div><p>한국어 원어 대사(잔소리·죄책감 화법)를 우선 완성 후 영어 번역 — "번역체"가 아닌 "진짜 정서"가 핵심 자산</p></div>
+      </div>
+      <p>
+        참고 사례: Coffee Talk(한국계 개발사 아님이지만 아시아 정서 활용), 산나비, 스컬 등 K-인디가
+        해외에서 "로컬 정서가 오히려 매력"으로 소비된 선례 — 이 게임의 할머니 잔소리·죄책감 화법
+        (NAG_LINES.guilt 등 이미 구현됨)이 같은 종류의 자산이 될 수 있다는 가설.
+      </p>
+
+      <h3>출시 이후 로드맵 — 3단계</h3>
+      <div class="milestones">
+        <div class="milestone">
+          <div class="when">출시+1개월</div>
+          <div><h4>무료 패치 — "다른 조난자들"</h4><p>⑧유적 서브플롯 확장, 유리병 편지 수집 콘텐츠 추가 10종, 사진모드 — 초반 리뷰/입소문 기간에 "계속 업데이트되는 게임"이라는 인상을 남기는 게 목적, 매출 없이 신뢰 축적.</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">출시+3개월</div>
+          <div><h4>유료 DLC — "겨울섬"(₩5,900)</h4><p>계절 시스템 도입(겨울 한정 구역 변형), 방한 장비 전용 테크트리, 신규 사이드 캐릭터 1인(다른 생존자) — 본편 재구매 없이 반복 플레이층 대상 수익화.</p></div>
+        </div>
+        <div class="milestone">
+          <div class="when">출시+6개월</div>
+          <div><h4>플랫폼 확장</h4><p>Switch 이식(3인 캐릭터 최적화 방향이 이미 저사양 친화적으로 설계됨) — PC 판매 곡선이 꺾이는 시점에 신규 유저층 유입으로 매출 재점화.</p></div>
+        </div>
+      </div>
+
+      <h3>수익성 가정 (보수적 추정)</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>지표</th><th>가정치</th><th>근거</th></tr></thead>
+          <tbody>
+            <tr><td>위시리스트→구매 전환율</td><td>4~6%</td><td>유사 규모 인디 서바이벌 평균(공식 통계 아님, 업계 통상 벤치마크)</td></tr>
+            <tr><td>Steam 순수익률</td><td>약 70%(30% 수수료 제외)</td><td>Steam 표준 정책</td></tr>
+            <tr><td>손익분기 목표 판매량</td><td>~3,000장</td><td>소규모 팀 인건비 대비 최소 회수선(별도 재무 모델 필요 — 가정치)</td></tr>
+            <tr><td>DLC 첨부율</td><td>15~20%</td><td>본편 완주 유저 중 스토리 만족도가 높을 때만 유효 — 상기 5장 재회 엔딩 완성도에 직결</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="roadmap">
+      <div class="num">14</div>
+      <h2>로드맵 &amp; 마일스톤</h2>
+      <p class="dek">전체 태스크 목록은 마스터 스프레드시트 <code>로드맵 마일스톤</code> 시트 참고, 세션별
+      상세 기록은 같은 시트의 <code>개발로그</code> 참고. 여기서는 굵직한 이정표만. 각 단계별 현실적
+      기간 추정은 <a href="devplan.html#our-plan" target="_blank" rel="noopener">개발 계획서</a> 참고.</p>
+
+      <div class="milestones">
+        <div class="milestone">
+          <div class="when">이관 소스</div>
+          <div>
+            <h4>레거시 코어 루프 <span class="chip done">DONE</span></h4>
+            <p>생존 4스탯, 채집/제작, 요리, 낮/밤, 3인 캐릭터, 할머니 동료, 위협(멧돼지), 맵 확장/구역/단서, UI 전면 개편까지 — 버티컬 슬라이스 완성 상태로 legacy-2d/에 보존, 3D 이관 대상.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="when">완료</div>
+          <div>
+            <h4>3D 프로토타입 1차 <span class="chip done">DONE</span></h4>
+            <p>Three.js 지형/바다/하늘, 플레이어 이동/전투/사냥/등반/수영, HUD 참고영상 반영, Unity 에셋 50종 확보(라이선스 확인 필요 다수).</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="when">다음</div>
+          <div>
+            <h4>버티컬 슬라이스(3D) <span class="chip warn">계획</span></h4>
+            <p>구역/안개/터 시스템 이식 여부 결정 → 동료 실제 능력치·대사 이식 → 세이브/로드 → 단서 3종 3D 이식. "데모 3시간" 구간이 3D에서 처음부터 끝까지 돌아가는 게 이 마일스톤의 완료 기준.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="when">이후</div>
+          <div>
+            <h4>콘텐츠 확장 <span class="chip warn">계획</span></h4>
+            <p>본 문서 <a href="#world">7~10장</a>에서 새로 설계한 8구역 월드/6티어 제작 트리/8종 채집표/5막 퀘스트를
+            실제 데이터·에셋으로 구현 — 동물 다양화(산양/매/박쥐), 등반·잠수·추적·조명관리 신규 동사 구현,
+            3분기 엔딩 시퀀스 제작, 사운드 디자인 착수.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="when">실험 후보</div>
+          <div>
+            <h4>AI 에이전트 동료(자유 채팅 지시) <span class="chip info">컨셉 — 우선순위 미정</span></h4>
+            <p><a href="#gameplay-agent">4장</a> 신규 컨셉 — 채팅으로 동료에게 자연어 지시 → LLM이
+            Function Calling으로 실제 게임 행동+대사 실시간 생성. 기존 시스템 이관(버티컬 슬라이스)이
+            끝나고 API 비용/지연/Steam 고지 요건을 검토한 뒤 붙일지 결정하는 실험적 확장 후보 — 지금
+            착수하는 항목 아님.</p>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="when">출시 전</div>
+          <div>
+            <h4>Steam 출시 체크리스트 <span class="chip risk">미착수 다수</span></h4>
+            <p>절차적 도형→정식 아트 에셋 교체, 튜토리얼/온보딩, 컨트롤러 지원, Electron/NW.js 래핑, Steamworks 연동, 상점 페이지 — 아트 방향 결정 외엔 전부 시작 전.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="problems">
+      <div class="num">15</div>
+      <h2>현재 문제점</h2>
+      <p class="dek">낙관적으로 포장하지 않고, 있는 그대로.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>문제</th><th>심각도</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td>이관 격차</td><td><span class="chip warn">중간(2026-08-24 대폭 축소)</span></td><td>2026-08-24 legacy-2d 대규모 이관으로 HP/전투, 3인 캐릭터+동료 실제 능력, 발견·가출/재회, 할머니 돌봄·요리레벨, 건축(오두막/부엌/모닥불)+취침+조리, 낮/밤, 도구티어링+방어구+의료+상태이상, 음식부패, 구역+미니맵, 부모님 단서까지 코드로 옮겨져 격차가 크게 줄었음(마스터 스프레드시트 3D 아이템 시트 41종). 부모님 재회 엔딩도 2026-08-24 사용자가 방향을 정해줘서(연락 닿음→구조선 접근→남녀 실루엣 목격, 정체는 끝까지 불명확한 열린 결말) 구현 완료. 남은 격차: 전체 가방/도감 UI, 미니맵 영구 안개기억, VFX·아이콘·사운드, 세이브/로드 — 전부 "이관 못한 것"이 아니라 "튜닝/신규 결정이 남은 것"으로 성격이 바뀜(자세한 건 CLAUDE.md 2026-08-24 항목·개발 계획서 10장)</td></tr>
+            <tr><td>콘텐츠 설계 ≫ 구현 격차 <span class="chip warn">신규</span></td><td><span class="chip risk">높음</span></td><td>본 문서 <a href="#world">7~10장</a>에서 8구역 월드·50종 제작 트리·8종 채집표·5막 퀘스트를 새로 설계했지만, 지금 실제로 구현된 건 여전히 자원 3종/무기 7종/단일 구역뿐 — 설계와 구현 사이 격차가 이 문서 안에서 가장 큼. <a href="#solutions">16장 1번</a> 참고</td></tr>
+            <tr><td>재회 엔딩 시퀀스 — 설계는 나왔으나 미구현</td><td><span class="chip warn">중간</span></td><td>5장에서 3분기 엔딩(완전한 재회/흔적을 통한 재회/스스로 살아남음)을 확정했지만 컷씬·연출은 아직 코드/에셋 없음 — "무엇을 만들지 모름"에서 "만들 것은 정해짐, 아직 안 만듦"으로 상태 전환</td></tr>
+            <tr><td>세이브/로드 없음</td><td><span class="chip warn">중간</span></td><td>미구현. Steam 출시 필수 조건인데 착수 전(이관 대상 아님 — 레거시에도 없던 기능)</td></tr>
+            <tr><td>3D 장비(무기 손에 쥐기) 없음</td><td><span class="chip warn">중간</span></td><td>무기 모델 7종을 확보했지만 손 본에 붙이는 코드가 없어 전투가 시각적으로 안 느껴짐</td></tr>
+            <tr><td>3D 동물 2종뿐</td><td><span class="chip warn">중간</span></td><td>늑대/소만 있고 레거시의 멧돼지 기반 성숙한 전투 시스템에 대응하는 다양성이 없음</td></tr>
+            <tr><td>Unity 에셋 다수 라이선스 미확인</td><td><span class="chip warn">중간</span></td><td>특히 침대/테이블(Furniture Mega Pack)과 검(Seven Swords)이 유료일 가능성 높음 — 상업 출시 전 필수 확인/교체 대상</td></tr>
+            <tr><td>3D 사운드 전무</td><td><span class="chip info">낮음(단, 체감 큼)</span></td><td>효과음/음악 0개 — 지금은 시각 피드백(토스트)에만 의존</td></tr>
+            <tr><td>3D 이펙트(VFX/파티클) 전무</td><td><span class="chip warn">중간(체감 사운드보다 큼)</span></td><td>EffectComposer는 화면 전체 블룸에만 사용, 채집/공격/사냥/모닥불 등 개별 이벤트 파티클은 0개 — 전투·채집이 시각적으로 아무 반응 없어 보임</td></tr>
+            <tr><td>커스텀 아이콘 아트 없음</td><td><span class="chip info">낮음</span></td><td>HUD는 시스템 이모지, 아이템 아이콘은 색상칩(배경색만)뿐 — 아이템 종류가 늘수록 색만으로 구분이 어려워짐</td></tr>
+            <tr><td>그래픽 톤 불일치</td><td><span class="chip info">낮음</span></td><td>로우폴리 Kenney 소품과 PBR Unity 에셋이 한 화면에서 스타일이 안 맞음(6장 참고)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="solutions">
+      <div class="num">16</div>
+      <h2>앞으로의 문제 해결 방안</h2>
+      <p class="dek">위 문제 각각에 대한 구체적 다음 액션.</p>
+
+      <ol>
+        <li><strong>콘텐츠 설계≫구현 격차</strong> — 우선순위는 착수 순서대로: ①⑦번 월드(구역 3~4개 먼저 —
+        해변/밀림/고지대는 이미 부분 존재하니 등대·늪지부터) ②9장 제작 트리 중 Tier1~2만 우선 데이터화
+        ③8장 채집표를 구역 신설과 동시 적용 ④10장 퀘스트는 메인 1~2막부터. 한 번에 다 만들지 않고
+        "데모 3시간 구간(정착+재회3인)"이 먼저 새 설계로 완결되게 하는 걸 최우선 마일스톤으로 삼는다.</li>
+        <li><strong>이관 격차</strong> — 다음 세션에서 "3D를 legacy-2d 수준까지 끌어올릴지, 3D를 의도적
+        축소판으로 확정할지"부터 사용자 결정을 받는다. 결정 전까지 3D에 새 기능을 얹기보다 이관
+        체크리스트(통합 대시보드 로드맵 탭 · 마스터 스프레드시트)를 계속 최신화해 결정 근거를 쌓는다.</li>
+        <li><strong>재회 엔딩</strong> — 설계(5장 3분기 A/B/C)는 확정됐으니, 다음은 각 분기별 컷씬
+        연출 스크립트를 작성하고 필요 에셋(구조대 보트, 무전기 클로즈업 등) 목록화부터 시작한다.</li>
+        <li><strong>세이브/로드</strong> — 레거시에도 없던 기능이라 참고할 기존 구현이 없음, catball
+        프로젝트의 localStorage 패턴을 참고해 3D 씬 상태 직렬화(플레이어 위치/인벤토리/사냥 진행도)
+        설계부터 시작. 버티컬슬라이스 마일스톤에 포함.</li>
+        <li><strong>장비 시스템</strong> — Aj의 손 본(bone)을 찾아 무기 오브젝트를 attach하는 최소
+        구현부터(애니메이션 동기화는 후순위) — 이미 모델은 다 있으니 코드만 남음.</li>
+        <li><strong>동물 다양성</strong> — 이번에 유효했던 방법(사용자가 Unity 폴더에 직접 에셋 추가)을
+        반복 — 멧돼지/토끼/새를 명시적으로 요청.</li>
+        <li><strong>라이선스 미확인 에셋</strong> — 마스터 스프레드시트 <code>라이선스체크</code> 시트의
+        🔴 표시(침대/테이블/검) 2건을 최우선으로 Unity 에셋스토어에서 직접 검색해 확정. 유료로
+        확인되면 즉시 CC0 대체재로 교체.</li>
+        <li><strong>사운드</strong> — Kenney/Poly Haven과 같은 CC0 오디오 소스(freesound.org CC0
+        필터, Kenney Audio 팩)부터 확인 — 지금까지의 "CC0 우선" 에셋 소싱 원칙을 그대로 적용 가능.</li>
+        <li><strong>그래픽 톤 불일치</strong> — 6장에서 제시한 두 방향(PBR 통일 vs 스타일라이즈)
+        중 하나를 다음 아트 논의에서 확정하고, 확정 즉시 우선순위 소품부터 순차 교체.</li>
+      </ol>
+    </section>
+
+    <!-- ============================================================ -->
+    <section id="risks">
+      <div class="num">17</div>
+      <h2>리스크</h2>
+      <p class="dek">범위를 넘어서는, 프로젝트 구조 자체의 위험 요소.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>리스크</th><th>영향</th><th>대응</th></tr></thead>
+          <tbody>
+            <tr><td>이관 누락</td><td>legacy-2d의 성숙한 시스템(동료 AI·구역/안개·40+ 아이템·대사)을 3D로 다 옮기지 못한 채 우선순위에 밀려 유실될 위험</td><td>통합 대시보드 로드맵 탭의 이관 체크리스트를 항목별로 하나씩 지워나가고, 이관 완료 전엔 legacy-2d/ 삭제 금지</td></tr>
+            <tr><td>라이선스 리스크</td><td>Unity 유료 에셋을 모르고 출시에 포함시킬 경우 법적/평판 리스크</td><td>🔴 표시 항목 우선 확인, 출시 전 전수 재검토를 마일스톤에 명문화</td></tr>
+            <tr><td>장르 포화</td><td>서바이벌 크래프팅은 Steam에서 이미 레드오션</td><td>"가족 관계"라는 명확한 차별점을 마케팅 첫 화면부터 전면에 — 장르 태그보다 감정 태그로 소구</td></tr>
+            <tr><td>번역 리스크</td><td>한국 정서 대사(죄책감 화법 등)가 번역 시 밋밋해질 위험</td><td>직역 대신 "같은 기능을 하는 다른 문화적 표현"으로 트랜스크리에이션 — 번역 단계를 별도 마일스톤화</td></tr>
+            <tr><td>AI 에이전트 동료(실험) 채택 시 리스크</td><td>런타임 API 비용이 판매량과 무관하게 유저 플레이량에 비례해 계속 나감(경량 모델 기준 유저당 약 100~300원 추정 — 개발 계획서 06장 참고), 부적절한 유저 입력에 대한 안전장치 실패 시 평판 리스크</td><td>착수 전 비용 부담 방식(유저 API 키 / 개발자 대납 / 하이브리드) 확정, 프롬프트 필터링 규칙을 별도 테스트 항목으로 마일스톤화 — <a href="#gameplay-agent">4장</a>, <a href="devplan.html#agent" target="_blank" rel="noopener">개발 계획서 06장</a> 참고</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  환장의 아일랜드 — 기획서 v1.0 · 2026-08-23 작성 · Claude가 islandsurvival/ 소스(3D 코드 + legacy-2d/ 이관
+  참고자료)와 CLAUDE.md/ASSETS.md/Roadmap.html·Characters.html·Items.html·Story.html을 근거로 작성.
+  전체 데이터는 <code>IslandSurvival_MasterDoc.xlsx</code>, 문서 간 탐색은 통합 허브 페이지 참고.
+</footer>
+</body>
+</html>
