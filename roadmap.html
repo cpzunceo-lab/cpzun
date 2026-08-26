@@ -175,6 +175,7 @@
     </div>
     <nav class="quicknav">
       <a href="#snapshot">지금 상태</a>
+      <a href="#act1-resources">1막 자원표</a>
       <a href="#critical">완성 필수 순위</a>
       <a href="#milestones">마일스톤</a>
       <a href="#risks">리스크</a>
@@ -214,6 +215,76 @@
           <tr><td>1막 생존 루프 심화</td><td><span class="chip warn">상당 부분 완료</span></td><td>피드백(VFX/사운드/UI)은 됨 — 날씨 압박·건축 차별화·탐험 동기가 남은 다음 최우선</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <section id="act1-resources">
+    <h2 class="eyebrow">01-2 · 1막 자원표</h2>
+    <h3 class="title">지금 도구 트리로 실제로 얻을 수 있는 것 — 확정 스코프</h3>
+    <p class="lead">
+      "1막에서 뭘 얻을 수 있는가"를 도구 트리 기준으로 확정한다. 상위 도구(도끼·곡괭이·괭이)는
+      1막 안에서 만들어지지 않는다는 전제로, 그 도구가 있어야만 나오는 자원은 자동으로 1막 밖으로
+      빠진다 — <strong>도구 게이팅이 곧 콘텐츠 게이팅</strong>이다. (2026-08-26,
+      <a href="item-full-compare.html" target="_blank" rel="noopener">아이템·레시피 전체 비교</a>의
+      제안 항목 중 1막에 실제로 들어갈 것만 골라 확정)
+    </p>
+    <div class="callout blue">
+      <div class="label">도구 게이팅 논리</div>
+      <p><strong>도끼 없음 → 통나무(log)만 못 얻는다.</strong> 그 외 목재 5종(나뭇가지·나뭇잎·
+      나무막대·나무덩굴·나무껍질)은 전부 맨손 채집 가능 — 통나무가 필요한 건축(부엌 등 대형
+      구조물)은 1막에서 자동으로 제외된다.</p>
+      <p><strong>곡괭이·괭이 없음 → 철(iron_ore)과 농사(작물 재배)는 1막에서 아예 접근 불가.</strong>
+      아래 "채집 가능" 표의 감자·버섯·당근은 재배가 아니라 <strong>야생에 저절로 자란 걸 그냥
+      채집</strong>하는 것 — 농사 시스템 자체는 괭이가 생기는 2막 이후 콘텐츠.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>제작 가능 (1막 확정)</th><th>상태</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>창</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
+          <tr><td>나무 몽둥이</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
+          <tr><td>모닥불</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
+          <tr><td>낚싯대</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
+          <tr><td>횃불</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
+          <tr><td>불씨</td><td><span class="chip info">신규 제안</span></td><td>부싯돌+불쏘시개로 만드는 발화 재료 — 지금은 모닥불이 발화를 즉시 해결하지만 원작처럼 별도 단계로 세분화 제안</td></tr>
+          <tr><td>불쏘시개</td><td><span class="chip info">신규 제안</span></td><td>불씨 제작용 채집 재료(마른 잎/풀 계열)</td></tr>
+          <tr><td>부싯돌</td><td><span class="chip info">신규 제안</span></td><td>불씨 제작용 채집 재료(돌 계열)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>채집 가능 (1막 확정)</th><th>상태</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>깃털</td><td><span class="chip info">신규 제안</span></td><td>닭 처치 시 확률 드롭</td></tr>
+          <tr><td>가죽</td><td><span class="chip done">이미 구현됨</span></td><td>사냥 확률 드롭</td></tr>
+          <tr><td>소금</td><td><span class="chip done">이미 구현됨</span></td><td>해안 채집 노드</td></tr>
+          <tr><td>코코넛</td><td><span class="chip info">신규 제안</span></td><td>해안 야자수 채집</td></tr>
+          <tr><td>파파야</td><td><span class="chip info">신규 제안</span></td><td>정글 채집</td></tr>
+          <tr><td>파인애플</td><td><span class="chip info">신규 제안</span></td><td><strong>둔기(나무 몽둥이 등)가 있어야 섭취 가능</strong> — 껍질이 단단해 맨손으론 못 먹는다는 설정, 다른 과일과 구분되는 고유 조건</td></tr>
+          <tr><td>바나나</td><td><span class="chip info">신규 제안</span></td><td>정글 채집</td></tr>
+          <tr><td>게</td><td><span class="chip info">신규 제안</span></td><td>해안 발밑 채집(전투 없이 F로 즉시 획득)</td></tr>
+          <tr><td>닭</td><td><span class="chip done">이미 구현됨</span></td><td>사냥(비공격성)</td></tr>
+          <tr><td>가리비</td><td><span class="chip info">신규 제안</span></td><td>해안 채집</td></tr>
+          <tr><td>바지락</td><td><span class="chip info">신규 제안</span></td><td>해안 채집</td></tr>
+          <tr><td>미역</td><td><span class="chip info">신규 제안</span></td><td>해안 채집</td></tr>
+          <tr><td>성게</td><td><span class="chip info">신규 제안</span></td><td>해안 채집(원작은 잠수 전용이지만 1막엔 다이빙 시스템이 없어 발밑 채집으로 단순화 제안)</td></tr>
+          <tr><td>감자</td><td><span class="chip info">신규 제안</span></td><td>내륙 채집 노드(재배 아님, 야생 채집)</td></tr>
+          <tr><td>버섯</td><td><span class="chip info">신규 제안</span></td><td>숲 채집 노드(재배 아님, 야생 채집)</td></tr>
+          <tr><td>당근</td><td><span class="chip done">이미 구현됨</span></td><td>내륙 채집 노드</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout gold">
+      <div class="label">낚시 시스템 — 신규 필요</div>
+      <p>지금 낚시(X키)는 확률 하나로 성공/실패만 갈리는 즉석 판정이다. 1막 확정 스펙: <strong>흔한
+      생선 3종만 낚인다</strong>(희귀 어종은 2막 이후 스테이지 확장과 함께 열림) — 매 시도마다
+      <strong>성공(물고기)/실패(허탕)/쓰레기</strong> 셋 중 하나가 랜덤으로 나오는 구조로 확장
+      제안. 쓰레기는 그 자체로 새 시스템(폐기물 처리? 재활용?)까지는 아니고, "낚시가 항상 뭔가는
+      건진다"는 손맛용 장치로 우선 도입.</p>
     </div>
   </section>
 
