@@ -32,11 +32,16 @@
   h1 { font-family: var(--serif); font-size: clamp(28px, 4.4vw, 40px); margin: 0 0 12px; text-wrap: balance; }
   p.dek { color: var(--ink-dim); max-width: 62ch; font-size: 15px; margin: 0 0 36px; }
   .grid { display: flex; flex-direction: column; gap: 12px; }
-  .card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; text-decoration: none; box-shadow: var(--shadow); transition: border-color 0.15s, transform 0.15s; }
-  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .card h2 { font-family: var(--serif); font-size: 19px; margin: 0 0 5px; color: var(--ink); }
-  .card p { margin: 0; font-size: 13.5px; color: var(--ink-faint); line-height: 1.6; }
+  .card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); transition: border-color 0.15s; }
+  .card:hover { border-color: var(--accent); }
+  .card h2 { font-family: var(--serif); font-size: 19px; margin: 0 0 5px; }
+  .card h2 a { color: var(--ink); text-decoration: none; }
+  .card h2 a:hover { color: var(--accent); }
+  .card p { margin: 0 0 8px; font-size: 13.5px; color: var(--ink-faint); line-height: 1.6; }
   .card .badge { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold); background: var(--gold-soft); border-radius: 999px; padding: 2px 9px; margin-bottom: 8px; }
+  .card .links { display: flex; gap: 14px; font-family: var(--mono); font-size: 11px; }
+  .card .links a { color: var(--ink-faint); text-decoration: none; }
+  .card .links a:hover { color: var(--accent); text-decoration: underline; }
   footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); line-height: 1.8; }
 </style>
 </head>
@@ -49,36 +54,42 @@
     브라우저로 직접 열면 된다. 문서끼리의 링크도 전부 이 폴더 안 파일을 가리키도록 돼 있다.
   </p>
   <div class="grid">
-    <a class="card" href="act1.html">
+    <div class="card">
       <div class="badge">지금 최우선</div>
-      <h2>1막 — 정착</h2>
+      <h2><a href="act1.html">1막 — 정착</a></h2>
       <p>지금 만들고 있는 범위만 떼어낸 문서. 구현 상태, 꺼놓은 것, 다음 우선순위.</p>
-    </a>
-    <a class="card" href="roadmap.html">
+      <div class="links"><a href="act1.html">이 문서</a><a href="https://claude.ai/code/artifact/518f6365-f396-4405-9f22-e6b033b8f878" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a></div>
+    </div>
+    <div class="card">
       <div class="badge">로드맵</div>
-      <h2>로드맵 &amp; 마일스톤</h2>
+      <h2><a href="roadmap.html">로드맵 &amp; 마일스톤</a></h2>
       <p>완성까지 남은 우선순위와 일정 — "다음에 뭘 할지"의 기준 문서.</p>
-    </a>
-    <a class="card" href="devplan.html">
+      <div class="links"><a href="roadmap.html">이 문서</a><a href="https://claude.ai/code/artifact/8e8ff2f9-53c6-405d-bfd6-9f529a6caab1" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a></div>
+    </div>
+    <div class="card">
       <div class="badge">계획</div>
-      <h2>개발 계획서</h2>
+      <h2><a href="devplan.html">개발 계획서</a></h2>
       <p>지금 뭘, 왜 그 순서로 하는지 — 결론부터 콤팩트하게.</p>
-    </a>
-    <a class="card" href="gdd.html">
+      <div class="links"><a href="devplan.html">이 문서</a><a href="https://claude.ai/code/artifact/b409574f-f824-4098-a407-15d5148a00d2" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a></div>
+    </div>
+    <div class="card">
       <div class="badge">전체 비전</div>
-      <h2>기획서 (GDD)</h2>
+      <h2><a href="gdd.html">기획서 (GDD)</a></h2>
       <p>게임 전체 라이프타임 비전 — 세계관·구역·시스템 풀 설계.</p>
-    </a>
-    <a class="card" href="dashboard.html">
+      <div class="links"><a href="gdd.html">이 문서</a><a href="https://claude.ai/code/artifact/29b17b16-7f27-44b4-8978-577f1ebbef29" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a></div>
+    </div>
+    <div class="card">
       <div class="badge">현황판</div>
-      <h2>통합 대시보드</h2>
+      <h2><a href="dashboard.html">통합 대시보드</a></h2>
       <p>지금까지 이관·구현된 항목 체크리스트.</p>
-    </a>
-    <a class="card" href="spreadsheet.html">
+      <div class="links"><a href="dashboard.html">이 문서</a><a href="https://claude.ai/code/artifact/d09e9b12-38f4-4c3d-bd7c-44bbd8c97352" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a></div>
+    </div>
+    <div class="card">
       <div class="badge">데이터</div>
-      <h2>마스터 스프레드시트</h2>
+      <h2><a href="spreadsheet.html">마스터 스프레드시트</a></h2>
       <p>아이템·레시피·에셋 전체 데이터 목록.</p>
-    </a>
+      <div class="links"><a href="spreadsheet.html">이 문서</a><a href="https://claude.ai/code/artifact/8aa6cab5-4194-4d47-b964-dadbad3632c4" target="_blank" rel="noopener">원본(Claude Artifact) ↗</a><a href="IslandSurvival_MasterDoc.xlsx">원본 .xlsx ↓</a></div>
+    </div>
   </div>
   <footer>
     이 폴더(islandsurvival/docs/)는 원본이 아니라 사본이다 — Claude Artifact가 원본이고,
