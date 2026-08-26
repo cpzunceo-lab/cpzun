@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아이템·레시피 전체 비교</title>
+</head>
+<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
+    --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
+    --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
+    --green: #6fa17e; --green-soft: #223225;
+    --red: #c9695a; --red-soft: #331f1c;
+    --blue: #6f9bab; --blue-soft: #1e2b30;
+    --gold: #d9b74a; --gold-soft: #332c17;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+    --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
+      --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+      --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+      --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+      --green: #3f7a52; --green-soft: #dfeadf;
+      --red: #a8452f; --red-soft: #f3ded9;
+      --blue: #3f7186; --blue-soft: #dbe7ea;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
+    --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
+    --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
+    --green: #3f7a52; --green-soft: #dfeadf;
+    --red: #a8452f; --red-soft: #f3ded9;
+    --blue: #3f7186; --blue-soft: #dbe7ea;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 56px 28px 120px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 16px 90px; } }
+
+  header.top { margin-bottom: 28px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(27px, 4.2vw, 38px); margin: 0 0 12px; text-wrap: balance; line-height: 1.25; }
+  header.top .dek { color: var(--ink-dim); max-width: 70ch; margin: 0 0 18px; font-size: 14.5px; line-height: 1.7; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 11px 0; }
+  .meta a { color: var(--ink-dim); }
+
+  nav.quicknav { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; position: sticky; top: 0; background: var(--bg); padding: 10px 0; z-index: 5; }
+  nav.quicknav a { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--panel); }
+  nav.quicknav a:hover { color: var(--ink); border-color: var(--accent); }
+
+  section { margin-top: 46px; }
+  section h2.eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 21px; margin: 0 0 8px; text-wrap: balance; }
+  section > p.lead { color: var(--ink-dim); max-width: 72ch; margin: 0 0 14px; font-size: 13.5px; }
+  h4.sub { font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.04em; margin: 20px 0 8px; }
+  h4.sub:first-of-type { margin-top: 8px; }
+
+  .scoreboard { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 18px; }
+  .score { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; }
+  .score b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .score .g { color: var(--green); }
+  .score .s { color: var(--gold); }
+  .score .n { color: var(--ink-faint); }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 8px 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 6px 9px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 6px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--panel-2); }
+
+  .st { display: inline-block; font-family: var(--mono); font-size: 9.5px; font-weight: 700; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+  .st.same { background: var(--green-soft); color: var(--green); }
+  .st.sim { background: var(--gold-soft); color: var(--gold); }
+  .st.none { background: var(--panel-2); color: var(--ink-faint); }
+
+  .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 17px; margin: 14px 0; }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+  .callout p { margin: 0; font-size: 13px; color: var(--ink-dim); }
+  .callout.gold { border-color: var(--gold); background: var(--gold-soft); }
+  .callout.gold .label { color: var(--gold); }
+  .callout.green { border-color: var(--green); background: var(--green-soft); }
+  .callout.green .label { color: var(--green); }
+
+  .baGrid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; margin: 14px 0; align-items: stretch; }
+  @media (max-width: 640px) { .baGrid { grid-template-columns: 1fr; } .baGrid .baArrow { display: none; } }
+  .baCol { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .baCol.before { border-left: 3px solid var(--red); }
+  .baCol.after { border-left: 3px solid var(--green); }
+  .baCol .baLabel { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .baCol.before .baLabel { color: var(--red); }
+  .baCol.after .baLabel { color: var(--green); }
+  .baCol p { margin: 0; font-size: 13px; color: var(--ink-dim); line-height: 1.6; }
+  .baCol p strong { color: var(--ink); }
+  .baArrow { display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-family: var(--mono); font-size: 18px; }
+
+  .changelog { display: flex; flex-direction: column; gap: 4px; margin: 14px 0 0; font-size: 12px; color: var(--ink-faint); font-family: var(--mono); }
+
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); }
+  footer a { color: var(--ink-dim); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="kicker">참고 자료 · 전체 대조</div>
+    <h1>아이템·레시피 전체 비교</h1>
+    <p class="dek">
+      <a href="liblue2-catalog.html" target="_blank" rel="noopener">전체 목록 문서</a>에 실린 항목을
+      <strong>하나도 빠짐없이</strong> 우리 게임의 현재 아이템/레시피와 대조한다. 격차가 확인되면
+      우선순위 높은 것부터 실제로 게임에 반영하고, 그 결과를 같은 표의 해당 칸에 바로 갱신한다 —
+      "무엇이 남았는지"와 "무엇을 이미 구현했는지"가 한 문서에서 계속 같이 갱신되는 살아있는
+      대조표다. <a href="craft-update.html" target="_blank" rel="noopener">제작 시스템 업데이트
+      비교</a>는 별도 문서로 그대로 두고, 이 문서는 카탈로그 전면 대조 전용으로 새로 판다.
+    </p>
+    <div class="meta">
+      <span>2026-08-26 작성 · 1차 배치 반영(어류 세분화·채소 신설)</span>
+      <a href="liblue2-catalog.html">전체 목록(원본 데이터)</a>
+      <a href="liblue2-analysis.html">시스템 분석(큐레이션)</a>
+      <a href="craft-update.html">별도 구현 기록(craft-update)</a>
+    </div>
+    <nav class="quicknav">
+      <a href="#progress">진행 기록</a>
+      <a href="#recipes">레시피(80)</a>
+      <a href="#furniture">가구(7)</a>
+      <a href="#tools">도구(9)</a>
+      <a href="#materials">재료(5분류)</a>
+      <a href="#plants">식물(28)</a>
+      <a href="#animals">동물(23)</a>
+      <a href="#fish">어패류(34)</a>
+      <a href="#summary">총평</a>
+    </nav>
+  </header>
+
+  <section id="progress">
+    <h2 class="eyebrow">00 · 진행 기록</h2>
+    <h3 class="title">1차 배치 — 어류 세분화 + 채소 카테고리 신설</h3>
+    <p class="lead">
+      전체를 한 번에 다 구현하기엔 너무 큰 작업이라(레시피80+가구7+도구9+재료24+식물28+동물23+
+      어류34, 사용자 확인) <strong>우선순위 높은 것부터 단계적으로</strong> 진행하기로 했다.
+      1차는 임팩트가 크면서 작업 범위가 명확한 두 가지: 낚시가 항상 같은 'fish' 하나만 주던 것과,
+      채소 카테고리 자체가 아예 없던 것.
+    </p>
+    <div class="baGrid">
+      <div class="baCol before">
+        <div class="baLabel">Before</div>
+        <p>낚시 성공 시 항상 <code>fish</code> 하나만 획득. 채소 카테고리 자체가 존재하지 않아
+        식용 채집물이 베리/사과/오렌지(전부 과일류)뿐이었다.</p>
+      </div>
+      <div class="baArrow">→</div>
+      <div class="baCol after">
+        <div class="baLabel">After</div>
+        <p>낚시 결과가 <strong>일반(72%)/도미(20%)/장어(8%)</strong> 3단계 희귀도로 갈림.
+        <strong>당근(채소)</strong> 채집 노드 신설 + 당근수프 레시피 추가.</p>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>신규 아이템</th><th>획득처</th><th class="num">허기</th><th class="num">수분</th><th>대응하는 LiB2 항목</th></tr></thead>
+        <tbody>
+          <tr><td>도미 / 도미 구이</td><td>낚시(20%) / 모닥불 조리</td><td>16 / 32</td><td>5 / 7</td><td>돔(어패류), 도미 구이(레시피)</td></tr>
+          <tr><td>장어 / 장어 구이</td><td>낚시(8%) / 모닥불 조리</td><td>20 / 38</td><td>3 / 8</td><td>뱀장어(어패류), 장어 구이(레시피)</td></tr>
+          <tr><td>당근</td><td>내륙 초지 채집 노드(160초 리스폰)</td><td>10</td><td>2</td><td>당근(식물·채소)</td></tr>
+          <tr><td>당근수프</td><td>제작(당근2+허브1)</td><td>28</td><td>14</td><td>삶기 계열 스프 요리군 — 채소 요리는 수분 비중을 높여 고기/생선 요리와 역할 차별화</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout green">
+      <div class="label">검증 방법</div>
+      <p>헤드리스 크롬으로 확인: 모닥불 조리 우선순위 표(COOKABLE)가 fish→snapper→eel→meat 순서로
+      정확히 변환되는지, carrot_soup 레시피가 재료를 정확히 소모하고 결과물을 만드는지, 당근
+      채집 노드가 실제로 존재하고(22개 스폰) 채집 시 인벤토리에 반영되는지(0→1) 확인. 콘솔 에러
+      0건.</p>
+    </div>
+    <div class="changelog">
+      <span>2026-08-26 (1차): 어류 세분화(도미/장어), 채소 신설(당근), 당근수프 레시피</span>
+    </div>
+  </section>
+
+  <section id="recipes">
+    <h2 class="eyebrow">01 · 레시피</h2>
+    <h3 class="title">80개 전체 대조</h3>
+    <p class="lead">
+      우리 게임은 "조리법"이 아니라 재료 종류로 갈린다 — 모닥불에서 굽는 동작 하나뿐이고, 결과는
+      물고기/고기 중 무엇을 넣었는지로만 갈린다(요리명이 재료마다 따로 있지 않음). 그래서 대응
+      칸은 개별 요리명이 아니라 "일반화된 우리 쪽 결과 아이템"으로 표시했다.
+    </p>
+    <div class="scoreboard">
+      <span class="score"><span class="g">동일</span> <b>3</b> / <span class="s">유사</span> <b>10</b> / <span class="n">없음</span> <b>67</b> / 총 <b>80</b></span>
+    </div>
+
+    <h4 class="sub">자르기 — 9개 (도구 불필요, 생식)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>계란 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>무 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>우엉 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>미역 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>버섯 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>전갱이 무침</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>농어 무침</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>모둠 생선회</td><td>날생선(fish) 그대로 섭취는 가능(조리 아님, 식중독 위험 있음)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>모둠 과일</td><td>사과/오렌지 날것 섭취(요리 아님)</td><td><span class="st sim">유사</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">굽기 — 13개 (불)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>구운 감자</td><td>—(감자 자체가 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>장어 구이</td><td><strong>장어 구이(eel_cooked)</strong> — 어종까지 일치(1차 배치 신설)</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>은어 소금구이</td><td><strong>소금구이 생선(seasoned_fish)</strong> — 소금 추가 조미 컨셉 동일</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>대합 구이</td><td>—(조개류 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>닭꼬치</td><td>구운 고기(meat_cooked) — 닭도 meat로 통합됨</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>연어 스테이크</td><td>구운 생선(fish_cooked)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>도미 구이</td><td><strong>도미 구이(snapper_cooked)</strong> — 어종까지 일치(1차 배치 신설)</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>산천어 소금구이</td><td>소금구이 생선(seasoned_fish)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>송어 버터구이</td><td>—(버터 재료 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>농어 통구이</td><td>구운 생선(fish_cooked)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>산천어 꼬치구이</td><td>구운 생선(fish_cooked)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>뱅에돔 포와레</td><td>구운 생선(fish_cooked)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>늑대고기 포와레</td><td>구운 고기(meat_cooked) — 늑대 고기도 meat로 통합됨</td><td><span class="st sim">유사</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">볶기 — 11개 (평평한 돌)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>돼지고기 열대식 구이</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>넙치 뫼니에르</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>게 오믈렛</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>버섯 오믈렛</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>이탈리안 오믈렛</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>바지락조개 버터구이</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>버섯 소테</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>우엉 뿌리</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>계란 후라이</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>송어 소테</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>농어 뫼니에르</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout gold">
+      <div class="label">볶기/삶기/튀기기/찌기 — 조리법 자체가 없음</div>
+      <p>우리 게임은 조리 스테이션이 모닥불(굽기) 하나뿐이라 이 4개 조리법(총 42개 레시피)은
+      전부 대응 없음. LiB2는 조리법마다 필요한 도구/구역이 달라 진행 단계별 요리 다양성이
+      늘어나는 구조인데, 우리는 아직 그 축 자체가 없다 — 로드맵 후보로 남길 만한 격차.</p>
+    </div>
+
+    <h4 class="sub">삶기 — 16개 (오목한 돌)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>샤브샤브 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>대합 야채 스프</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>클램차우더</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>포토프</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>정어리 경단 스프</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>양파 스프</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>비둘기 스프</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>오리 전골</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>삶은 계란</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>연어 전골</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>너구리 전골</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>돼지고기 된장국</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>사슴 전골</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>죽순 찜</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>늑대 전골</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>크림 스튜</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">튀기기 — 9개 (오목한 돌 + 기름)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>보리멸 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>양파 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>후라이드 포테이토</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>굴 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>전갱이 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>후라이드 치킨</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>야채 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>문절망둑 튀김</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>연근칩</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="sub">찌기 — 6개 (오목한 돌)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>레시피</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>감자 샐러드</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>꽃게찜</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>토란 찜</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>계란찜</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>푸딩</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>바다 성게</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="label">LiB2엔 없는데 우리 게임에만 있는 요리</div>
+      <p><strong>허브 스테이크(seasoned_meat)</strong>·<strong>허브차(herb_tea)</strong>·<strong>베리잼(berry_jam)</strong>·
+      <strong>당근수프(carrot_soup)</strong> — LiB2의 향신료/스프 개념을 참고했지만 재료명·조합은
+      새로 만들었다.</p>
+    </div>
+  </section>
+
+  <section id="furniture">
+    <h2 class="eyebrow">02 · 가구</h2>
+    <h3 class="title">7종 전체 대조</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="s">유사</span> <b>1</b> / <span class="n">없음</span> <b>6</b> / 총 <b>7</b></span>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>가구</th><th>효과</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>침대</td><td>수면 회복량 대폭 증가</td><td>별도 가구 아님 — 쉘터 레벨(텐트 단계)이 수면 회복률을 대신 결정</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>선반</td><td>인벤토리 5→20칸 확장</td><td>—(인벤토리 슬롯 제한 시스템 자체 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>훈제기</td><td>육포·어포 제조(3일)</td><td>—(장시간 대기 제작 시스템 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>테이블 세트</td><td>식사 만족도+30%, 동료 효율↑</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>집(거점)</td><td>거점 3곳 각각 건축</td><td><strong>이동식 집(hut)</strong> — 개념은 같지만 섬 전체에 1채만 (의도적 단순화)</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>뗏목</td><td>호수·유적 접근</td><td>—(수상 이동 수단 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>좋은 뗏목</td><td>탈출 엔딩 조건</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="tools">
+    <h2 class="eyebrow">03 · 도구</h2>
+    <h3 class="title">9개 카테고리 전체 대조</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="g">동일</span> <b>3</b> / <span class="s">유사</span> <b>4</b> / <span class="n">없음</span> <b>2</b> / 총 <b>9</b></span>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>카테고리</th><th>LiB2 세부(개수)</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>불쏘시개</td><td>불씨, 활비비(2종)</td><td>—(발화 자체가 모닥불 건축(campfire_kit)으로 즉시 해결, 별도 도구 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>작살</td><td>대나무/나무 × 무촉·돌촉·뼈촉 + 철작살(7종)</td><td><strong>창(spear) / 뼈창(bone_spear)</strong> — 재질 티어 개념은 있으나 "작살"이 아니라 육상 근접무기 역할</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>횃불</td><td>나무/대나무 횃불(2종)</td><td><strong>torch(횃불)</strong> — 재질 구분 없이 1종</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>덫</td><td>소형덫/대형덫/어망(3종)</td><td>—(덫 시스템 없음, 사냥은 근접·원거리 전투뿐)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>낚싯대</td><td>대나무/나무 × 돌바늘·뼈바늘(4종)</td><td><strong>fishing_rod</strong> — 재질/바늘 구분 없이 1종</td><td><span class="st sim">유사</span></td></tr>
+        <tr><td>루어(미끼)</td><td>둥근/가는/긴 × A·B·C + 스페셜(10종)</td><td>—(낚시는 확률 판정만, 미끼 아이템 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>활 &amp; 화살</td><td>나무활/대나무활 + 화살(촉×깃×재질, 7종)</td><td><strong>bow + arrow</strong> — 각 1종, 업그레이드 트리 없음(활은 데미지 판정 자체가 없는 별개 이슈, craft-update 참고)</td><td><span class="st same">동일(개수 기준)</span></td></tr>
+        <tr><td>액세서리(목걸이)</td><td>7가지 보석→목걸이, 호감도/탐사로 획득</td><td>—(장신구·선물 시스템 없음, 동료 비활성 상태와도 무관하게 미구현)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>방어구</td><td><em>(LiB2엔 별도 방어구 카테고리 없음)</em></td><td><strong>가죽 갑옷/신발/모자(leather_armor/boots/hat)</strong> — 우리 게임 고유 카테고리</td><td><span class="st same">우리만 있음</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="materials">
+    <h2 class="eyebrow">04 · 재료</h2>
+    <h3 class="title">5개 분류 전체 대조 (24개 세부 항목)</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="g">동일</span> <b>5</b> / <span class="s">유사</span> <b>4</b> / <span class="n">없음</span> <b>15</b> / 총 <b>24</b></span>
+    </div>
+
+    <h4 class="sub">기본(목재) — 6종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>나무덩굴</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>나무껍질</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>나뭇잎</td><td>hut 레시피 재료로 "나무/섬유"에 뭉뚱그려짐(별도 아이템 아님)</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>통나무</td><td>wood(나무) — 통나무/나뭇가지 구분 없이 통합</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>나무막대</td><td>wood(나무)로 통합</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>나뭇가지</td><td><strong>twig(나뭇가지)</strong> — 이름·역할 거의 동일</td><td><span class="st same">동일</span></td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">동물성 — 4종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>큰 뼈</td><td><strong>bone(뼈)</strong> — 이번 갱신에서 사냥 드롭으로 신설</td><td><span class="st same">동일</span></td></tr>
+      <tr><td>모피</td><td><strong>leather(가죽)</strong> — 이번 갱신에서 사냥 드롭으로 신설</td><td><span class="st same">동일</span></td></tr>
+      <tr><td>깃털</td><td>—(화살 명중률 시스템 자체가 없어 용도가 없음)</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>기름</td><td>—(연료/튀기기 조리법 자체가 없음)</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">광물 — 2종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>돌</td><td><strong>stone(돌)</strong> — 동일</td><td><span class="st same">동일</span></td></tr>
+      <tr><td>뾰족한 돌</td><td>—(가공 2단계 없음, 돌 자체가 곧 최종 재료)</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">특수 — 4종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>대나무</td><td>—(대나무 지역/재료 구분 없음)</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>뾰족한 뼈</td><td>bone(뼈)에 통합(가공 단계 없음)</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>바구니</td><td>—(파트너 제작 요청 시스템 자체가 없음, 동료 비활성)</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>철 막대기</td><td><strong>iron_ore(철광석)</strong> — 획득처가 잠수/기후 대신 돌 채집 중 확률 드롭으로 단순화</td><td><span class="st sim">유사</span></td></tr>
+    </tbody></table></div>
+
+    <h4 class="sub">양념 — 8종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>돌소금</td><td><strong>salt(소금)</strong> — 이번 갱신에서 해안 채집으로 신설</td><td><span class="st same">동일</span></td></tr>
+      <tr><td>후추</td><td>herb(허브)에 통합(향신료 전반을 한 아이템으로 단순화)</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>나무 수액</td><td>herb(허브)에 통합</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>보랏빛 콩</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>고추</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>노란 봉오리</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>갈색 열매</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>물빛 열매</td><td>—</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+    <div class="callout gold">
+      <div class="label">향신료 8종 → 2종으로 압축</div>
+      <p>LiB2는 향신료 8종이 요리마다 다르게 조합되지만, 우리는 <strong>소금(짠맛 계열)</strong>과
+      <strong>허브(그 외 모든 맛 계열)</strong> 단 2종으로 압축했다 — "조미료가 있으면 더 낫다"는
+      느낌만 재현하고 8종의 조합 최적화 재미는 의도적으로 덜어냈다(craft-update.html에 이미 명시된
+      단순화 원칙과 일치).</p>
+    </div>
+  </section>
+
+  <section id="plants">
+    <h2 class="eyebrow">05 · 식물</h2>
+    <h3 class="title">채소·과일·버섯 28종 전체 대조</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="g">동일</span> <b>1</b> / <span class="s">유사</span> <b>1</b> / <span class="n">없음</span> <b>26</b> / 총 <b>28</b></span>
+    </div>
+
+    <h4 class="sub">채소 — 12종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>죽순</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>당근</td><td><strong>당근(carrot)</strong> — 이름·역할 동일(1차 배치 신설, 내륙 채집 노드)</td><td><span class="st same">동일</span></td></tr>
+      <tr><td>민들레</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>우엉</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>양파</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>감자</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>무우</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>토란</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>산파</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>고사리</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>쑥</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>연근</td><td>—</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+    <p class="note" style="color:var(--ink-faint);font-size:12.5px;margin:0 0 14px">당근으로 채소 카테고리 자체는 열렸다(1차 배치) — 나머지 11종은 다음 배치 후보.</p>
+
+    <h4 class="sub">과일 — 8종</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+      <tr><td>코코넛</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>파파야</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>산딸기</td><td><strong>berry(베리)</strong> — 가장 근접한 대응(정확히 같은 종은 아님)</td><td><span class="st sim">유사</span></td></tr>
+      <tr><td>빵나무 열매</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>바나나</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>파인애플</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>구아바</td><td>—</td><td><span class="st none">없음</span></td></tr>
+      <tr><td>시계꽃 열매</td><td>—</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+    <p class="note" style="color:var(--ink-faint);font-size:12.5px;margin:0 0 14px">우리 게임의 <strong>사과(apple)/오렌지(orange)</strong>는 LiB2 목록에 없는 종 — 대응 없음으로 처리(반대 방향 격차, 아래 "우리만 있음" 참고).</p>
+
+    <h4 class="sub">버섯 — 8색 (전부 포만감 3%)</h4>
+    <div class="tablewrap"><table><thead><tr><th>색</th><th>우리 게임 대응</th><th>상태</th></tr></thead><tbody>
+        <tr><td>검은색/파란색/갈색/오렌지색/보라색/빨간색/하얀색/노란색</td><td>—(버섯 채집·감별 시스템 자체가 없음)</td><td><span class="st none">없음</span></td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="animals">
+    <h2 class="eyebrow">06 · 동물</h2>
+    <h3 class="title">23종 전체 대조</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="g">동일</span> <b>3</b> / <span class="n">없음</span> <b>20</b> / 총 <b>23</b></span>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>이름</th><th>포획 방법(LiB2)</th><th>우리 게임 대응</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>소라 게</td><td>발밑 터치</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>모래 게</td><td>발밑 터치</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>코코넛 게</td><td>발밑 터치</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>남생이</td><td>발밑 터치</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>도마뱀</td><td>발밑 터치</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>반시뱀</td><td>포획 불가(위협)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>독거미</td><td>포획 불가(위협)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>멧돼지</td><td>덫(대), 활</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>오리</td><td>덫(소), 활</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>사슴</td><td>덫(대)</td><td><strong>사슴(deer)</strong> — 동일 종, 비공격성</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>너구리</td><td>활(철화살)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>닭</td><td>덫(소), 활</td><td><strong>닭(chicken)</strong> — 동일 종, 비공격성</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>토끼</td><td>활</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>쥐</td><td>덫(소)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>비둘기</td><td>덫(소), 활</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>염소</td><td>덫(대)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>살쾡이</td><td>활(철화살)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>다람쥐</td><td>덫(소)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>늑대</td><td>무기 타격</td><td><strong>늑대(wolf)</strong> — 동일 종, 유일하게 hostile 플래그 보유(현재 공격성 0으로 꺼둠)</td><td><span class="st same">동일</span></td></tr>
+        <tr><td>호랑이</td><td>포획 불가(스토리 보스)</td><td>—(보스전 시스템 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>악어</td><td>포획 불가(스토리 보스)</td><td>—</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>고릴라</td><td>포획 불가(호감도 교환)</td><td>—(NPC 교환 시스템 없음)</td><td><span class="st none">없음</span></td></tr>
+        <tr><td>백상어</td><td>포획 불가(위협)</td><td>—(다이빙 시스템 없음)</td><td><span class="st none">없음</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <div class="label">LiB2엔 없는데 우리 게임에만 있는 동물</div>
+      <p><strong>소(cow)</strong> — LiB2 목록엔 없는 종. 대형 비공격 사냥감이자(가축화된 염소가 우유를
+      주는 것과 달리) 순수 사냥·가죽/뼈 공급원 역할로 우리 게임에 새로 넣은 것.</p>
+    </div>
+  </section>
+
+  <section id="fish">
+    <h2 class="eyebrow">07 · 어패류</h2>
+    <h3 class="title">조개 8종 + 어류 26종 전체 대조</h3>
+    <div class="scoreboard">
+      <span class="score"><span class="s">유사</span> <b>3</b> / <span class="n">없음</span> <b>31</b> / 총 <b>34</b></span>
+    </div>
+    <p class="lead">
+      1차 배치 전엔 <strong>fish(물고기)</strong> 단 하나로 조개류·어류를 전부 뭉뚱그렸지만, 이제
+      일반/도미/장어 3단계 희귀도가 생겨 LiB2의 흔한 어종(전갱이)·고급 어종(돔)·이벤트성 어종
+      (뱀장어) 3개와 개념적으로 대응한다. LiB2는 서식지·시간대(간조/만조/한밤중)까지 갈리는 34종
+      개별 개체라 나머지 31종은 여전히 "없음"— 종별로 반복하는 대신 표로 존재 목록만 남긴다.
+    </p>
+    <h4 class="sub">조개류 — 8종 (전부 대응 없음)</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>서식지</th></tr></thead><tbody>
+      <tr><td>전복</td><td>해변1·3·4</td></tr>
+      <tr><td>바지락</td><td>해변1~4</td></tr>
+      <tr><td>대합</td><td>해변1~4</td></tr>
+      <tr><td>가리비</td><td>해변1·3·4</td></tr>
+      <tr><td>굴</td><td>해변1·3·4</td></tr>
+      <tr><td>가막조개</td><td>해변1</td></tr>
+      <tr><td>미역</td><td>해변1~3</td></tr>
+      <tr><td>성게</td><td>해변1·3·4</td></tr>
+    </tbody></table></div>
+    <h4 class="sub">어류 — 26종 (전갱이/돔/뱀장어만 1차 배치로 대응 생김)</h4>
+    <div class="tablewrap"><table><thead><tr><th>이름</th><th>서식지</th><th>우리 게임 대응</th></tr></thead><tbody>
+      <tr><td>전갱이</td><td>해변2</td><td>일반 어종(fish) — 가장 흔한 등급과 대응</td></tr>
+      <tr><td>등목어</td><td>간조 때 해변2</td><td>—</td></tr>
+      <tr><td>보리멸</td><td>해변1</td><td>—</td></tr>
+      <tr><td>복어</td><td>해변1·3</td><td>—</td></tr>
+      <tr><td>곰치</td><td>해변3</td><td>—</td></tr>
+      <tr><td>정어리</td><td>해변1~3</td><td>—</td></tr>
+      <tr><td>볼락</td><td>해변1·4</td><td>—</td></tr>
+      <tr><td>쥐치</td><td>해변2·3</td><td>—</td></tr>
+      <tr><td>넙치</td><td>간조 때 해변3·4</td><td>—</td></tr>
+      <tr><td>돔</td><td>만조 때 해변3</td><td><strong>도미(snapper)</strong> — 고급 어종 등급과 대응</td></tr>
+      <tr><td>비늘돔</td><td>만조 때 해변4</td><td>—</td></tr>
+      <tr><td>뱅에돔</td><td>만조 때 해변2</td><td>—</td></tr>
+      <tr><td>문절망둑</td><td>간조 때 해변3</td><td>—</td></tr>
+      <tr><td>농어</td><td>만조 때 해변4</td><td>—</td></tr>
+      <tr><td>은어</td><td>해변1 강가</td><td>—</td></tr>
+      <tr><td>메기</td><td>호수 우측 상단</td><td>—</td></tr>
+      <tr><td>검농어</td><td>초원 강 상류</td><td>—</td></tr>
+      <tr><td>아로와나</td><td>해변2 유적 왼쪽 방</td><td>—</td></tr>
+      <tr><td>잉어</td><td>해변2 유적 중앙 방</td><td>—</td></tr>
+      <tr><td>뱀장어</td><td>한밤중 호수의 섬</td><td><strong>장어(eel)</strong> — 희귀 어종 등급과 대응</td></tr>
+      <tr><td>붕어</td><td>모든 강</td><td>—</td></tr>
+      <tr><td>곤들매기</td><td>초원 징검다리</td><td>—</td></tr>
+      <tr><td>연어</td><td>호수</td><td>—</td></tr>
+      <tr><td>산천어</td><td>해변2 강</td><td>—</td></tr>
+      <tr><td>일본 송어</td><td>해변2 유적 오른쪽 방</td><td>—</td></tr>
+      <tr><td>무지개송어</td><td>호수</td><td>—</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section id="summary">
+    <h2 class="eyebrow">08 · 총평</h2>
+    <h3 class="title">숫자로 본 격차</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>카테고리</th><th>LiB2 총계</th><th>동일</th><th>유사</th><th>없음</th></tr></thead>
+      <tbody>
+        <tr><td>레시피</td><td>80</td><td>3</td><td>10</td><td>67</td></tr>
+        <tr><td>가구</td><td>7</td><td>0</td><td>2</td><td>5</td></tr>
+        <tr><td>도구</td><td>9(카테고리)</td><td>3</td><td>4</td><td>2</td></tr>
+        <tr><td>재료</td><td>24(세부)</td><td>5</td><td>4</td><td>15</td></tr>
+        <tr><td>식물</td><td>28</td><td>1</td><td>1</td><td>26</td></tr>
+        <tr><td>동물</td><td>23</td><td>3</td><td>0</td><td>20</td></tr>
+        <tr><td>어패류</td><td>34</td><td>0</td><td>3</td><td>31</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout gold">
+      <div class="label">이 숫자를 어떻게 읽어야 하나</div>
+      <p>"없음"이 압도적으로 많은 건 우리 게임이 미완성이라서가 아니라, LiB2가 <strong>완성판 풀
+      콘텐츠(어종 34개, 레시피 80개짜리 엔드게임 루프)</strong>이고 우리는 <strong>1막 솔로 생존
+      데모</strong>이기 때문이다 — 두 게임의 완성도 단계 자체가 다르다. 이 문서의 목적은 "우리가
+      뒤처졌다"를 보여주는 게 아니라, <strong>다음에 콘텐츠를 늘릴 때 어느 축(요리 조리법 다양화,
+      어종 세분화, 채소 카테고리 신설, 장신구/선물 시스템 등)이 아직 손 안 댄 채 남아있는지</strong>를
+      한눈에 확인하기 위한 지도다.</p>
+    </div>
+    <div class="callout">
+      <div class="label">다음 배치 후보 (우선순위순)</div>
+      <p>① 채소 나머지 11종 중 2~3종 추가(감자·양파·산파 등 — 당근과 같은 패턴으로 확장 쉬움)
+      ② 가구 침대/선반 신설(수면 회복률·인벤토리 확장과 직결, 지금 텐트 레벨 시스템에 얹을 수
+      있음) ③ 굽기 외 조리법 1개 추가(삶기 — 스프류로 채소/고기 조합 레시피 다양화)
+      ④ 도구 재질 티어 확장(대나무/철 등급 낚싯대·활). 다음에 이 문서를 열면 이 목록에서
+      골라 이어간다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>이 문서는 <a href="liblue2-catalog.html" target="_blank" rel="noopener">전체 목록</a>의
+    모든 항목을 하나도 빠짐없이 우리 게임 현재 상태와 대조하고, 배치가 진행될 때마다 해당 칸을
+    직접 갱신하는 살아있는 카탈로그 대조표다 — <a href="craft-update.html" target="_blank" rel="noopener">제작 시스템 업데이트 비교</a>
+    (개별 시스템 변경 기록)와는 별개 문서로 유지한다. 2026-08-26 (1차 배치 반영).</div>
+  </footer>
+</div>
+</body>
+</html>
