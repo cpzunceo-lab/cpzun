@@ -203,6 +203,7 @@
     <div class="changelog">
       <span>2026-08-26: 어류 세분화(도미/장어), 채소 신설(당근) — 실제 코드 반영, 검증 완료</span>
       <span>2026-08-26: 나머지 전 항목에 원본 사용법 + 설계안 병기 — 미구현, 승인 대기</span>
+      <span>2026-08-26: 양념(8종)·기본목재(6종) 제안을 압축안 대신 원작과 동일한 개별 도입안으로 교체 — 문서만, 미구현</span>
     </div>
   </section>
 
@@ -381,26 +382,34 @@
     <h2 class="eyebrow">04 · 재료</h2>
     <h3 class="title">5개 분류 24개 전체 — 원본 사용법 vs 우리 게임 제안</h3>
     <div class="scoreboard">
-      <span class="score"><span class="g">구현됨</span> <b>9</b> / <span class="p">제안</span> <b>13</b> / <span class="n">보류</span> <b>2</b> / 총 <b>24</b></span>
+      <span class="score"><span class="g">구현됨</span> <b>7</b> / <span class="p">제안</span> <b>15</b> / <span class="n">보류</span> <b>2</b> / 총 <b>24</b></span>
     </div>
 
-    <h4 class="sub">기본(목재) — 6종</h4>
+    <h4 class="sub">기본(목재) — 6종 <span style="color:var(--blue);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(2026-08-26 갱신: 압축 대신 원작과 동일하게 6종 개별 도입으로 제안 변경)</span></h4>
     <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 장소·용도</th><th class="mine">제안(우리 게임 버전)</th><th>상태</th></tr></thead><tbody>
-      <tr><td>나무덩굴</td><td class="orig">정글 — 가구 핵심 재료</td><td>wood 채집 확률 부산물로 흡수 제안 — 가구 전용 신규 아이템은 과설계로 판단, 비권장</td><td><span class="st skip">보류(비권장)</span></td></tr>
-      <tr><td>나무껍질</td><td class="orig">해변1~4·초원·평원 — 불씨 제작</td><td>wood(나무)에 통합 — 발화가 즉시 해결되는 구조라 별도 재료 불필요</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>나뭇잎</td><td class="orig">해변1~3·초원 — 가구 외관</td><td>hut 레시피 재료로 wood/fiber에 흡수 — 별도 아이템 아님</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>통나무</td><td class="orig">해변2·정글·습지 — 대형 가구 판재</td><td>wood(나무)로 통합</td><td><span class="st done">구현됨(유사)</span></td></tr>
-      <tr><td>나무막대</td><td class="orig">해변2·4·초원·평원 — 도구 제작</td><td>wood(나무)로 통합</td><td><span class="st done">구현됨(유사)</span></td></tr>
-      <tr><td>나뭇가지</td><td class="orig">해변1~4·초원·평원 — 장작/도구</td><td><strong>twig</strong> — 이름·역할 거의 동일</td><td><span class="st done">구현됨</span></td></tr>
+      <tr><td>나무덩굴</td><td class="orig">정글 — 가구 핵심 재료</td><td>신규 <code>vine</code>(나무덩굴) 도입 — 정글/내륙 채집, hut·kitchen 등 가구 레시피 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나무껍질</td><td class="orig">해변1~4·초원·평원 — 불씨 제작</td><td>신규 <code>bark</code>(나무껍질) 도입 — 발화 도구를 별도로 신설할 경우의 전용 재료(지금은 모닥불이 발화를 즉시 해결하지만, 원작처럼 별도 아이템으로 남겨둠)</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나뭇잎</td><td class="orig">해변1~3·초원 — 가구 외관</td><td>신규 <code>leaf</code>(나뭇잎) 도입 — hut(이동식 집) 레시피의 "나뭇잎" 재료를 이름 그대로 승격</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>통나무</td><td class="orig">해변2·정글·습지 — 대형 가구 판재</td><td>신규 <code>log</code>(통나무) 도입 — 대형 건축(오두막·뗏목 등 상위 구조물) 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나무막대</td><td class="orig">해변2·4·초원·평원 — 도구 제작</td><td>신규 <code>stick</code>(나무막대) 도입 — 무기/도구 레시피 전용 재료로 wood와 분리</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나뭇가지</td><td class="orig">해변1~4·초원·평원 — 장작/도구</td><td><strong>twig</strong> — 이름·역할 이미 동일</td><td><span class="st done">구현됨</span></td></tr>
     </tbody></table></div>
+    <div class="callout blue">
+      <div class="label">6종으로 나누면 기존 레시피 15개 이상을 다시 설계해야 함</div>
+      <p>지금은 spear/axe/hut 등 목재 필요 레시피 전부가 <code>wood</code> 하나로 퉁쳐 있다. 원작처럼
+      6종으로 쪼개려면 "창=나무막대, 오두막=통나무+나뭇잎, 부엌=통나무" 식으로 <strong>레시피
+      전부의 cost를 다시 정해야 하는 대규모 작업</strong>이다 — 이 표는 그 방향을 제안만 하는
+      것이고, 실제 착수는 별도 승인 필요.</p>
+    </div>
 
-    <h4 class="sub">동물성 — 4종</h4>
+    <h4 class="sub">동물성 — 4종 <span style="color:var(--ink-faint);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(이미 압축 없이 1:1 대응 — 변경 없음)</span></h4>
     <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 획득·용도</th><th class="mine">제안(우리 게임 버전)</th><th>상태</th></tr></thead><tbody>
-      <tr><td>큰 뼈</td><td class="orig">대형동물 요리 후 조리대 옆 생성 — 낚시바늘, 무기</td><td><strong>bone</strong> — 처치 시 확률 드롭으로 단순화(조리대 생성 대신 즉시 드롭)</td><td><span class="st done">구현됨(유사)</span></td></tr>
-      <tr><td>모피</td><td class="orig">대·소형동물 사냥 — 침대 제작</td><td><strong>leather</strong></td><td><span class="st done">구현됨</span></td></tr>
-      <tr><td>깃털</td><td class="orig">해변4·평원(폭풍우 후), 소형조류 사냥 — 화살 재료</td><td><strong>제안</strong>: 닭 처치 시 확률 드롭 신설(<code>feather</code>) — 화살 명중률 시스템이 없어 당장은 장식적 용도</td><td><span class="st plan">제안</span></td></tr>
-      <tr><td>기름</td><td class="orig">대형동물 사냥 — 연료, 조리(튀기기)</td><td><strong>제안</strong>: 소/늑대 처치 시 확률 드롭 신설(<code>oil</code>) — 튀기기 계열 조리법의 필수 재료로 연동</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>큰 뼈</td><td class="orig">대형동물 요리 후 조리대 옆 생성 — 낚시바늘, 무기</td><td><strong>bone</strong> — 처치 시 확률 드롭으로 단순화(조리대 생성 대신 즉시 드롭, 이름·역할은 원작과 동일)</td><td><span class="st done">구현됨</span></td></tr>
+      <tr><td>모피</td><td class="orig">대·소형동물 사냥 — 침대 제작</td><td><strong>leather</strong> — 원작과 동일</td><td><span class="st done">구현됨</span></td></tr>
+      <tr><td>깃털</td><td class="orig">해변4·평원(폭풍우 후), 소형조류 사냥 — 화살 재료</td><td><strong>제안</strong>: 닭 처치 시 확률 드롭 신설(<code>feather</code>) — 이름·획득처(소형 조류 사냥) 원작과 동일하게 제안</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>기름</td><td class="orig">대형동물 사냥 — 연료, 조리(튀기기)</td><td><strong>제안</strong>: 소/늑대 처치 시 확률 드롭 신설(<code>oil</code>) — 이름·획득처(대형동물 사냥) 원작과 동일하게 제안</td><td><span class="st plan">제안</span></td></tr>
     </tbody></table></div>
+    <p class="note" style="color:var(--ink-faint);font-size:12.5px;margin:0 0 14px">동물 부산물 4종은 애초에 압축한 적이 없다 — 뼈/가죽은 이미 구현, 깃털/기름은 이름·획득 방식 그대로 제안돼 있었다. 목재·양념과 달리 여기는 바꿀 게 없어 그대로 둔다.</p>
 
     <h4 class="sub">광물 — 2종</h4>
     <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 장소·용도</th><th class="mine">제안(우리 게임 버전)</th><th>상태</th></tr></thead><tbody>
@@ -416,21 +425,25 @@
       <tr><td>철 막대기</td><td class="orig">해변1·3·4 잠수, 해변4(폭풍우 후), 해변1(쓰나미 후) — 고급 도구 재료</td><td><strong>iron_ore</strong> — 돌 채집 중 확률 드롭으로 단순화(획득처를 잠수/기후에서 채집 확률로 대체)</td><td><span class="st done">구현됨(유사)</span></td></tr>
     </tbody></table></div>
 
-    <h4 class="sub">양념 — 8종 (전부 랜덤 채집)</h4>
+    <h4 class="sub">양념 — 8종 (전부 랜덤 채집) <span style="color:var(--blue);font-family:var(--mono);font-size:11px;text-transform:none;letter-spacing:0">(2026-08-26 갱신: salt/herb 2종 압축 대신 원작과 동일하게 8종 개별 도입으로 제안 변경)</span></h4>
     <div class="tablewrap"><table><thead><tr><th>이름</th><th class="orig">원본(LiB2) 맛</th><th class="mine">제안(우리 게임 버전)</th><th>상태</th></tr></thead><tbody>
-      <tr><td>돌소금</td><td class="orig">미네랄 풍부한 천연소금</td><td><strong>salt</strong></td><td><span class="st done">구현됨</span></td></tr>
-      <tr><td>후추</td><td class="orig">고기와 최고 궁합</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>나무 수액</td><td class="orig">달콤하고 끈적함</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>보랏빛 콩</td><td class="orig">간장 유사</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>고추</td><td class="orig">매운맛</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>노란 봉오리</td><td class="orig">된장 유사</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>갈색 열매</td><td class="orig">버터 유사</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
-      <tr><td>물빛 열매</td><td class="orig">신맛, 산뜻함</td><td>herb(허브)에 통합</td><td><span class="st done">구현됨(통합)</span></td></tr>
+      <tr><td>돌소금</td><td class="orig">미네랄 풍부한 천연소금</td><td><strong>salt</strong> — 이미 원작과 동일한 이름·역할</td><td><span class="st done">구현됨</span></td></tr>
+      <tr><td>후추</td><td class="orig">고기와 최고 궁합</td><td>신규 <code>pepper</code>(후추) 도입 — 고기 요리(meat_cooked 계열) 전용 조미료로 herb에서 분리</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>나무 수액</td><td class="orig">달콤하고 끈적함</td><td>신규 <code>sap</code>(나무 수액) 도입 — 단맛 계열 조미료</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>보랏빛 콩</td><td class="orig">간장 유사</td><td>신규 <code>purple_bean</code>(보랏빛 콩) 도입 — 짭짤한 감칠맛 계열 조미료</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>고추</td><td class="orig">매운맛</td><td>신규 <code>chili</code>(고추) 도입 — 매운맛 계열 조미료</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>노란 봉오리</td><td class="orig">된장 유사</td><td>신규 <code>yellow_bud</code>(노란 봉오리) 도입 — 구수한 맛 계열 조미료(스프류 전용)</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>갈색 열매</td><td class="orig">버터 유사</td><td>신규 <code>brown_fruit</code>(갈색 열매) 도입 — 고소한 맛 계열 조미료(생선 요리 전용)</td><td><span class="st plan">제안</span></td></tr>
+      <tr><td>물빛 열매</td><td class="orig">신맛, 산뜻함</td><td>신규 <code>clear_fruit</code>(물빛 열매) 도입 — 상큼한 맛 계열 조미료</td><td><span class="st plan">제안</span></td></tr>
     </tbody></table></div>
-    <div class="callout gold">
-      <div class="label">양념 8종 → 2종 압축은 확정 원칙(변경 제안 없음)</div>
-      <p>이미 salt/herb 2종으로 압축 완료 — "조미료가 있으면 더 낫다"는 느낌만 재현하고 조합
-      최적화는 의도적으로 덜어낸 기존 결정을 유지.</p>
+    <div class="callout blue">
+      <div class="label">8종으로 나누면 조미료를 쓰는 기존 레시피 4개도 재조정 필요</div>
+      <p><code>seasoned_fish</code>(현재 salt 사용, 원작 은어/산천어 소금구이 그대로 유지 가능),
+      <code>seasoned_meat</code>(현재 herb 사용 → 원작상 늑대고기 포와레는 갈색열매이므로
+      <code>brown_fruit</code>로 교체 제안), <code>herb_tea</code>·<code>carrot_soup</code>(현재
+      herb 사용 → 원작 재료 조합에 맞춰 <code>sap</code>/<code>yellow_bud</code> 등으로 재조정
+      제안) — 8종을 실제로 넣으면 이 레시피들의 재료 요건도 함께 손봐야 한다는 뜻. 이 표는 그
+      방향을 제안만 하는 것이고, 실제 착수는 별도 승인 필요.</p>
     </div>
   </section>
 
@@ -583,7 +596,7 @@
         <tr><td>레시피</td><td>80</td><td>13</td><td>60</td><td>7</td></tr>
         <tr><td>가구</td><td>7</td><td>2</td><td>4</td><td>1</td></tr>
         <tr><td>도구</td><td>9</td><td>4</td><td>3</td><td>2</td></tr>
-        <tr><td>재료</td><td>24</td><td>9</td><td>13</td><td>2</td></tr>
+        <tr><td>재료</td><td>24</td><td>7</td><td>15</td><td>2</td></tr>
         <tr><td>식물</td><td>28</td><td>3</td><td>17</td><td>8</td></tr>
         <tr><td>동물</td><td>23</td><td>4</td><td>14</td><td>5</td></tr>
         <tr><td>어패류</td><td>34</td><td>3</td><td>19</td><td>12</td></tr>
