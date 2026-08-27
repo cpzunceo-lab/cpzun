@@ -339,21 +339,21 @@
     </div>
     <div class="prio-list">
       <div class="prio-card">
-        <div class="prio-head"><h4>로딩식 스테이지 전환 + 스테이지 2·3 <span style="color:var(--gold)">— 핵심 구조 완료, 스테이지 3 엔딩 콘텐츠는 남음</span></h4></div>
+        <div class="prio-head"><h4>로딩식 스테이지 전환 + 스테이지 2·3 <span style="color:var(--gold)">— 엔딩 콘텐츠까지 DONE (2026-08-26)</span></h4></div>
         <p class="why">
           2026-08-26 착수 — "우선 맵을 먼저 손보자..." 지시로 실제 구현 시작. <code>world.js</code>의
           지형 수식(<code>islandHeight</code>/<code>buildIsland</code>)에 반지름·바이옴 파라미터를
           추가해 재사용하는 방식으로, 스테이지 1(해변, 축소)→2(해변, 동쪽 로딩 연결)→3(숲, 2에서
-          북쪽 로딩 연결) 3개 맵과 F키 기반 전환·로딩 화면·나침반 UI까지 전부 구현하고 헤드리스로
-          검증 완료(전환/오두막 데이터 보존/사망 시 1맵 복귀까지). <strong>남은 것</strong>: 스테이지
-          3 끝의 대피소 부지 발견 독백 + 사람을 마주치는 순간 데모가 끝나는 컷씬형 엔딩(동료 관계
-          시스템 없이 카메오 하나로 처리 — 재구현 범위 아님)은 아직 안 붙음, 지금은 그냥 3맵을
-          돌아다닐 수만 있음.
+          북쪽 로딩 연결) 3개 맵과 F키 기반 전환·로딩 화면·나침반 UI까지 전부 구현. 이어서 "계속해"
+          지시로 남아있던 마지막 조각(스테이지 3 끝의 대피소 부지 발견 독백 + 사람을 마주치는 순간
+          데모가 끝나는 컷씬형 엔딩)도 붙임 — 동료 관계 시스템(스트레스/가출/재회)은 전혀 재사용하지
+          않고 카메오 인물 하나(idle 애니메이션만 재생)로 처리, 풀스크린 엔딩 오버레이로 마무리(X로
+          언제든 닫고 계속 자유 탐험 가능). 전 과정 헤드리스로 검증 완료.
         </p>
         <div class="prio-meta">
           <span class="chip done">핵심 전환 구조 — DONE (2026-08-26)</span>
-          <span class="chip risk">스테이지3 발견 독백·컷씬 엔딩 — 다음 작업</span>
-          <span class="chip info">1막 단독 문서 04장 · stages.js(신규)/world.js 반지름·바이옴 파라미터화</span>
+          <span class="chip done">스테이지3 발견 독백·컷씬 엔딩 — DONE (2026-08-26)</span>
+          <span class="chip info">1막 단독 문서 04장 · stages.js/world.js/companions.js/state.js/main.js/ui.js</span>
         </div>
       </div>
       <div class="prio-card">
