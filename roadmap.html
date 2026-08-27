@@ -247,9 +247,9 @@
           <tr><td>모닥불</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
           <tr><td>낚싯대</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
           <tr><td>횃불</td><td><span class="chip done">이미 구현됨</span></td><td>-</td></tr>
-          <tr><td>불씨</td><td><span class="chip info">신규 제안</span></td><td>부싯돌+불쏘시개로 만드는 발화 재료 — 지금은 모닥불이 발화를 즉시 해결하지만 원작처럼 별도 단계로 세분화 제안</td></tr>
-          <tr><td>불쏘시개</td><td><span class="chip info">신규 제안</span></td><td>불씨 제작용 채집 재료(마른 잎/풀 계열)</td></tr>
-          <tr><td>부싯돌</td><td><span class="chip info">신규 제안</span></td><td>불씨 제작용 채집 재료(돌 계열)</td></tr>
+          <tr><td>불씨</td><td><span class="chip done">이미 구현됨</span></td><td>부싯돌+불쏘시개로 제작 — 모닥불이 이미 즉시 지어지는 구조라 다른 레시피가 아직 이걸 요구하진 않음(만들 수는 있지만 쓸 곳은 다음 배치)</td></tr>
+          <tr><td>불쏘시개</td><td><span class="chip done">이미 구현됨</span></td><td>불씨 제작용 초지 채집 노드</td></tr>
+          <tr><td>부싯돌</td><td><span class="chip done">이미 구현됨</span></td><td>불씨 제작용 광물 채집 노드</td></tr>
         </tbody>
       </table>
     </div>
@@ -290,13 +290,13 @@
           <tr><td>진주</td><td>해변</td><td><span class="chip done">이미 구현됨</span></td><td>매우 드문 독립 채집 노드(4개뿐)로 단순화 — "조개 채집 시 확률 부산물"이 아니라 별도 지점에서 직접 채집</td></tr>
           <tr><td>야생 꿀(벌집)</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>고회복 식량(hunger 30) — 채집 시도 시 40% 확률로 즉시 8 피해(벌 쏘임). 별도 벌 몬스터 AI는 없음</td></tr>
           <tr><td>도토리·견과류</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>저회복(hunger 6)이지만 흔한 숲 채집 노드</td></tr>
-          <tr><td>거미줄</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>채집 노드로 존재 — fiber 대체 레시피 연결은 다음 배치</td></tr>
+          <tr><td>거미줄</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>거미줄 붕대(reinforced_bandage, hp+35) 재료로 연결 완료 — 기존 붕대(hp+20)보다 상위 의료품</td></tr>
           <tr><td>새알(둥지)</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>닭을 죽이지 않고도 얻는 별도 숲 채집 노드</td></tr>
-          <tr><td>이끼</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>채집 노드로 존재 — 불쏘시개/의료 대체재 레시피 연결은 다음 배치</td></tr>
+          <tr><td>이끼</td><td>숲</td><td><span class="chip done">이미 구현됨</span></td><td>이끼 압박대(moss_pack) 재료로 연결 완료 — 지혈대(fiber4)의 저비용 대체재, 섬유 없이도 출혈 치료</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="lead" style="margin-top:14px">브레인스토밍 직후 "1막 시스템 모두 진행해" 지시로 같은 날 전부 구현 — 재료 3종(조개껍데기·산호조각·거미줄·이끼)은 채집은 되지만 아직 소비하는 레시피가 없음(수집 자체가 이번 배치의 목적, 용도는 다음 배치에서 연결).</p>
+    <p class="lead" style="margin-top:14px">브레인스토밍 직후 "1막 시스템 모두 진행해" → "계속해" 두 지시로 같은 날 전부 구현. 거미줄·이끼는 이후 레시피(거미줄 붕대/이끼 압박대)로 연결 완료 — 조개껍데기·산호조각·진주·깃털 4종은 아직 채집만 되고 소비하는 레시피가 없음(마땅한 용도가 바로 안 떠올라 억지로 안 만듦, 다음 배치 후보로 남김).</p>
 
     <div class="callout gold">
       <div class="label">낚시 시스템 — 신규 필요</div>
