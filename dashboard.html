@@ -3,33 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>환장의 아일랜드 대시보드</title>
+<title>환장의 아일랜드 개발 히스토리</title>
 </head>
 <body>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
   :root {
     --bg: #14100b; --panel: #1c1712; --panel-2: #241d15; --line: #362c20;
     --ink: #ede4d3; --ink-dim: #a89a82; --ink-faint: #776a56;
     --accent: #d97b3f; --accent-ink: #1c1712; --accent-soft: #3a2c1c;
     --green: #6fa17e; --green-soft: #223225;
-    --red: #c9695a; --red-soft: #331f1c;
     --blue: #6f9bab; --blue-soft: #1e2b30;
-    --gold: #d9b74a;
+    --gold: #d9b74a; --gold-soft: #332c17;
     --serif: 'Gowun Batang', 'Noto Serif KR', serif;
     --sans: 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
     --mono: 'IBM Plex Mono', 'D2Coding', monospace;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
+    :root:not([data-theme="light"]):not([data-theme="dark"]) {
       --bg: #efe8d8; --panel: #f8f3e7; --panel-2: #f1ead9; --line: #d9cbae;
       --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
       --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
       --green: #3f7a52; --green-soft: #dfeadf;
-      --red: #a8452f; --red-soft: #f3ded9;
       --blue: #3f7186; --blue-soft: #dbe7ea;
-      --gold: #9c7a1f;
+      --gold: #9c7a1f; --gold-soft: #f2e9c8;
+      --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
     }
   }
   :root[data-theme="light"] {
@@ -37,411 +37,145 @@
     --ink: #241d14; --ink-dim: #6b5d47; --ink-faint: #9c8c70;
     --accent: #b85f28; --accent-ink: #fff9ef; --accent-soft: #f1dcc4;
     --green: #3f7a52; --green-soft: #dfeadf;
-    --red: #a8452f; --red-soft: #f3ded9;
     --blue: #3f7186; --blue-soft: #dbe7ea;
-    --gold: #9c7a1f;
+    --gold: #9c7a1f; --gold-soft: #f2e9c8;
+    --shadow: 0 20px 50px -20px rgba(60,45,20,0.25);
   }
 
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
   ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 28px 100px; }
-  @media (max-width: 640px) { .wrap { padding: 32px 16px 80px; } }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 28px 120px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 16px 90px; } }
 
-  header.top { margin-bottom: 44px; }
-  header.top .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
-  header.top h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); margin: 0 0 10px; text-wrap: balance; }
-  header.top p { color: var(--ink-dim); max-width: 62ch; margin: 0; font-size: 14.5px; }
+  header.top { margin-bottom: 30px; }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+  header.top h1 { font-family: var(--serif); font-size: clamp(27px, 4.2vw, 38px); margin: 0 0 12px; text-wrap: balance; line-height: 1.25; }
+  header.top .dek { color: var(--ink-dim); max-width: 70ch; margin: 0 0 18px; font-size: 14.5px; line-height: 1.7; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 11px 0; }
+  .meta a { color: var(--ink-dim); }
 
-  .statusrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
-  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 18px; min-width: 120px; }
-  .stat .n { font-family: var(--mono); font-size: 22px; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .stat .l { font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  section { margin-top: 46px; }
+  section h2.eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 4px; }
+  section h3.title { font-family: var(--serif); font-size: 22px; margin: 0 0 10px; text-wrap: balance; }
+  section > p.lead { color: var(--ink-dim); max-width: 74ch; margin: 0 0 16px; font-size: 14px; }
 
-  nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 32px; overflow-x: auto; }
-  nav.tabs button {
-    font-family: var(--sans); font-size: 13.5px; font-weight: 600; color: var(--ink-faint); background: none; border: none;
-    padding: 12px 16px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap;
-  }
-  nav.tabs button:hover { color: var(--ink); }
-  nav.tabs button.active { color: var(--ink); border-bottom-color: var(--accent); }
-  nav.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 8px 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--panel-2); }
+  td.date { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); white-space: nowrap; }
+  td.task { font-weight: 600; white-space: nowrap; }
 
-  .panel { display: none; }
-  .panel.active { display: block; animation: fadein 0.2s ease; }
-  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .panel.active { animation: none; } }
+  .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
+  .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .callout p { margin: 0; font-size: 13.5px; color: var(--ink-dim); }
+  .callout.gold { border-color: var(--gold); background: var(--gold-soft); }
+  .callout.gold .label { color: var(--gold); }
 
-  h2.sec { font-family: var(--serif); font-size: 21px; margin: 0 0 4px; }
-  p.dek { color: var(--ink-dim); font-size: 13.5px; margin: 0 0 22px; max-width: 60ch; }
-
-  /* link-out cards for the doc hub */
-  .linkgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 36px; }
-  .linkcard {
-    display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px;
-    color: var(--ink); transition: border-color 0.15s, transform 0.15s;
-  }
-  .linkcard:hover { border-color: var(--accent); text-decoration: none; transform: translateY(-2px); }
-  .linkcard .icon { font-size: 20px; margin-bottom: 10px; display: block; }
-  .linkcard .t { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; }
-  .linkcard .d { font-size: 12px; color: var(--ink-faint); line-height: 1.5; }
-  .linkcard .path { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin-top: 8px; word-break: break-all; }
-
-  /* chips */
-  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
-  .chip.done { background: var(--green-soft); color: var(--green); }
-  .chip.warn { background: var(--accent-soft); color: var(--accent); }
-  .chip.risk { background: var(--red-soft); color: var(--red); }
-  .chip.info { background: var(--blue-soft); color: var(--blue); }
-
-  /* tables */
-  .tablewrap { overflow-x: auto; margin-bottom: 32px; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); font-weight: 600; padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-dim); }
-  td:first-child { color: var(--ink); font-weight: 500; }
-  tr:hover td { background: var(--panel); }
-
-  /* character cards */
-  .charrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 14px; margin-bottom: 32px; }
-  .charcard { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 18px 20px; }
-  .charcard .name { font-weight: 700; font-size: 15px; }
-  .charcard .sub { font-size: 11.5px; color: var(--ink-faint); margin-bottom: 10px; }
-  .charcard dl { margin: 0; font-size: 12.5px; }
-  .charcard dt { color: var(--ink-faint); margin-top: 8px; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .charcard dd { margin: 2px 0 0; color: var(--ink-dim); }
-
-  /* search / filter bar for asset section */
-  .toolbar { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-  .toolbar input, .toolbar select {
-    font-family: var(--sans); font-size: 13px; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--line);
-    background: var(--panel); color: var(--ink);
-  }
-  .toolbar input { flex: 1; min-width: 200px; }
-
-  .callout { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 16px 20px; margin-bottom: 24px; font-size: 13px; color: var(--ink-dim); }
-  .callout strong { color: var(--ink); }
-
-  footer { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 24px; font-size: 11.5px; color: var(--ink-faint); }
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); line-height: 1.8; }
+  footer a { color: var(--ink-dim); }
 </style>
 
 <div class="wrap">
   <header class="top">
-    <div class="kicker">Project Control Center</div>
-    <h1>환장의 아일랜드 — 통합 대시보드</h1>
-    <p>3D(islandsurvival)가 유일한 제품 트랙 — 기획서, 에셋, 이슈, 진행 로그를 한 곳에서 오가며 확인하는 페이지. 아직 3D로 옮기지 못한 콘텐츠는 legacy-2d/에 이관 참고 소스로 보존돼 있으며, 이관 진행 상황은 로드맵 탭에서 추적한다.</p>
-    <div class="statusrow">
-      <div class="stat"><div class="n">50</div><div class="l">3D 활성 에셋</div></div>
-      <div class="stat"><div class="n">14</div><div class="l">라이선스 확인 필요</div></div>
-      <div class="stat"><div class="n">3</div><div class="l">플레이 가능 캐릭터</div></div>
-      <div class="stat"><div class="n">8</div><div class="l">이관 대기 항목</div></div>
-      <div class="stat"><div class="n">14</div><div class="l">알려진 이슈</div></div>
+    <div class="kicker">환장의 아일랜드 · 개발 히스토리 &amp; 아이디어 노트</div>
+    <h1>여기까지 온 과정 + 보류 중인 아이디어</h1>
+    <p class="dek">
+      원래 이 페이지는 "통합 대시보드"(진행현황·캐릭터·에셋·이슈·문서허브 6개 탭)였는데,
+      그 내용 전부가 <a href="roadmap.html">로드맵</a>·<a href="act1.html">1막 문서</a>·
+      <code>ASSETS.md</code>·<a href="index.html">문서 허브</a>에 더 정확한 최신판으로
+      이미 있다는 게 2026-08-29에 확인됐다(대시보드 쪽은 2026-08-23 스냅샷에서 갱신이 끊겨
+      "오빠는 3D에 없음" 같은 이미 틀린 내용까지 남아있었음). 그래서 <strong>중복되는 5개 탭은
+      정리하고, 다른 문서엔 없는 두 가지만 남겼다</strong> — 초기 개발 서사와, 아직 어디에도
+      정식으로 옮겨지지 않은 아이디어.
+    </p>
+    <div class="meta">
+      <span>2026-08-29 정리 — 통합 대시보드에서 개발 히스토리 페이지로 재편</span>
+      <a href="index.html">문서 허브</a>
+      <a href="roadmap.html">로드맵 &amp; 마일스톤</a>
+      <a href="gdd.html">기획서(GDD)</a>
     </div>
   </header>
 
-  <nav class="tabs" id="tabs">
-    <button class="active" data-tab="docs">문서 허브</button>
-    <button data-tab="roadmap">로드맵 &amp; 이관</button>
-    <button data-tab="characters">캐릭터</button>
-    <button data-tab="assets">에셋</button>
-    <button data-tab="issues">이슈 &amp; 라이선스</button>
-    <button data-tab="log">진행 로그</button>
-  </nav>
-
-  <!-- ============================================================ -->
-  <div class="panel active" id="panel-docs">
-    <h2 class="sec">문서 허브</h2>
-    <p class="dek">전부 흩어져 있던 것들 — 여기서 시작해서 필요한 곳으로.</p>
-
-    <div class="linkgrid">
-      <a class="linkcard" href="gdd.html" target="_blank" rel="noopener">
-        <span class="icon">📘</span>
-        <div class="t">기획서 (GDD)</div>
-        <div class="d">비전·타겟층·벤치마킹·게임성·스토리·그래픽·콘텐츠·밸런스·플레이타임·상업성·로드맵·문제점·해결방안·리스크</div>
-      </a>
-      <a class="linkcard" href="http://localhost:8942/index.html" target="_blank" rel="noopener">
-        <span class="icon">🎮</span>
-        <div class="t">3D 게임 실행</div>
-        <div class="d">로컬 정적 서버(8942)가 켜져 있어야 열림</div>
-        <div class="path">islandsurvival/index.html</div>
-      </a>
-      <a class="linkcard" href="http://localhost:8942/tools/asset_catalog.html" target="_blank" rel="noopener">
-        <span class="icon">🗂️</span>
-        <div class="t">3D 에셋 카탈로그</div>
-        <div class="d">실제 3D 모델을 회전 미리보기로 보는 뷰어 — 검색/라이선스 필터 포함</div>
-        <div class="path">islandsurvival/tools/asset_catalog.html</div>
-      </a>
-      <a class="linkcard" href="spreadsheet.html" target="_blank" rel="noopener">
-        <span class="icon">📊</span>
-        <div class="t">마스터 스프레드시트</div>
-        <div class="d">로드맵·캐릭터·아이템·3D 아이템·채집·라이선스·이슈·퀘스트·대사집·스토리·개발로그 11개 시트 — 엑셀 없이 브라우저에서 탭 전환+검색</div>
-      </a>
-      <a class="linkcard" href="devplan.html" target="_blank" rel="noopener">
-        <span class="icon">🗓️</span>
-        <div class="t">개발 계획서</div>
-        <div class="d">1인 개발 스팀 출시 벤치마크 + AI 활용 시간 단축 + Steam AI 정책을 이 프로젝트 일정에 대입</div>
-      </a>
-      <a class="linkcard" href="roadmap.html" target="_blank" rel="noopener">
-        <span class="icon">🗺️</span>
-        <div class="t">로드맵 &amp; 마일스톤</div>
-        <div class="d">코드 직접 감사 기반 최신 현황 + "완성도를 위해 반드시 먼저 할 것" 우선순위 — 다음 작업은 여기 순서를 따를 것</div>
-      </a>
-      <div class="linkcard" style="cursor:default">
-        <span class="icon">🗄️</span>
-        <div class="t">원본 엑셀 파일</div>
-        <div class="d">위와 내용 동일한 진짜 .xlsx — 로컬 파일이라 여기선 링크 대신 경로만</div>
-        <div class="path">C:\Work\docs\IslandSurvival_MasterDoc.xlsx</div>
-      </div>
-    </div>
-
-    <h2 class="sec">이관 참고 소스 <span style="font-size:12px;font-weight:400;color:var(--red)">— 독립 실행 대상 아님, 3D로 옮길 콘텐츠의 원본</span></h2>
-    <p class="dek">islandsurvival/legacy-2d/ — 아직 3D에 없는 시스템(동료 AI, 구역/안개, 40+ 아이템, 대사)을 이식할 때 원본 그대로 참고하는 소스. 이관 완료 전까지는 삭제하지 않는다. 진행 상황은 위 "로드맵 &amp; 이관" 탭 참고(로컬 파일이라 브라우저에서 file:// 로 직접 열어야 함).</p>
-    <div class="linkgrid">
-      <div class="linkcard" style="cursor:default"><span class="icon">🗺️</span><div class="t">레거시 로드맵</div><div class="d">과거 Phase 0~9 진행 기록 — 이관 대상 목록의 원본</div><div class="path">islandsurvival/legacy-2d/Roadmap.html</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">👪</span><div class="t">캐릭터 가이드</div><div class="d">오빠/여동생/할머니 비교표+상세 카드 — 이관 소스</div><div class="path">islandsurvival/legacy-2d/Characters.html</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">🎒</span><div class="t">아이템 데이터베이스</div><div class="d">8개 카테고리 전체 아이템 — 이관 소스</div><div class="path">islandsurvival/legacy-2d/Items.html</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">📖</span><div class="t">스토리</div><div class="d">전체 시나리오, 발견 대사 원문, 최종 목표 — 이관 소스</div><div class="path">islandsurvival/legacy-2d/Story.html</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">💬</span><div class="t">대사집</div><div class="d">캐릭터별·상황별 대사 전체 — 이관 소스</div><div class="path">islandsurvival/legacy-2d/Dialogue.html</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">🗄️</span><div class="t">레거시 게임 본체</div><div class="d">독립 제품으로서는 개발 종료 — 코드 참고용으로만 실행 가능</div><div class="path">islandsurvival/legacy-2d/Index.html</div></div>
-    </div>
-
-    <h2 class="sec">3D 프로젝트 문서 <span style="font-size:12px;font-weight:400;color:var(--green)">— 유일한 제품 트랙</span></h2>
-    <p class="dek">islandsurvival/ — 소스와 직접 동기화되는 기술 문서</p>
-    <div class="linkgrid">
-      <div class="linkcard" style="cursor:default"><span class="icon">🧭</span><div class="t">CLAUDE.md</div><div class="d">아키텍처, 겪은 문제와 해결, Known simplifications</div><div class="path">islandsurvival/CLAUDE.md</div></div>
-      <div class="linkcard" style="cursor:default"><span class="icon">📦</span><div class="t">ASSETS.md</div><div class="d">에셋 출처·라이선스·용도 전체 목록, 필요하지만 없는 에셋</div><div class="path">islandsurvival/ASSETS.md</div></div>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <div class="panel" id="panel-roadmap">
-    <h2 class="sec">3D 진행 현황</h2>
-    <p class="dek">전체 태스크는 <a href="gdd.html#roadmap" target="_blank" rel="noopener">기획서 11장</a> · 상세 태스크 목록은 마스터 스프레드시트 <code>로드맵 마일스톤</code> 시트.</p>
-    <div class="tablewrap">
-      <table id="roadmap-table">
-        <thead><tr><th>Phase</th><th>상태</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>Phase 1 · 분위기</td><td><span class="chip done">DONE</span></td><td>지형/바다/하늘/안개/블룸/이동/카메라</td></tr>
-          <tr><td>Phase 2 · 생존 루프</td><td><span class="chip done">DONE(축소판)</span></td><td>허기/수분/기력/채집/제작/퀘스트/핫바 — 정식 설계(기획서 7~10장) 대비 절반 이하 규모</td></tr>
-          <tr><td>Phase 3 · 이동/전투 확장</td><td><span class="chip done">DONE</span></td><td>점프/등반/수영/앉기눕기/무기 7종</td></tr>
-          <tr><td>Phase 4 · 야생동물/사냥</td><td><span class="chip done">DONE(1차)</span></td><td>늑대/소 2종, 실제 사냥 동작함</td></tr>
-          <tr><td>Phase 5 · Unity 에셋 이식</td><td><span class="chip warn">라이선스 확인 필요</span></td><td>14개 항목 확인 필요(이슈 탭 참고)</td></tr>
-          <tr><td>Phase 6 · HUD 참고영상 반영</td><td><span class="chip done">DONE(1차)</span></td><td>좌하단 스탯, 우상단 퀘스트, 좌측 도킹 제작패널 — 배치 미리보기 미구현</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2 class="sec" style="margin-top:36px">이관 체크리스트 <span style="font-size:12px;font-weight:400;color:var(--ink-faint)">— legacy-2d/에 있고 3D엔 아직 없는 것</span></h2>
-    <p class="dek">전부 이관 완료 전까지 이 목록에 남아있어야 함 — 하나씩 옮길 때마다 여기서 지우고 위 진행 현황 표로 올릴 것.</p>
-    <div class="tablewrap">
-      <table id="migration-table">
-        <thead><tr><th>항목</th><th>상태</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>구역/안개/터/단서 시스템</td><td><span class="chip done">DONE</span></td><td>해변/밀림/고지대를 기존 방사형 지형의 재해석으로 구현(zoneAt(), world.js) — 부모님 단서 3종 마커 포함</td></tr>
-          <tr><td>동료 실제 능력치·대사·가출/사기(morale)</td><td><span class="chip done">DONE</span></td><td>발견 시스템, 밀착 스트레스→가출→재회, 손주 사기(할머니 메인일 때만), 할머니 전용 스탯+돌봄+요리 레벨까지 companions.js에 구현</td></tr>
-          <tr><td>3인 캐릭터 선택(오빠 포함)</td><td><span class="chip done">DONE</span></td><td>오빠 캐릭터 3D 신설 + 캐릭터 선택 화면(state.js CHARACTERS, ui.js showCharSelect)</td></tr>
-          <tr><td>아이템 40+종</td><td><span class="chip done">DONE(45종)</span></td><td>state.js ITEM_META 실측 45개 — 목표 초과</td></tr>
-          <tr><td>세이브/로드</td><td><span class="chip risk">미착수</span></td><td>레거시에도 없던 것 — 신규 구현, 이관 대상 아님. 여전히 남은 유이한 미착수 항목</td></tr>
-          <tr><td>밤낮 주기/쉘터 레벨</td><td><span class="chip done">DONE</span></td><td>낮/밤 사이클(main.js dayTime) + 오두막 레벨(buildings.js shelterLevel), 밤 강제취침/기절 연동까지</td></tr>
-          <tr><td>재회 엔딩 시퀀스(3분기 A/B/C)</td><td><span class="chip done">DONE(A안만)</span></td><td>구조선 도착 + 남녀 실루엣 엔딩 구현·검증됨(state.js triggerEnding, world.js spawnRescueBoat) — B/C 분기는 아직</td></tr>
-          <tr><td>사운드</td><td><span class="chip done">DONE(기본)</span></td><td>2026-08-25 — Kenney CC0 오디오 팩에서 발소리/채집/공격/제작/패널/UI클릭/알림음 확보·연결(src/sound.js). 물소리·야생동물·앰비언스는 아직 — 다음 후보</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2 class="sec" style="margin-top:36px">실험 후보 <span style="font-size:12px;font-weight:400;color:var(--ink-faint)">— 신규 컨셉, 우선순위 미정</span></h2>
-    <p class="dek">이관 체크리스트와는 별개 — legacy-2d에 없던 완전히 새로운 기능 아이디어. 착수 전 항목이라 위 두 표에는 안 넣음.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>기능</th><th>상태</th><th>비고</th></tr></thead>
-        <tbody>
-          <tr><td>AI 에이전트 동료(자유 채팅 지시)</td><td><span class="chip info">컨셉</span></td><td>채팅으로 동료에게 자연어 지시 → LLM Function Calling으로 실제 행동+대사 실시간 생성. 상세는 <a href="gdd.html#gameplay-agent" target="_blank" rel="noopener">기획서 4장</a>, 비용/지연/Steam 고지 리스크는 <a href="gdd.html#risks" target="_blank" rel="noopener">17장</a></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <div class="panel" id="panel-characters">
-    <h2 class="sec">캐릭터</h2>
-    <p class="dek">설계 목표(기획서 5장) 대비 3D 구현 상태 — Aj(플레이어)는 완전 구현, 동료 2명은 색만 다른 상태(능력치·대사 이관 대기), 오빠는 아직 3D에 없음. 상세는 <a href="gdd.html#story" target="_blank" rel="noopener">기획서 5장</a>.</p>
-    <div class="charrow">
-      <div class="charcard">
-        <div class="name">오빠 · 김도윤 (24)</div>
-        <div class="sub">난이도: 쉬움</div>
-        <dl>
-          <dt>설계 목표(이관 대기)</dt><dd>스프린트 기력 소모 -15%</dd>
-          <dt>동료 능력(이관 대기)</dt><dd>근처 채집 +1, 사기(morale) 관리 대상</dd>
-          <dt>3D 상태</dt><dd><span class="chip risk">미구현</span> — 3D엔 오빠 캐릭터 자체가 없음</dd>
-        </dl>
-      </div>
-      <div class="charcard">
-        <div class="name">여동생 · 김하은 (19)</div>
-        <div class="sub">난이도: 보통</div>
-        <dl>
-          <dt>설계 목표(이관 대기)</dt><dd>이동+8% · 채집시간-10%</dd>
-          <dt>동료 능력(이관 대기)</dt><dd>근처 제작 재료 1개 할인, 사기 관리 대상</dd>
-          <dt>3D 상태</dt><dd><span class="chip warn">부분</span> — Aj 분홍색 recolor, idle만</dd>
-        </dl>
-      </div>
-      <div class="charcard">
-        <div class="name">할머니 · 서정숙 (71)</div>
-        <div class="sub">난이도: 어려움</div>
-        <dl>
-          <dt>설계 목표(이관 대기)</dt><dd>이동-8%·채집+10%·소모1.4배·잔병치레</dd>
-          <dt>동료 능력(이관 대기)</dt><dd>전용 스탯4종+돌봄+요리레벨→버프음식</dd>
-          <dt>3D 상태</dt><dd><span class="chip warn">부분</span> — Aj 은백색 recolor, idle만</dd>
-        </dl>
-      </div>
-      <div class="charcard">
-        <div class="name">Aj (3D 플레이어)</div>
-        <div class="sub">Mixamo 캐릭터 · 3D 전용 플레이어</div>
-        <dl>
-          <dt>3D 상태</dt><dd><span class="chip done">완전 구현</span></dd>
-          <dt>애니메이션</dt><dd>idle/walk/sprint/jump/climb/swim/sit/lie/attack 전부 연결</dd>
-        </dl>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <div class="panel" id="panel-assets">
-    <h2 class="sec">3D 에셋 — 출처 &amp; 사용처</h2>
-    <p class="dek">50개 활성 에셋 중 Unity에서 가져온 항목 발췌. 회전 3D 미리보기가 있는 전체 목록은 <a href="http://localhost:8942/tools/asset_catalog.html" target="_blank" rel="noopener">에셋 카탈로그</a> 참고.</p>
-    <div class="toolbar">
-      <input type="text" id="asset-search" placeholder="검색: 에셋 이름 / 출처 / 사용처">
-      <select id="asset-filter">
-        <option value="">라이선스 전체</option>
-        <option value="cc0">CC0/MIT만</option>
-        <option value="warn">확인 필요만</option>
-        <option value="risk">유료 가능성 높음만</option>
-      </select>
-    </div>
-    <div class="tablewrap">
-      <table id="asset-table">
-        <thead><tr><th>에셋</th><th>카테고리</th><th>출처</th><th>라이선스</th><th>게임 내 사용</th></tr></thead>
-        <tbody>
-          <tr data-lic="cc0"><td>Aj</td><td>캐릭터</td><td>Mixamo</td><td><span class="chip done">CC0</span></td><td>player.js, companions.js</td></tr>
-          <tr data-lic="cc0"><td>Kenney Nature/Survival Kit</td><td>자연물·소품</td><td>Kenney</td><td><span class="chip done">CC0</span></td><td>world.js scatterProps</td></tr>
-          <tr data-lic="cc0"><td>Poly Haven Forest Floor</td><td>텍스처</td><td>Poly Haven</td><td><span class="chip done">CC0</span></td><td>지형 텍스처</td></tr>
-          <tr data-lic="warn"><td>bow / arrow / spear</td><td>무기</td><td>PurePoly</td><td><span class="chip warn">확인 필요</span></td><td>state.js 아이템만(장비 미구현)</td></tr>
-          <tr data-lic="warn"><td>fishing_rod</td><td>도구</td><td>Polygon-Lite Survival</td><td><span class="chip warn">확인 필요</span></td><td>state.js 아이템만</td></tr>
-          <tr data-lic="warn"><td>meat/apple/orange/bandage</td><td>음식·의료</td><td>Polygon-Lite Survival</td><td><span class="chip warn">확인 필요</span></td><td>카탈로그에만</td></tr>
-          <tr data-lic="warn"><td>fish(정적모델)</td><td>음식</td><td>ithappy Food_Free</td><td><span class="chip warn">확인 필요</span></td><td>미연결</td></tr>
-          <tr data-lic="warn"><td>chair</td><td>가구</td><td>Aletheia</td><td><span class="chip warn">확인 필요</span></td><td>world.js 캠프 배치</td></tr>
-          <tr data-lic="warn"><td>rock_set_01/02</td><td>자연물</td><td>Mountain Terrain rocks</td><td><span class="chip warn">확인 필요</span></td><td>world.js 캠프 배치(PBR)</td></tr>
-          <tr data-lic="cc0"><td>axe / flashlight / hammer</td><td>도구·무기</td><td>PostApoSurvivalTools_Free</td><td><span class="chip done">Free 명시</span></td><td>axe는 무기 연결됨</td></tr>
-          <tr data-lic="risk"><td>sword <em>(미사용)</em></td><td>무기</td><td>Seven Swords</td><td><span class="chip risk">🔴유료가능성</span></td><td>안 씀 — 삭제 후보</td></tr>
-          <tr data-lic="risk"><td>bed / table</td><td>가구</td><td>Furniture Mega Pack</td><td><span class="chip risk">🔴유료가능성</span></td><td>카탈로그에만(미배치)</td></tr>
-          <tr data-lic="warn"><td>workbench</td><td>가구</td><td>Polygon-Lite Survival</td><td><span class="chip warn">확인 필요</span></td><td>카탈로그에만</td></tr>
-          <tr data-lic="warn"><td>pickaxe / club / pot</td><td>무기</td><td>Survival Props / ithappy / Polygon-Lite</td><td><span class="chip warn">확인 필요</span></td><td>state.js 무기 연결됨</td></tr>
-          <tr data-lic="warn"><td>pier</td><td>장애물</td><td>EmaceArt Bridges</td><td><span class="chip warn">확인 필요</span></td><td>카탈로그에만(미배치)</td></tr>
-          <tr data-lic="warn"><td>wolf</td><td>야생동물</td><td>Wolf</td><td><span class="chip warn">확인 필요(완성도 높음)</span></td><td>wildlife.js — 사냥 가능</td></tr>
-          <tr data-lic="warn"><td>cow</td><td>야생동물</td><td>Shepherd_Valley</td><td><span class="chip warn">확인 필요</span></td><td>wildlife.js — 사냥 가능</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <div class="panel" id="panel-issues">
-    <h2 class="sec">알려진 이슈</h2>
-    <p class="dek">전체 설명은 <a href="gdd.html#problems" target="_blank" rel="noopener">기획서 12장</a>, 해결 방안은 <a href="gdd.html#solutions" target="_blank" rel="noopener">13장</a>.</p>
-    <div class="tablewrap">
-      <table>
-        <thead><tr><th>이슈</th><th>심각도</th><th>내용</th></tr></thead>
-        <tbody>
-          <tr><td>이관 격차</td><td><span class="chip risk">높음</span></td><td>3D는 설계 목표(기획서) 대비 아이템·동료·구역시스템 전부 축소판 — 로드맵 탭 이관 체크리스트 참고</td></tr>
-          <tr><td>재회 엔딩 시퀀스 미정</td><td><span class="chip risk">높음</span></td><td>단서 3종 다 모아도 실제 재회 화면이 없음</td></tr>
-          <tr><td>세이브/로드 없음</td><td><span class="chip warn">중간</span></td><td>미구현 — 이관 대상 아님(신규 구현 필요)</td></tr>
-          <tr><td>3D 장비 시스템 없음</td><td><span class="chip warn">중간</span></td><td>무기 모델은 있지만 손에 안 쥐어짐</td></tr>
-          <tr><td>3D 동물 2종뿐</td><td><span class="chip warn">중간</span></td><td>늑대/소만, 다양성 부족</td></tr>
-          <tr><td>3D 사운드 전무</td><td><span class="chip info">낮음</span></td><td>효과음/음악 0개</td></tr>
-          <tr><td>3D 이펙트(VFX) 전무</td><td><span class="chip warn">중간</span></td><td>블룸 후처리 외 파티클 0개 — 채집/공격/사냥에 시각 반응 없음</td></tr>
-          <tr><td>커스텀 아이콘 아트 없음</td><td><span class="chip info">낮음</span></td><td>HUD는 이모지, 아이템은 색상칩뿐</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2 class="sec">라이선스 확인 필요</h2>
-    <div class="callout">
-      <strong>🔴 최우선 2건</strong> — Furniture Mega Pack(침대/테이블), Seven Swords(검, 이미 미사용).
-      둘 다 이름에 "Free"가 없고 텍스처 퀄리티가 확실히 높아 유료 에셋일 가능성이 큼. 상업적 배포 전
-      Unity 에셋 스토어에서 직접 검색해 가격 확인 필요. 자세한 표는 마스터 스프레드시트
-      <code>라이선스체크</code> 시트.
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <div class="panel" id="panel-log">
-    <h2 class="sec">진행 로그</h2>
-    <p class="dek">3D(islandsurvival) 세션 작업 기록, 최신순. 각 항목의 상세 배경은 <code>islandsurvival/CLAUDE.md</code>에 더 길게 남아있음.</p>
+  <section id="log">
+    <h2 class="eyebrow">01 · 개발 로그</h2>
+    <h3 class="title">2026-08-23~24 초기 개발 서사</h3>
+    <p class="lead">
+      프로젝트 첫 이틀의 작업 기록, 최신순 — 각 항목의 코드 레벨 상세 배경은
+      <code>islandsurvival/CLAUDE.md</code>에 더 길게 남아있지만, 이렇게 시간순 서사로
+      정리해둔 건 여기뿐이라 남겨둔다.
+    </p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>날짜</th><th>작업</th><th>내용</th></tr></thead>
         <tbody>
-          <tr><td>08-24</td><td>생명력/기절/사망 인과관계 수정 + 밸런스 하향 + 날씨 시스템</td><td>사용자 지적: "생명력 0=즉사"로 잘못 짜여 있던 걸 legacy 원래 설계(기절 5회 누적 후 사망)대로 수정, 허기0/갈증0도 생명력을 깎도록 신설, 기절 발생 원인(전투/탈진/범용) 감지 경로가 서로 몰라 중복 토스트 뜨던 버그 수정. 별개로 "아무것도 안 해도 너무 빨리 닳는다" 피드백에 legacy Phase 9 실측 튜닝값(허기 0.6→0.22, 수분 0.9→0.32, 도보 기력 1.2→0.2)을 이식, 날씨(맑음/뙤약볕/비) 신설 — 뙤약볕은 갈증 ×1.6, 비는 갈증 ×0.75·기력소모 ×1.35. HUD에 기절 횟수·날씨 상시 표시 추가. 헤드리스 4회 검증, 콘솔 에러 0건</td></tr>
-          <tr><td>08-24</td><td>부모님 재회 엔딩 — 구조선(열린 결말)</td><td>사용자가 방향 지정: "연락이 닿아서 구조선이 오고 남녀 실루엣이 보이지만 부모님인지는 모름". 단서 3종 모으면 자동 트리거 — 무전 교신→구조선 발견→실루엣 목격 순으로 토스트 3단 + 절차적 저폴리 선박이 30초간 먼바다에서 접근. 갑판 위 두 사람은 Aj 메쉬를 완전 검정 실루엣으로 렌더링해 정체를 의도적으로 숨김. 게임은 끝나지 않고 계속 플레이 가능. 헤드리스 검증 완료, 콘솔 에러 0건. 이로써 legacy 문서가 "사용자 결정 필요"라 명시했던 유일한 이관 보류 항목까지 마무리됨</td></tr>
-          <tr><td>08-24</td><td>legacy-2d 대규모 이관 — HP/전투, 3인 캐릭터+동료능력, 건축/취침/요리, 도구티어링/방어구/음식부패, 할머니 돌봄/사기, 스트레스·가출, 구역·미니맵, 부모님 단서</td><td>legacy-2d 설계 중 3D에 없던 시스템을 사용자 결정이 필요없는 범위에서 전부 이관(부모님 재회 엔딩만 legacy 문서 자체가 "사용자 결정 필요"라고 명시해둔 항목이라 보류). 플레이어 HP+전투(늑대가 실제로 추격·공격), 오빠 캐릭터 신설로 3인 가족 캐릭터 선택 완성(난이도별 스탯보정+동료 능력 실제 발동), 동료 발견(숨겨진 채 시작)+밀착스트레스→가출→재회, 할머니 전용 스탯+돌봄+요리레벨, 오두막/부엌/모닥불 실제 건축(전용 CC0 모델 없어 tent.glb/campfire-pit.glb 재염색 재사용, 교체 후보로 명시), 낮/밤 주기, 도구 티어링(돌→철)+내구도, 방어구 3종, 의료아이템 5종+상태이상(출혈/중독/기절누적), 음식부패, 구역(해변/밀림/고지대, 기존 거리밴드 재해석)+미니맵, 부모님 단서 3종+가족애 버프. 헤드리스 크롬 7회 검증, 콘솔 에러 0건. 미니맵 영구 안개기억·전체 가방/도감 UI는 이번 패스에서 조건부로 생략(CLAUDE.md에 사유 명시)</td></tr>
-          <tr><td>08-23</td><td>해변 표류물 + 물병 수분 시스템</td><td>사과/오렌지/붕대/물병/가족의 유품이 45~90초 간격으로 해안에 드문드문 밀려옴(가중치 로트, 물병·유품은 유니크). 물병을 주워야 F로 물을 마실 수 있게 됨(3D 최초의 수분 회복 수단). 나무는 도끼 있으면 나무판3, 없으면 나무1+나뭇가지1 — 손으로도 나무가 최소 1개는 나오게 해서 소프트락 방지(도끼 제작이 나무2+돌2라 처음에 잘못 짰으면 막힐 뻔함). 헤드리스 검증 중 프롬프트가 물병 습득 직후 안 갱신되던 버그 발견해 수정</td></tr><tr><td>08-23</td><td>F키 동료 대화 + 도구 요구 체계 (첫 코드 변경)</td><td>F키로 동료에게 다가가면 잡담 대사 토스트(companions.js CHAT_LINES). 채집에 도구 요구 골격 추가(world.js requiresTool) — 나무/돌/베리는 도구화 시 소프트락이라 사용자 확인 후 맨손 유지. 헤드리스 크롬 3개 시나리오 검증, 콘솔 에러 0건</td></tr><tr><td>08-23</td><td>스프레드시트 채집리스트 → 채집 현황(3D)</td><td>"채집리스트"가 아이템 시트의 자원 카테고리와 겹쳐 보인다는 지적으로 레거시 쪽 중복 행 제거, 3D 채집 여부만 남긴 축소판으로 재편(20→10행)</td></tr><tr><td>08-23</td><td>스프레드시트 "3D 아이템" 시트로 통합</td><td>"3D아이템·무기"(공격력/획득처)와 "에셋카탈로그"(출처/라이선스) 두 시트가 같은 3D 에셋을 다른 관점으로 다루던 걸 하나로 병합 — 11개 시트로 축소, 아이템 하나당 게임 데이터+라이선스를 한 행에서 확인 가능</td></tr><tr><td>08-23</td><td>이펙트·아이콘 결손 명시</td><td>grep으로 전수 확인 — VFX/파티클 0개(블룸 후처리만 있음), 아이템 아이콘은 색상칩뿐(이모지+배경색, 그려진 아이콘 없음). GDD·대시보드·CLAUDE.md 이슈 목록에 반영, 개발 계획서 타이밍도 재계산</td></tr>
-          <tr><td>08-23</td><td>개발 계획서 + 대사집·스토리·개발로그 시트</td><td>1인 개발 스팀 출시 시간 벤치마크/AI 활용 비교/Steam AI 정책을 정리한 개발 계획서 신규 발행, 마스터 스프레드시트에 대사집(103행)·스토리(17행)·개발로그 시트 추가, 도중에 legacy-2d/Index.html 원본 소스 누락 발견</td></tr>
-          <tr><td>08-23</td><td>AI 에이전트 동료 컨셉</td><td>채팅으로 동료에게 자연어 지시 → LLM Function Calling으로 실행+대사 생성하는 신규 아이디어를 기획서 4장/로드맵/리스크에 반영(구현 착수 아님, 컨셉 문서화)</td></tr>
-          <tr><td>08-23</td><td>야생동물/사냥</td><td>늑대(HP15)·소(HP20) 스폰, X 공격으로 실제 사냥 가능해짐 — 이 프로젝트에서 사냥이 데이터를 넘어 처음 작동한 순간</td></tr>
-          <tr><td>08-23</td><td>무기 다양화</td><td>창/도끼/곡괭이/몽둥이/냄비/돌 등 공격력 데이터 추가, 보유 중 최강 무기 자동 선택</td></tr>
-          <tr><td>08-23</td><td>Unity 에셋 이식</td><td>3차에 걸쳐 무기/가구/도구/동물 확보, 라이선스 리스크 높은 항목 별도 표시</td></tr>
-          <tr><td>08-23</td><td>에셋 카탈로그 뷰어</td><td>3D 모델을 회전 미리보기로 보는 관리 페이지 신규 제작</td></tr>
-          <tr><td>08-23</td><td>HUD 재배치</td><td>참고 영상 재분석 후 좌하단 스탯/하단 핫바/우상단 퀘스트/좌측 도킹 제작패널로 레이아웃 변경</td></tr>
-          <tr><td>08-23</td><td>미사용 에셋 정리</td><td>안 쓰는 파일 assets/unused/로 격리, 할머니/여동생을 Aj 색 변경으로 구현</td></tr>
-          <tr><td>08-23</td><td>동작 확장</td><td>점프(물리)/오르기·넘어가기(장애물 조건부)/수영/앉기·눕기/채집공격 추가 + 키 할당</td></tr>
-          <tr><td>08-23</td><td>버그 수정</td><td>걷기 애니메이션에 루트 모션이 박혀있던 "팅김" 현상 수정(Hips X/Z 고정)</td></tr>
-          <tr><td>08-23</td><td>생존 루프 UI</td><td>허기/수분/기력, 채집(F), 제작(C), 퀘스트 위젯, 핫바 신규 제작</td></tr>
-          <tr><td>08-23</td><td>동료 팔로우 AI</td><td>할머니/여동생이 거리 기반으로 플레이어를 따라오게 함 — legacy-2d 이식 1호</td></tr>
-          <tr><td>08-23</td><td>폴더 통합</td><td>레거시·3D로 별개였던 폴더를 islandsurvival/ 하나로 합침, legacy-2d/를 이관 참고 소스로 격하, 3D를 유일한 제품 트랙으로 확정</td></tr>
-          <tr><td>08-23</td><td>카메라 고정</td><td>이동 중엔 쿼터뷰 각도로 자동 복귀, 정지 시에만 회전 허용</td></tr>
-          <tr><td>08-23</td><td>팔레트 재작업</td><td>트로피컬 → 가을 황무지 → 해변+숲으로 두 차례 조정, Poly Haven 지형 텍스처 적용</td></tr>
-          <tr><td>08-23</td><td>Mixamo 에셋 정리</td><td>중복 캐릭터 메쉬 포함 2GB 애니메이션 팩을 GLB 재수출로 9.8MB까지 축소</td></tr>
-          <tr><td>08-23</td><td>캐릭터 확정</td><td>7명 Mixamo 후보를 게임 안에 나란히 세워 비교, 참고 영상과 비율이 가장 비슷한 Aj로 최종 선택</td></tr>
-          <tr><td>08-23</td><td>1단계 착수</td><td>참고 영상("As One We Survive") 기준 Three.js 지형/바다/하늘/이동/카메라부터 시작</td></tr>
+          <tr><td class="date">08-24</td><td class="task">생명력/기절/사망 인과관계 수정 + 밸런스 하향 + 날씨 시스템</td><td>사용자 지적: "생명력 0=즉사"로 잘못 짜여 있던 걸 legacy 원래 설계(기절 5회 누적 후 사망)대로 수정, 허기0/갈증0도 생명력을 깎도록 신설, 기절 발생 원인(전투/탈진/범용) 감지 경로가 서로 몰라 중복 토스트 뜨던 버그 수정. 별개로 "아무것도 안 해도 너무 빨리 닳는다" 피드백에 legacy Phase 9 실측 튜닝값(허기 0.6→0.22, 수분 0.9→0.32, 도보 기력 1.2→0.2)을 이식, 날씨(맑음/뙤약볕/비) 신설 — 뙤약볕은 갈증 ×1.6, 비는 갈증 ×0.75·기력소모 ×1.35. HUD에 기절 횟수·날씨 상시 표시 추가. 헤드리스 4회 검증, 콘솔 에러 0건</td></tr>
+          <tr><td class="date">08-24</td><td class="task">부모님 재회 엔딩 — 구조선(열린 결말)</td><td>사용자가 방향 지정: "연락이 닿아서 구조선이 오고 남녀 실루엣이 보이지만 부모님인지는 모름". 단서 3종 모으면 자동 트리거 — 무전 교신→구조선 발견→실루엣 목격 순으로 토스트 3단 + 절차적 저폴리 선박이 30초간 먼바다에서 접근. 갑판 위 두 사람은 Aj 메쉬를 완전 검정 실루엣으로 렌더링해 정체를 의도적으로 숨김. 게임은 끝나지 않고 계속 플레이 가능. 헤드리스 검증 완료, 콘솔 에러 0건. 이로써 legacy 문서가 "사용자 결정 필요"라 명시했던 유일한 이관 보류 항목까지 마무리됨</td></tr>
+          <tr><td class="date">08-24</td><td class="task">legacy-2d 대규모 이관 — HP/전투, 3인 캐릭터+동료능력, 건축/취침/요리, 도구티어링/방어구/음식부패, 할머니 돌봄/사기, 스트레스·가출, 구역·미니맵, 부모님 단서</td><td>legacy-2d 설계 중 3D에 없던 시스템을 사용자 결정이 필요없는 범위에서 전부 이관(부모님 재회 엔딩만 legacy 문서 자체가 "사용자 결정 필요"라고 명시해둔 항목이라 보류). 플레이어 HP+전투(늑대가 실제로 추격·공격), 오빠 캐릭터 신설로 3인 가족 캐릭터 선택 완성(난이도별 스탯보정+동료 능력 실제 발동), 동료 발견(숨겨진 채 시작)+밀착스트레스→가출→재회, 할머니 전용 스탯+돌봄+요리레벨, 오두막/부엌/모닥불 실제 건축(전용 CC0 모델 없어 tent.glb/campfire-pit.glb 재염색 재사용, 교체 후보로 명시), 낮/밤 주기, 도구 티어링(돌→철)+내구도, 방어구 3종, 의료아이템 5종+상태이상(출혈/중독/기절누적), 음식부패, 구역(해변/밀림/고지대, 기존 거리밴드 재해석)+미니맵, 부모님 단서 3종+가족애 버프. 헤드리스 크롬 7회 검증, 콘솔 에러 0건. 미니맵 영구 안개기억·전체 가방/도감 UI는 이번 패스에서 조건부로 생략(CLAUDE.md에 사유 명시)</td></tr>
+          <tr><td class="date">08-23</td><td class="task">해변 표류물 + 물병 수분 시스템</td><td>사과/오렌지/붕대/물병/가족의 유품이 45~90초 간격으로 해안에 드문드문 밀려옴(가중치 로트, 물병·유품은 유니크). 물병을 주워야 F로 물을 마실 수 있게 됨(3D 최초의 수분 회복 수단). 나무는 도끼 있으면 나무판3, 없으면 나무1+나뭇가지1 — 손으로도 나무가 최소 1개는 나오게 해서 소프트락 방지(도끼 제작이 나무2+돌2라 처음에 잘못 짰으면 막힐 뻔함). 헤드리스 검증 중 프롬프트가 물병 습득 직후 안 갱신되던 버그 발견해 수정</td></tr>
+          <tr><td class="date">08-23</td><td class="task">F키 동료 대화 + 도구 요구 체계 (첫 코드 변경)</td><td>F키로 동료에게 다가가면 잡담 대사 토스트(companions.js CHAT_LINES). 채집에 도구 요구 골격 추가(world.js requiresTool) — 나무/돌/베리는 도구화 시 소프트락이라 사용자 확인 후 맨손 유지. 헤드리스 크롬 3개 시나리오 검증, 콘솔 에러 0건</td></tr>
+          <tr><td class="date">08-23</td><td class="task">스프레드시트 채집리스트 → 채집 현황(3D)</td><td>"채집리스트"가 아이템 시트의 자원 카테고리와 겹쳐 보인다는 지적으로 레거시 쪽 중복 행 제거, 3D 채집 여부만 남긴 축소판으로 재편(20→10행)</td></tr>
+          <tr><td class="date">08-23</td><td class="task">스프레드시트 "3D 아이템" 시트로 통합</td><td>"3D아이템·무기"(공격력/획득처)와 "에셋카탈로그"(출처/라이선스) 두 시트가 같은 3D 에셋을 다른 관점으로 다루던 걸 하나로 병합 — 11개 시트로 축소, 아이템 하나당 게임 데이터+라이선스를 한 행에서 확인 가능</td></tr>
+          <tr><td class="date">08-23</td><td class="task">이펙트·아이콘 결손 명시</td><td>grep으로 전수 확인 — VFX/파티클 0개(블룸 후처리만 있음), 아이템 아이콘은 색상칩뿐(이모지+배경색, 그려진 아이콘 없음). GDD·대시보드·CLAUDE.md 이슈 목록에 반영, 개발 계획서 타이밍도 재계산</td></tr>
+          <tr><td class="date">08-23</td><td class="task">개발 계획서 + 대사집·스토리·개발로그 시트</td><td>1인 개발 스팀 출시 시간 벤치마크/AI 활용 비교/Steam AI 정책을 정리한 개발 계획서 신규 발행, 마스터 스프레드시트에 대사집(103행)·스토리(17행)·개발로그 시트 추가, 도중에 legacy-2d/Index.html 원본 소스 누락 발견</td></tr>
+          <tr><td class="date">08-23</td><td class="task">AI 에이전트 동료 컨셉</td><td>채팅으로 동료에게 자연어 지시 → LLM Function Calling으로 실행+대사 생성하는 신규 아이디어를 기획서 4장/로드맵/리스크에 반영(구현 착수 아님, 컨셉 문서화) — 상세는 아래 "02 · 보류 중인 아이디어" 참고</td></tr>
+          <tr><td class="date">08-23</td><td class="task">야생동물/사냥</td><td>늑대(HP15)·소(HP20) 스폰, X 공격으로 실제 사냥 가능해짐 — 이 프로젝트에서 사냥이 데이터를 넘어 처음 작동한 순간</td></tr>
+          <tr><td class="date">08-23</td><td class="task">무기 다양화</td><td>창/도끼/곡괭이/몽둥이/냄비/돌 등 공격력 데이터 추가, 보유 중 최강 무기 자동 선택</td></tr>
+          <tr><td class="date">08-23</td><td class="task">Unity 에셋 이식</td><td>3차에 걸쳐 무기/가구/도구/동물 확보, 라이선스 리스크 높은 항목 별도 표시</td></tr>
+          <tr><td class="date">08-23</td><td class="task">에셋 카탈로그 뷰어</td><td>3D 모델을 회전 미리보기로 보는 관리 페이지 신규 제작</td></tr>
+          <tr><td class="date">08-23</td><td class="task">HUD 재배치</td><td>참고 영상 재분석 후 좌하단 스탯/하단 핫바/우상단 퀘스트/좌측 도킹 제작패널로 레이아웃 변경</td></tr>
+          <tr><td class="date">08-23</td><td class="task">미사용 에셋 정리</td><td>안 쓰는 파일 assets/unused/로 격리, 할머니/여동생을 Aj 색 변경으로 구현</td></tr>
+          <tr><td class="date">08-23</td><td class="task">동작 확장</td><td>점프(물리)/오르기·넘어가기(장애물 조건부)/수영/앉기·눕기/채집공격 추가 + 키 할당</td></tr>
+          <tr><td class="date">08-23</td><td class="task">버그 수정</td><td>걷기 애니메이션에 루트 모션이 박혀있던 "팅김" 현상 수정(Hips X/Z 고정)</td></tr>
+          <tr><td class="date">08-23</td><td class="task">생존 루프 UI</td><td>허기/수분/기력, 채집(F), 제작(C), 퀘스트 위젯, 핫바 신규 제작</td></tr>
+          <tr><td class="date">08-23</td><td class="task">동료 팔로우 AI</td><td>할머니/여동생이 거리 기반으로 플레이어를 따라오게 함 — legacy-2d 이식 1호</td></tr>
+          <tr><td class="date">08-23</td><td class="task">폴더 통합</td><td>레거시·3D로 별개였던 폴더를 islandsurvival/ 하나로 합침, legacy-2d/를 이관 참고 소스로 격하, 3D를 유일한 제품 트랙으로 확정</td></tr>
+          <tr><td class="date">08-23</td><td class="task">카메라 고정</td><td>이동 중엔 쿼터뷰 각도로 자동 복귀, 정지 시에만 회전 허용</td></tr>
+          <tr><td class="date">08-23</td><td class="task">팔레트 재작업</td><td>트로피컬 → 가을 황무지 → 해변+숲으로 두 차례 조정, Poly Haven 지형 텍스처 적용</td></tr>
+          <tr><td class="date">08-23</td><td class="task">Mixamo 에셋 정리</td><td>중복 캐릭터 메쉬 포함 2GB 애니메이션 팩을 GLB 재수출로 9.8MB까지 축소</td></tr>
+          <tr><td class="date">08-23</td><td class="task">캐릭터 확정</td><td>7명 Mixamo 후보를 게임 안에 나란히 세워 비교, 참고 영상과 비율이 가장 비슷한 Aj로 최종 선택</td></tr>
+          <tr><td class="date">08-23</td><td class="task">1단계 착수</td><td>참고 영상("As One We Survive") 기준 Three.js 지형/바다/하늘/이동/카메라부터 시작</td></tr>
         </tbody>
       </table>
     </div>
-  </div>
+  </section>
+
+  <section id="ideas">
+    <h2 class="eyebrow">02 · 보류 중인 아이디어</h2>
+    <h3 class="title">AI 에이전트 동료</h3>
+    <p class="lead">
+      2026-08-23에 처음 나온 컨셉 — 아직 착수 전, 어느 로드맵에도 우선순위로 안 잡혀 있지만
+      버리기엔 아까워서 여기 남겨둔다.
+    </p>
+    <div class="callout gold">
+      <div class="label">컨셉</div>
+      <p>채팅창에 자연어로 동료에게 지시를 내리면("여기서 좀 쉬고 있어", "저 나무 좀 캐줘"),
+      LLM Function Calling으로 그 지시를 실제 게임 행동(이동/채집/대기 등)과 대사로 실시간
+      변환해 동료가 그대로 움직인다는 아이디어. 지금의 규칙 기반 팔로우 AI(거리 기반 추종,
+      정해진 대사 풀)보다 훨씬 유연한 동료 상호작용이 가능해진다.</p>
+    </div>
+    <div class="callout">
+      <div class="label">왜 아직 안 하나</div>
+      <p>비용(매 지시마다 LLM 호출)·지연(실시간성 요구되는 게임 루프와 API 응답 시간의 충돌)·
+      Steam AI 기능 고지 의무 같은 리스크가 있어 신중한 검토가 필요 — GDD 4장(게임플레이)과
+      17장(리스크)에 이미 상세가 적혀 있다. 지금 로드맵(1~4막)에는 포함돼 있지 않고, 베이스
+      게임을 다 낸 뒤에나 재검토할 후보.</p>
+    </div>
+  </section>
 
   <footer>
-    환장의 아일랜드 — 통합 대시보드 · 2026-08-23 스냅샷 · Claude가 islandsurvival/ 소스(3D 코드 + legacy-2d/ 이관 참고자료)를 근거로 취합.
-    최신 상태는 항상 원본 문서가 기준입니다.
+    이 문서는 2026-08-23 작성된 "통합 대시보드"를 2026-08-29에 정리한 것 — 원래 있던 진행현황·
+    캐릭터·에셋·이슈&amp;라이선스·문서허브 5개 탭은 <a href="roadmap.html">로드맵</a>·
+    <a href="act1.html">1막 문서</a>·<code>ASSETS.md</code>·<a href="index.html">문서 허브</a>에
+    이미 더 정확하게 있어 삭제했다. 최신 상태는 항상 그 원본 문서들이 기준.
   </footer>
 </div>
-
-<script>
-  const tabs = document.querySelectorAll('#tabs button');
-  const panels = document.querySelectorAll('.panel');
-  tabs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabs.forEach(b => b.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
-    });
-  });
-
-  const search = document.getElementById('asset-search');
-  const filter = document.getElementById('asset-filter');
-  function applyAssetFilter() {
-    const q = search.value.trim().toLowerCase();
-    const lic = filter.value;
-    document.querySelectorAll('#asset-table tbody tr').forEach(tr => {
-      const text = tr.textContent.toLowerCase();
-      const matchesText = !q || text.includes(q);
-      const matchesLic = !lic || tr.dataset.lic === lic;
-      tr.style.display = (matchesText && matchesLic) ? '' : 'none';
-    });
-  }
-  search.addEventListener('input', applyAssetFilter);
-  filter.addEventListener('change', applyAssetFilter);
-</script>
 </body>
 </html>
