@@ -140,10 +140,21 @@
       실제 코드에 있고, <span class="st plan" style="margin:0 2px">제안</span>은 전부 미구현.
     </p>
     <div class="meta">
-      <span>2026-08-26 작성 · 전 항목 원본 사용법 + 설계안 병기(승인 대기)</span>
+      <span>2026-08-28 갱신 · 전 항목 원본 사용법 + 설계안 병기(승인 대기)</span>
       <a href="liblue2-catalog.html">전체 목록(원본 데이터)</a>
       <a href="liblue2-analysis.html">시스템 분석(큐레이션)</a>
       <a href="craft-update.html">실제 구현 기록(craft-update, 별도 문서)</a>
+    </div>
+    <div class="callout" style="margin-top:16px">
+      <div class="label">2026-08-28 명시 — 이 문서의 <code>영문 코드</code> 표기가 뭔지</div>
+      <p>표 안의 <code>wood</code>, <code>burdock</code>, <code>fried_meat</code> 같은 영문
+      스니펫은 <strong>번역 누락이 아니라 실제 코드의 아이템 id</strong>다 — 이 게임은 모든
+      아이템을 <code>state.js</code>에서 <code>{ id, label }</code> 형태로 관리하는데, id는
+      항상 영문 snake_case(예: <code>wood</code>), 화면에 보이는 한글 이름은 별도의
+      <code>label</code> 필드(예: "나무")다. <span class="st done" style="margin:0 2px">구현됨</span>
+      항목은 실제로 이미 그 영문 id로 코드에 들어가 있는 것이고, <span class="st plan" style="margin:0 2px">제안</span>
+      항목은 "만약 도입한다면 이 id를 쓰자"는 제안일 뿐 아직 코드엔 없다. 각 행 맨 왼쪽 칸의
+      한글 이름이 실제 표시명이니, 영문 id는 "이 아이템을 코드에서 부를 이름"으로만 읽으면 된다.</p>
     </div>
     <nav class="quicknav">
       <a href="#rules">변환 원칙</a>
