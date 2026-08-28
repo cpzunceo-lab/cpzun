@@ -65,13 +65,15 @@
   section > p.lead { color: var(--ink-dim); max-width: 74ch; margin: 0 0 16px; font-size: 14px; }
 
   .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 8px 0 16px; }
-  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; min-width: 720px; }
   th { text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); background: var(--panel-2); padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; word-break: break-word; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--panel-2); }
+  th:nth-child(1), td:nth-child(1) { width: 62px; }
+  th:nth-child(2), td:nth-child(2) { width: 220px; }
   td.date { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); white-space: nowrap; }
-  td.task { font-weight: 600; white-space: nowrap; }
+  td.task { font-weight: 600; }
 
   .callout { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
   .callout .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
