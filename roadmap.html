@@ -160,13 +160,13 @@
     </p>
     <div class="statusrow">
       <div class="stat"><div class="n">3/3</div><div class="l">캐릭터</div></div>
-      <div class="stat"><div class="n">26</div><div class="l">레시피</div></div>
-      <div class="stat"><div class="n">45</div><div class="l">아이템</div></div>
+      <div class="stat"><div class="n">37</div><div class="l">레시피(1막 기준)</div></div>
+      <div class="stat"><div class="n">86</div><div class="l">아이템</div></div>
       <div class="stat"><div class="n">0</div><div class="l">동료(데모 동안 임시 비활성)</div></div>
       <div class="stat"><div class="n">3</div><div class="l">저장 트리거(취침/체크포인트/자동)</div></div>
     </div>
     <div class="meta">
-      <span>최종 감사: 2026-08-29</span>
+      <span>최종 감사: 2026-08-28</span>
       <a href="index.html" target="_blank" rel="noopener">문서 허브</a>
       <a href="act1.html" target="_blank" rel="noopener">1막 단독 문서</a>
       <a href="gdd.html" target="_blank" rel="noopener">기획서(GDD)</a>
@@ -209,11 +209,12 @@
           <tr><td>야생동물 위협(늑대 추격/공격)</td><td><span class="chip warn">코드는 DONE, 공격성 0</span></td><td>2026-08-25 — <code>wildlife.js AGGRESSION=0</code>, 사냥(플레이어→동물)은 그대로 가능</td></tr>
           <tr><td>손에 든 무기/아이콘/가구 배치</td><td><span class="chip done">DONE</span></td><td>2026-08-24 — 그래픽 완성도 관련 피드백 반영분</td></tr>
           <tr><td>이펙트(VFX) + 사망 UX + 팝업 X버튼</td><td><span class="chip done">DONE</span></td><td>2026-08-25 — 타격/채집/먼지 파티클, 사망 원인 팝업, 리스폰 시 전 스탯 완전 회복, 모든 팝업 닫기 버튼</td></tr>
-          <tr><td>기본 효과음 + 배경음악</td><td><span class="chip warn">부분</span></td><td>2026-08-25 발소리·타격음, 2026-08-27 배경음악 신설 + 채집음 오분류(27종이 나무소리로 나가던 것) 수정 — 물소리(수영)만 남음, CC0 소스 안에 적합한 게 없어 의도적 보류</td></tr>
+          <tr><td>기본 효과음 + 배경음악</td><td><span class="chip warn">부분</span></td><td>2026-08-25 발소리·타격음, 2026-08-27 배경음악 신설 + 채집음 오분류(27종이 나무소리로 나가던 것) 수정, 2026-08-28 사망음 피치 구분·QTE 퍼펙트음 신설 — 물소리(수영)·거친 호흡음만 남음, 둘 다 CC0 소스 안에 적합한 게 없어 의도적 보류</td></tr>
           <tr><td>세이브/로드 + 옵션 메뉴</td><td><span class="chip done">DONE</span></td><td>2026-08-25 — localStorage, 취침 전체저장/체크포인트/옵션 자동저장 3트리거, 이어하기 왕복 검증 완료</td></tr>
           <tr><td>에셋 라이선스 정리</td><td><span class="chip risk">미착수</span></td><td>유료 가능성 있는 팩이 실제로 게임에 쓰이는 중 — 의도적으로 맨 뒤</td></tr>
           <tr><td>성능(실기기 검증)</td><td><span class="chip risk">미검증</span></td><td>헤드리스 SwiftShader로는 측정 불가 — 실브라우저 확인 필요</td></tr>
-          <tr><td>1막 생존 루프 심화</td><td><span class="chip warn">상당 부분 완료</span></td><td>피드백(VFX/사운드/UI)은 됨 — 날씨 압박·건축 차별화·탐험 동기가 남은 다음 최우선</td></tr>
+          <tr><td>1막 생존 루프 심화</td><td><span class="chip done">상당 부분 완료 (2026-08-28)</span></td><td>날씨 압박(텐트 2단계 미만이면 비/한파 HP 드레인)·건축 차별화(악천후 방어)·탐험 동기(구역 진입 장벽, QTE, 폭우 이벤트) 전부 반영. 남은 건 조작 UX·데모 완결판 배치(아래 신규 카드)</td></tr>
+          <tr><td>조작 UX·데모 완결판 배치(제미나이 피드백 2건)</td><td><span class="chip done">DONE (2026-08-28)</span></td><td>Space 자동 등반, 위기 비네트/디버프 연출, 채집 타이밍 QTE, 환경 수분 채집, 베이스캠프 시설 3종, 구역 진입 장벽, 1구역 폭우 이벤트, 엔딩 확장 — 상세는 <a href="act1.html" target="_blank" rel="noopener">1막 단독 문서</a> 참고</td></tr>
         </tbody>
       </table>
     </div>
@@ -355,6 +356,28 @@
           <span class="chip done">핵심 전환 구조 — DONE (2026-08-26)</span>
           <span class="chip done">스테이지3 발견 독백·컷씬 엔딩 — DONE (2026-08-26)</span>
           <span class="chip info">1막 단독 문서 04장 · stages.js/world.js/companions.js/state.js/main.js/ui.js</span>
+        </div>
+      </div>
+      <div class="prio-card">
+        <div class="prio-head"><h4>제미나이 UX·데모 완결판 피드백 반영 <span style="color:var(--gold)">— DONE (2026-08-28)</span></h4></div>
+        <p class="why">
+          사용자가 다른 AI(제미나이)와 상의한 리뷰 2건을 코드와 대조 후 반영. 1차(조작 체계·생존 스탯
+          피드백·사운드): 오르기 키(V)를 Space 점프에 통합(앞에 오를 지형이 있으면 자동 발동), 허기·
+          수분 20% 이하 시 화면 가장자리 붉은 비네트(10% 밑이면 심장박동 펄스), 졸음·날씨 디버프에
+          HUD 글로우 펄스, 사망 효과음을 다른 알림과 구분(피치만 낮춤, 새 에셋 없이). 2차("3시간 데모
+          완결판" 종합 기획안): 채집 타이밍 QTE(F 재입력 타이밍 맞추면 자원 2배, 놓쳐도 페널티 없음),
+          비 올 때 물병 없이 마시는 환경 수분 채집(배탈 위험 있음), 베이스캠프 시설 3종 신설(빗물
+          집수기/훈제 건조대/조잡한 작업대 — 작업대는 뼈창·활·가죽갑옷 게이트), 구역 진입 장벽(1→2
+          횃불/덩굴끈, 2→3 가죽신발/등반갈고리), 텐트 2단계부터 비/한파 HP 드레인 방어, 1구역 폭우
+          경보 스크립트 이벤트(우상단 카운트다운+쉘터 준비도), 3구역 엔딩에 오두막 공터 발견 문단
+          이어붙임. 3구역 엔딩 충돌(제미나이는 새 동료가 이미 동생으로 정해진 걸 몰랐음, 엔딩 방향도
+          겹침)은 사전에 사용자에게 확인받고 진행 — "기존 엔딩에 이어붙이기"로 결정.
+        </p>
+        <div class="prio-meta">
+          <span class="chip done">조작·비네트·디버프·사망음 — DONE (2026-08-28)</span>
+          <span class="chip done">QTE·환경물·시설3종·구역게이팅·폭우이벤트·엔딩확장 — DONE (2026-08-28)</span>
+          <span class="chip warn">건축이 해변1 전용이라 "2구역서 시설 짓기" 페이싱과 충돌 — 결정 대기</span>
+          <span class="chip info">1막 단독 문서 06장(결정 대기 콜아웃) · main.js/state.js/buildings.js/sound.js/index.html</span>
         </div>
       </div>
       <div class="prio-card">
