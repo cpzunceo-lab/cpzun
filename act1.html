@@ -132,7 +132,7 @@
     <div class="statusrow">
       <div class="stat"><div class="n">3</div><div class="l">스테이지(전부 완료·로딩 전환 구현됨)</div></div>
       <div class="stat"><div class="n">0</div><div class="l">동료(관계 시스템 비활성, 스테이지3 끝 카메오는 구현됨)</div></div>
-      <div class="stat"><div class="n">36</div><div class="l">레시피(철도끼·철곡괭이·낚싯대 3종은 2막부터)</div></div>
+      <div class="stat"><div class="n">36</div><div class="l">레시피(철도끼·철곡괭이·낚싯대·활·화살 5종은 2막부터)</div></div>
       <div class="stat"><div class="n">8</div><div class="l">퀘스트(2026-08-28, 구역이동·폭우·엔딩까지 연결)</div></div>
     </div>
     <div class="meta">
@@ -187,6 +187,7 @@
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>채집 타이밍 QTE·환경 수분 채집·베이스캠프 시설 3종(빗물 집수기/훈제 건조대/작업대)·구역 진입 장벽·위기 디버프 연출(화면 블러·악천후 HP 드레인)·1구역 폭우 이벤트·엔딩 확장</strong><span class="d">2026-08-28 — 제미나이 기획안 대거 반영. 상세는 06장 표와 CLAUDE.md 참고. 스테이지별 건축 제한과 충돌하는 부분 있음(아래 06장)</span></div></div>
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>철 아이템 1막 제외</strong> — 철광석 드롭·철도끼·철곡괭이 전부 2막부터<span class="d">2026-08-27 — 예전엔 돌 채집 시 12% 확률로 철광석이 그냥 섞여 나왔음(설계 의도와 어긋난 버그)</span></div></div>
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>작살 낚시</strong> — 낚싯대는 2막(동생 합류) 이후, 1막은 창/뼈창으로만 낚시<span class="d">2026-08-29 — <code>fishing_rod</code> 레시피 act1:false 처리 + <code>resolveActionKind()</code>가 창/뼈창 소지+물속이면 낚시 판정하도록 확장</span></div></div>
+      <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>공격음 수정 + 원거리 무기 1막 제외 + 허술한 도구 3종 신설</strong><span class="d">2026-08-29 — attack_swing이 활·새총·낚시 시도에도 무조건 같이 울리던 것을 근접 공격 전용으로 수정. 활·화살 레시피 act1:false(2막부터, 1막 원거리는 새총만). 못 박은 나무판 삭제. 허술한 창·도끼·곡괭이(나무+섬유만, 돌 불필요) 신설 — 08장 도구 표 참고. 동물 전용 사운드는 CC0 소스 부재 확인(물소리와 같은 공백)</span></div></div>
     </div>
   </section>
 
@@ -335,7 +336,7 @@
       GDD·개발 계획서에 있는 전체 설계가 아니라, <strong>지금 이 데모 빌드(demo-act1 브랜치)에
       실제로 코드로 들어가 있는 것만</strong> 담았다 — 문서와 실제 구현이 어긋나지 않도록 전부
       <code>state.js</code>/<code>world.js</code>/<code>wildlife.js</code>를 직접 읽어 옮겼다.
-      2막부터 열리는 철도끼·철곡괭이·낚싯대 3종은 표에서 "2막부터"로 표시.
+      2막부터 열리는 철도끼·철곡괭이·낚싯대·활·화살 5종은 표에서 "2막부터"로 표시.
     </p>
 
     <p class="subhead">퀘스트 (8개 — 서사 맥락은 07장)</p>
@@ -409,24 +410,26 @@
       아래 동물 표 참고.
     </p>
 
-    <p class="subhead">도구·무기 (18종)</p>
+    <p class="subhead">도구·무기 (20종 — 맨손 &lt; 허술한(나무+섬유) &lt; 돌 티어 &lt; 철/뼈 티어)</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>도구</th><th>효과</th><th>제작 재료</th><th>비고</th></tr></thead>
         <tbody>
+          <tr><td>허술한 창</td><td>공격력 4</td><td>나무 2 + 섬유 2</td><td class="short">2026-08-29 신설 — 돌 불필요</td></tr>
           <tr><td>창</td><td>공격력 6</td><td>나무 2 + 돌 1</td><td>-</td></tr>
           <tr><td>뼈창</td><td>공격력 9</td><td>창 1 + 뼈 2 + 섬유 1</td><td>작업대 필요</td></tr>
+          <tr><td>허술한 도끼</td><td>나무 채집 2개/회, 내구도 25</td><td>나무 3 + 섬유 2</td><td class="short">2026-08-29 신설 — 돌 불필요</td></tr>
           <tr><td>돌도끼</td><td>나무 채집 3개/회, 내구도 60</td><td>나무 2 + 돌 2</td><td>-</td></tr>
-          <tr><td>돌곡괭이</td><td>돌 채집 2개/회, 내구도 60</td><td>나무 2 + 돌 2</td><td>-</td></tr>
           <tr><td>철도끼</td><td>나무 채집 4개/회, 내구도 120</td><td>나무 3 + 돌 2 + 철광석 3</td><td class="short">2막부터(1막 제외)</td></tr>
+          <tr><td>허술한 곡괭이</td><td>돌 채집 2개/회, 내구도 25</td><td>나무 3 + 섬유 2</td><td class="short">2026-08-29 신설 — 돌 불필요</td></tr>
+          <tr><td>돌곡괭이</td><td>돌 채집 2개/회, 내구도 60</td><td>나무 2 + 돌 2</td><td>돌 티어끼리는 허술한 곡괭이와 채집량 동일 — 대신 내구도가 더 김</td></tr>
           <tr><td>철곡괭이</td><td>돌 채집 3개/회, 내구도 120</td><td>나무 3 + 돌 2 + 철광석 3</td><td class="short">2막부터(1막 제외)</td></tr>
           <tr><td>나무 몽둥이</td><td>공격력 3, 둔기(파인애플 섭취용)</td><td>나무 2</td><td>-</td></tr>
-          <tr><td>못 박은 나무판</td><td>공격력 5</td><td>나무 2 + 돌 2</td><td>-</td></tr>
           <tr><td>냄비</td><td>공격력 2(비상 무기 겸용)</td><td>돌 2</td><td>-</td></tr>
-          <tr><td>활</td><td>화살 발사(원거리)</td><td>나무 3 + 돌 1</td><td>작업대 필요</td></tr>
-          <tr><td>화살</td><td>활의 소모성 탄약</td><td>나무 1 + 돌 1</td><td>-</td></tr>
-          <tr><td>새총</td><td>돌 발사(원거리)</td><td>나무 1 + 돌 2</td><td>-</td></tr>
-          <tr><td>창 · 뼈창 (작살 낚시)</td><td>물속에서 X로 낚시 — 이미 갖고 있는 무기를 그대로 씀</td><td>08장 도구 표 참고(별도 낚시 전용 아이템 아님)</td><td>1막 낚시 수단은 이거 하나뿐</td></tr>
+          <tr><td>새총</td><td>돌 발사(원거리)</td><td>나무 1 + 돌 2</td><td>1막의 유일한 원거리 수단</td></tr>
+          <tr><td>활</td><td>화살 발사(원거리)</td><td>나무 3 + 돌 1</td><td class="short">2막부터(1막 제외, 2026-08-29) — 작업대 필요</td></tr>
+          <tr><td>화살</td><td>활의 소모성 탄약</td><td>나무 1 + 돌 1</td><td class="short">2막부터(1막 제외, 2026-08-29)</td></tr>
+          <tr><td>창 · 뼈창 · 허술한 창 (작살 낚시)</td><td>물속에서 X로 낚시 — 이미 갖고 있는 무기를 그대로 씀</td><td>별도 낚시 전용 아이템 아님</td><td>1막 낚시 수단은 이거 하나뿐</td></tr>
           <tr><td>낚싯대</td><td>물속에서 X로 낚시</td><td>나무 2 + 돌 1</td><td class="short">2막부터(1막 제외, 2026-08-29)</td></tr>
           <tr><td>횃불</td><td>해변1→2 진입 장벽 통과 아이템</td><td>나무 1</td><td>-</td></tr>
           <tr><td>덩굴 끈</td><td>해변1→2 진입 장벽(횃불 대체)</td><td>섬유 3</td><td>-</td></tr>
@@ -436,6 +439,11 @@
         </tbody>
       </table>
     </div>
+    <p class="lead" style="margin-top:10px">
+      <strong>못 박은 나무판은 2026-08-29에 삭제됨</strong>(공격력 5짜리 무기였으나 정리 대상으로
+      지목돼 제거 — ITEM_META/레시피/아이콘 전부 정리). 파인애플 섭취 조건(둔기 필요)은 나무
+      몽둥이 하나로만 충족된다.
+    </p>
 
     <p class="subhead">동물 (4종)</p>
     <div class="tablewrap">
