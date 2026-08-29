@@ -132,7 +132,7 @@
     <div class="statusrow">
       <div class="stat"><div class="n">3</div><div class="l">스테이지(전부 완료·로딩 전환 구현됨)</div></div>
       <div class="stat"><div class="n">0</div><div class="l">동료(관계 시스템 비활성, 스테이지3 끝 카메오는 구현됨)</div></div>
-      <div class="stat"><div class="n">37</div><div class="l">레시피(철도끼·철곡괭이 2종은 2막부터)</div></div>
+      <div class="stat"><div class="n">36</div><div class="l">레시피(철도끼·철곡괭이·낚싯대 3종은 2막부터)</div></div>
       <div class="stat"><div class="n">8</div><div class="l">퀘스트(2026-08-28, 구역이동·폭우·엔딩까지 연결)</div></div>
     </div>
     <div class="meta">
@@ -186,6 +186,7 @@
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>기력 밸런스</strong> — 서있기/앉기/취침 3단 회복 위계, 바나나 등 기력 회복 음식<span class="d">2026-08-28 — 서있기 회복이 도보 소모의 20배라 회복 수단으로서 존재감이 없던 것 수정</span></div></div>
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>채집 타이밍 QTE·환경 수분 채집·베이스캠프 시설 3종(빗물 집수기/훈제 건조대/작업대)·구역 진입 장벽·위기 디버프 연출(화면 블러·악천후 HP 드레인)·1구역 폭우 이벤트·엔딩 확장</strong><span class="d">2026-08-28 — 제미나이 기획안 대거 반영. 상세는 06장 표와 CLAUDE.md 참고. 스테이지별 건축 제한과 충돌하는 부분 있음(아래 06장)</span></div></div>
       <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>철 아이템 1막 제외</strong> — 철광석 드롭·철도끼·철곡괭이 전부 2막부터<span class="d">2026-08-27 — 예전엔 돌 채집 시 12% 확률로 철광석이 그냥 섞여 나왔음(설계 의도와 어긋난 버그)</span></div></div>
+      <div class="check-row done"><div class="mark">✓</div><div class="txt"><strong>작살 낚시</strong> — 낚싯대는 2막(동생 합류) 이후, 1막은 창/뼈창으로만 낚시<span class="d">2026-08-29 — <code>fishing_rod</code> 레시피 act1:false 처리 + <code>resolveActionKind()</code>가 창/뼈창 소지+물속이면 낚시 판정하도록 확장</span></div></div>
     </div>
   </section>
 
@@ -334,7 +335,7 @@
       GDD·개발 계획서에 있는 전체 설계가 아니라, <strong>지금 이 데모 빌드(demo-act1 브랜치)에
       실제로 코드로 들어가 있는 것만</strong> 담았다 — 문서와 실제 구현이 어긋나지 않도록 전부
       <code>state.js</code>/<code>world.js</code>/<code>wildlife.js</code>를 직접 읽어 옮겼다.
-      2막부터 열리는 철도끼·철곡괭이 2종은 표에서 "2막부터"로 표시.
+      2막부터 열리는 철도끼·철곡괭이·낚싯대 3종은 표에서 "2막부터"로 표시.
     </p>
 
     <p class="subhead">퀘스트 (8개 — 서사 맥락은 07장)</p>
@@ -425,7 +426,8 @@
           <tr><td>활</td><td>화살 발사(원거리)</td><td>나무 3 + 돌 1</td><td>작업대 필요</td></tr>
           <tr><td>화살</td><td>활의 소모성 탄약</td><td>나무 1 + 돌 1</td><td>-</td></tr>
           <tr><td>새총</td><td>돌 발사(원거리)</td><td>나무 1 + 돌 2</td><td>-</td></tr>
-          <tr><td>낚싯대</td><td>물속에서 X로 낚시</td><td>나무 2 + 돌 1</td><td class="short">⚠ 10장 설계 결정 참고 — 지금은 1막에서도 제작 가능하지만, 원래 설계는 동생 합류 후 전용(코드 미반영)</td></tr>
+          <tr><td>창 · 뼈창 (작살 낚시)</td><td>물속에서 X로 낚시 — 이미 갖고 있는 무기를 그대로 씀</td><td>08장 도구 표 참고(별도 낚시 전용 아이템 아님)</td><td>1막 낚시 수단은 이거 하나뿐</td></tr>
+          <tr><td>낚싯대</td><td>물속에서 X로 낚시</td><td>나무 2 + 돌 1</td><td class="short">2막부터(1막 제외, 2026-08-29)</td></tr>
           <tr><td>횃불</td><td>해변1→2 진입 장벽 통과 아이템</td><td>나무 1</td><td>-</td></tr>
           <tr><td>덩굴 끈</td><td>해변1→2 진입 장벽(횃불 대체)</td><td>섬유 3</td><td>-</td></tr>
           <tr><td>가죽 신발</td><td>해변2→숲 진입 장벽 + 이동속도 +3%</td><td>가죽 2 + 섬유 2</td><td>방어구 겸용</td></tr>
@@ -574,20 +576,13 @@
     </p>
     <div class="offgrid">
       <div class="offcard">
-        <h4>낚시 도구 게이팅 — 동생 합류 전/후</h4>
-        <p><strong>동생 합류 전(1막 내내)</strong>: 낚싯대 같은 "좋고 튼튼한 도구" 없이, 창/뼈창을
-        든 채 물속에서 찌르는 <strong>작살 낚시</strong>만 가능. <strong>동생 합류 후(2막+)</strong>:
-        낚싯대 등 상위 도구 사용 가능. 지금 코드는 <code>fishing_rod</code> 레시피가 1막에서도 바로
-        제작 가능한 상태라 이 설계와 어긋남 — 반영하려면 (1) <code>fishing_rod</code> 레시피에
-        <code>act1: false</code>를 걸어 1막에서 못 만들게 막고, (2)
-        <code>player.js</code>의 <code>resolveActionKind()</code>에 "창/뼈창 소지 + 물속"이면
-        <code>'spear_fish'</code> 같은 새 액션을 반환하도록 분기를 추가해야 한다.</p>
-        <p>(로드맵 문서 01-2장에 있던 더 오래된 제안) <strong>낚시 판정 자체도 성공/실패/쓰레기
-        3종 랜덤</strong>으로 바꿀 것 — 지금은 확률 하나로 성공/실패만 갈리는 즉석 판정이다.
-        "흔한 생선 3종만 낚인다"는 스코프(희귀 어종은 2막 이후 구역 확장과 함께)는 이미
-        구현돼 있으니(도미 20%·장어 8%·일반 72%, 08장 참고) 그 위에 "쓰레기" 결과 하나만
-        추가하면 된다 — 낚시가 매번 뭔가는 건진다는 손맛용 장치, 별도 폐기물 시스템까지는
-        아님.</p>
+        <h4>낚시 판정 — 성공/실패/쓰레기 3종 랜덤</h4>
+        <p>(로드맵 문서 01-2장에 있던 오래된 제안, 아직 미반영) 지금은 확률 하나로 성공/실패만
+        갈리는 즉석 판정이다(70%/30%, 08장 참고). "흔한 생선 3종만 낚인다"는 스코프(희귀 어종은
+        2막 이후 구역 확장과 함께)는 이미 구현돼 있으니(도미 20%·장어 8%·일반 72%) 그 위에
+        <strong>"쓰레기"</strong> 결과 하나만 추가하면 된다 — 낚시가 매번 뭔가는 건진다는
+        손맛용 장치, 별도 폐기물 시스템까지는 아님. (참고: 낚시 도구를 작살로 바꾸는 게이팅
+        자체는 2026-08-29에 구현 완료 — 02장 체크리스트·08장 도구 표 참고.)</p>
       </div>
       <div class="offcard">
         <h4>손맛 타이밍(QTE) 적용 범위 원칙</h4>
