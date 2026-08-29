@@ -108,6 +108,11 @@
   .callout.risk { border-color: var(--red); }
   .callout.risk .label { color: var(--red); }
 
+  /* 08장 콘텐츠 도감 — 표 여러 개를 한 섹션 안에서 구분하는 작은 소제목 */
+  .subhead { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin: 26px 0 6px; }
+  .subhead:first-of-type { margin-top: 16px; }
+  td.short { color: var(--red); font-size: 12.5px; }
+
   footer { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12px; font-family: var(--mono); }
   footer a { color: var(--ink-dim); }
 </style>
@@ -131,7 +136,7 @@
       <div class="stat"><div class="n">8</div><div class="l">퀘스트(2026-08-28, 구역이동·폭우·엔딩까지 연결)</div></div>
     </div>
     <div class="meta">
-      <span>2026-08-28 기준</span>
+      <span>2026-08-29 기준</span>
       <a href="index.html" target="_blank" rel="noopener">문서 허브</a>
       <a href="devplan.html" target="_blank" rel="noopener">개발 계획서(전체)</a>
       <a href="roadmap.html" target="_blank" rel="noopener">로드맵·마일스톤</a>
@@ -298,6 +303,248 @@
       <div class="offcard"><h4>6. 1구역 폭우에서 살아남기</h4><p>정착했다는 안도감을 깨는 첫 위기 — 게임 시작 15분 뒤 예고 없이 경보가 뜨고 폭우가 몰아친다. 텐트를 2단계까지 올려뒀는지가 실제로 갈리는, 이 막 유일의 "생존 시험대".</p></div>
       <div class="offcard"><h4>7. 숲(3구역)으로 이동하기</h4><p>해변만 떠돌던 여정이 처음으로 내륙 깊숙이 들어간다. 가죽 신발이나 등반 갈고리가 있어야 가시덤불을 지날 수 있다 — 앞선 두 진입 장벽 중 가장 마지막, 가장 무거운 관문.</p></div>
       <div class="offcard"><h4>8. 숲 끝에서 무언가를 발견하다</h4><p>대피소 흔적을 발견하는 독백에 이어 낯선 인물과 마주치는 순간 데모가 끝난다 — "혼자가 아니었다"는 한 줄로 1막을 닫고, 그 정체는 의도적으로 궁금증만 남긴다(04장 참고).</p></div>
+    </div>
+  </section>
+
+  <section id="catalog">
+    <h2>콘텐츠 도감 · 08</h2>
+    <h3 class="title">1막 한정 — 지금 데모에 실제로 존재하는 것 전부</h3>
+    <p class="lead">
+      GDD·개발 계획서에 있는 전체 설계가 아니라, <strong>지금 이 데모 빌드(demo-act1 브랜치)에
+      실제로 코드로 들어가 있는 것만</strong> 담았다 — 문서와 실제 구현이 어긋나지 않도록 전부
+      <code>state.js</code>/<code>world.js</code>/<code>wildlife.js</code>를 직접 읽어 옮겼다.
+      2막부터 열리는 철도끼·철곡괭이 2종은 표에서 "2막부터"로 표시.
+    </p>
+
+    <p class="subhead">퀘스트 (8개 — 서사 맥락은 07장)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th>퀘스트</th><th>완료 조건</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>나무 5개 모으기</td><td>나무 보유량 ≥ 5</td></tr>
+          <tr><td>2</td><td>돌 3개 모으기</td><td>돌 보유량 ≥ 3</td></tr>
+          <tr><td>3</td><td>창 제작하기</td><td>창 보유량 ≥ 1</td></tr>
+          <tr><td>4</td><td>이동식 집 짓기</td><td>이동식 집 1회 이상 건축</td></tr>
+          <tr><td>5</td><td>해변2로 이동하기</td><td>도달한 최대 스테이지 ≥ 2</td></tr>
+          <tr><td>6</td><td>1구역 폭우에서 살아남기</td><td>폭우 이벤트 종료까지 생존</td></tr>
+          <tr><td>7</td><td>숲(3구역)으로 이동하기</td><td>도달한 최대 스테이지 ≥ 3</td></tr>
+          <tr><td>8</td><td>숲 끝에서 무언가를 발견하다</td><td>데모 엔딩(카메오 조우) 트리거</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subhead">자원 (채집물 — 30종 채집 노드 + 표류물 5종)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>자원</th><th>지역</th><th>손맛(QTE)</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>나무</td><td>전역(나무)</td><td>있음</td><td>도끼 있으면 3개(철도끼 4), 맨손이면 나무1+나뭇가지1</td></tr>
+          <tr><td>돌</td><td>전역(바위)</td><td>있음</td><td>곡괭이 있으면 2개(철곡괭이 3), 맨손이면 1개 — 2막부터 12% 확률로 철광석 동반(1막은 0%)</td></tr>
+          <tr><td>베리</td><td>전역(덤불)</td><td>없음</td><td>상함</td></tr>
+          <tr><td>섬유</td><td>전역</td><td>없음</td><td>의료품 재료(붕대·지혈대·해독제 등)</td></tr>
+          <tr><td>표류목재(나무)</td><td>해안 전용</td><td>없음</td><td>도구 여부 무관 항상 +3 고정 지급</td></tr>
+          <tr><td>부싯돌</td><td>전역</td><td>없음</td><td>불씨 재료</td></tr>
+          <tr><td>불쏘시개</td><td>전역</td><td>없음</td><td>불씨 재료</td></tr>
+          <tr><td>소금</td><td>해안</td><td>없음</td><td>안 상함, 조미료</td></tr>
+          <tr><td>허브</td><td>내륙 관목</td><td>없음</td><td>상함, 조미료</td></tr>
+          <tr><td>당근</td><td>내륙 초지</td><td>없음</td><td>상함</td></tr>
+          <tr><td>감자</td><td>내륙 초지</td><td>없음</td><td>상함</td></tr>
+          <tr><td>양파</td><td>내륙 초지</td><td>없음</td><td>상함</td></tr>
+          <tr><td>버섯</td><td>내륙</td><td>없음</td><td>상함, 날것 배탈 위험 20%</td></tr>
+          <tr><td>도토리</td><td>숲</td><td>없음</td><td>상함</td></tr>
+          <tr><td>새알</td><td>숲</td><td>없음</td><td>상함</td></tr>
+          <tr><td>거미줄</td><td>숲</td><td>없음</td><td>안 상함, 거미줄 붕대 재료</td></tr>
+          <tr><td>이끼</td><td>숲</td><td>없음</td><td>안 상함, 이끼 압박대 재료</td></tr>
+          <tr><td>코코넛</td><td>정글</td><td>없음</td><td>상함</td></tr>
+          <tr><td>바나나</td><td>정글</td><td>없음</td><td>상함, 기력을 직접 회복시키는 유일한 음식(+8)</td></tr>
+          <tr><td>파파야</td><td>정글</td><td>없음</td><td>상함</td></tr>
+          <tr><td>파인애플</td><td>정글</td><td>없음</td><td>상함, 섭취엔 둔기(몽둥이 등) 필요</td></tr>
+          <tr><td>야생 꿀</td><td>정글</td><td>없음</td><td>채집 시 40% 확률로 즉시 피해(벌 쏘임) — 하이리스크 채집물</td></tr>
+          <tr><td>게</td><td>해안 전용</td><td>없음</td><td>상함, 배탈 위험 15%</td></tr>
+          <tr><td>가리비</td><td>해안 전용</td><td>없음</td><td>상함, 배탈 위험 15%</td></tr>
+          <tr><td>바지락</td><td>해안 전용</td><td>없음</td><td>상함, 배탈 위험 15%</td></tr>
+          <tr><td>미역</td><td>해안 전용</td><td>없음</td><td>상함</td></tr>
+          <tr><td>성게</td><td>해안 전용</td><td>없음</td><td>상함, 배탈 위험 15%</td></tr>
+          <tr><td>조개껍데기</td><td>해안 전용</td><td>없음</td><td>안 상함, 용도 미배정(수집 전용)</td></tr>
+          <tr><td>산호 조각</td><td>해안 전용</td><td>없음</td><td>안 상함, 용도 미배정(수집 전용)</td></tr>
+          <tr><td>진주</td><td>해안 전용(희귀)</td><td>없음</td><td>안 상함, 용도 미배정(수집 전용)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">
+      <strong>표류물(45~90초 간격 랜덤, 해안 전용, 최대 동시 2개)</strong>: 사과·오렌지(각 가중치
+      40) · 붕대(15) · 물병(4, 유니크 — 얻어야 바다에서 물을 마실 수 있음) · 가족의 유품(1, 유니크
+      단서). <strong>사냥 부산물(가죽/뼈/깃털/고기)</strong>은 채집이 아니라 동물을 잡아야 나옴 —
+      아래 동물 표 참고.
+    </p>
+
+    <p class="subhead">도구·무기 (18종)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>도구</th><th>효과</th><th>제작 재료</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>창</td><td>공격력 6</td><td>나무 2 + 돌 1</td><td>-</td></tr>
+          <tr><td>뼈창</td><td>공격력 9</td><td>창 1 + 뼈 2 + 섬유 1</td><td>작업대 필요</td></tr>
+          <tr><td>돌도끼</td><td>나무 채집 3개/회, 내구도 60</td><td>나무 2 + 돌 2</td><td>-</td></tr>
+          <tr><td>돌곡괭이</td><td>돌 채집 2개/회, 내구도 60</td><td>나무 2 + 돌 2</td><td>-</td></tr>
+          <tr><td>철도끼</td><td>나무 채집 4개/회, 내구도 120</td><td>나무 3 + 돌 2 + 철광석 3</td><td class="short">2막부터(1막 제외)</td></tr>
+          <tr><td>철곡괭이</td><td>돌 채집 3개/회, 내구도 120</td><td>나무 3 + 돌 2 + 철광석 3</td><td class="short">2막부터(1막 제외)</td></tr>
+          <tr><td>나무 몽둥이</td><td>공격력 3, 둔기(파인애플 섭취용)</td><td>나무 2</td><td>-</td></tr>
+          <tr><td>못 박은 나무판</td><td>공격력 5</td><td>나무 2 + 돌 2</td><td>-</td></tr>
+          <tr><td>냄비</td><td>공격력 2(비상 무기 겸용)</td><td>돌 2</td><td>-</td></tr>
+          <tr><td>활</td><td>화살 발사(원거리)</td><td>나무 3 + 돌 1</td><td>작업대 필요</td></tr>
+          <tr><td>화살</td><td>활의 소모성 탄약</td><td>나무 1 + 돌 1</td><td>-</td></tr>
+          <tr><td>새총</td><td>돌 발사(원거리)</td><td>나무 1 + 돌 2</td><td>-</td></tr>
+          <tr><td>낚싯대</td><td>물속에서 X로 낚시</td><td>나무 2 + 돌 1</td><td class="short">⚠ 10장 설계 결정 참고 — 지금은 1막에서도 제작 가능하지만, 원래 설계는 동생 합류 후 전용(코드 미반영)</td></tr>
+          <tr><td>횃불</td><td>해변1→2 진입 장벽 통과 아이템</td><td>나무 1</td><td>-</td></tr>
+          <tr><td>덩굴 끈</td><td>해변1→2 진입 장벽(횃불 대체)</td><td>섬유 3</td><td>-</td></tr>
+          <tr><td>가죽 신발</td><td>해변2→숲 진입 장벽 + 이동속도 +3%</td><td>가죽 2 + 섬유 2</td><td>방어구 겸용</td></tr>
+          <tr><td>등반 갈고리</td><td>해변2→숲 진입 장벽(가죽 신발 대체)</td><td>나무 2 + 돌 2</td><td>-</td></tr>
+          <tr><td>물병</td><td>해안에서 F로 물 마시기(+40 수분)</td><td>제작 불가 — 표류물 전용</td><td>유니크</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subhead">동물 (4종)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>동물</th><th>체력</th><th>공격성</th><th>고기</th><th>부산물</th></tr></thead>
+        <tbody>
+          <tr><td>늑대</td><td>15</td><td>0(비활성 — 사냥은 가능)</td><td>2</td><td>가죽 70%, 뼈 50%</td></tr>
+          <tr><td>소</td><td>20</td><td>없음(원래도 비공격적)</td><td>4</td><td>가죽 90%, 뼈 40%</td></tr>
+          <tr><td>닭</td><td>4</td><td>없음</td><td>1</td><td>뼈 30%, 깃털 60%(2개)</td></tr>
+          <tr><td>사슴</td><td>12</td><td>없음</td><td>3</td><td>가죽 60%, 뼈 50%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:10px">
+      공격성은 전종 0으로 낮춰뒀다("1막 집중 재조정") — 플레이어→동물 사냥은 정상 작동하지만
+      동물이 먼저 공격하지 않는다. 늑대의 추격/반격 로직 자체는 구현돼 있음(코드 확인됨), 켜져
+      있지 않을 뿐.
+    </p>
+
+    <p class="subhead">조리·가공 (레시피 아님 — 시설 앞 F키 상호작용)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>시설</th><th>변환</th></tr></thead>
+        <tbody>
+          <tr><td>모닥불/부엌 (F, 근처에서 조리)</td><td>물고기→구운 생선, 도미→도미 구이, 장어→장어 구이, 생고기→구운 고기, 감자→구운 감자, 버섯→구운 버섯</td></tr>
+          <tr><td>훈제 건조대 (F, 근처에서 훈제)</td><td>구운 고기→훈제 고기, 구운 생선→훈제 생선(부패 없음 + 회복량 상승)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subhead">아이템 — 식음료(생것→조리→상위 가공)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>생것 (허기/수분)</th><th>조리 (허기/수분)</th><th>상위 가공 (허기/수분)</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>베리 18/4</td><td>—</td><td>베리잼(제작, 베리3) 30/8</td><td>베리는 상함</td></tr>
+          <tr><td>물고기 12/4</td><td>구운 생선 25/6</td><td>소금구이 생선(+소금) 34/10 · 훈제 생선 34/8</td><td>날것 배탈 25%</td></tr>
+          <tr><td>도미 16/5</td><td>도미 구이 32/7</td><td>—</td><td>날것 배탈 20%, 낚시 확률 20%</td></tr>
+          <tr><td>장어 20/3</td><td>장어 구이 38/8</td><td>—</td><td>날것 배탈 30%, 낚시 확률 8%(최희귀)</td></tr>
+          <tr><td>생고기 12/0</td><td>구운 고기 30/0</td><td>허브 스테이크(+허브) 40/4 · 훈제 고기 42/0</td><td>날것 배탈 25%</td></tr>
+          <tr><td>감자 10/1</td><td>구운 감자 22/1</td><td>—</td><td>-</td></tr>
+          <tr><td>버섯 8/0</td><td>구운 버섯 20/0</td><td>—</td><td>날것 배탈 20%</td></tr>
+          <tr><td>당근 10/2</td><td>—</td><td>당근수프(제작, 당근2+허브1) 28/14</td><td>-</td></tr>
+          <tr><td>허브차</td><td colspan="2">허브2+베리1 제작 — 4/22 + 90초간 소모 25% 완화 버프</td><td>-</td></tr>
+          <tr><td>양파 8/2 · 코코넛 14/16 · 바나나 14/4(+기력8) · 파파야 13/6 · 파인애플 16/10(둔기 필요)</td><td colspan="2">전부 날것 섭취 전용, 조리 없음</td><td>전부 상함</td></tr>
+          <tr><td>게 14/2 · 가리비 12/4 · 바지락 10/4 · 미역 6/6 · 성게 16/2</td><td colspan="2">전부 날것 섭취 전용, 조리 없음</td><td>조개·성게류 배탈 15%</td></tr>
+          <tr><td>도토리 6/0 · 새알 10/0 · 야생 꿀 30/6</td><td colspan="2">전부 날것 섭취 전용, 조리 없음</td><td>-</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subhead">아이템 — 의료·방어구·기타</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>아이템</th><th>분류</th><th>효과</th><th>재료</th></tr></thead>
+        <tbody>
+          <tr><td>붕대</td><td>의료</td><td>생명력 +20</td><td>섬유 3</td></tr>
+          <tr><td>거미줄 붕대</td><td>의료</td><td>생명력 +35</td><td>거미줄 2 + 섬유 1</td></tr>
+          <tr><td>지혈대</td><td>의료</td><td>출혈 치료</td><td>섬유 4</td></tr>
+          <tr><td>이끼 압박대</td><td>의료</td><td>출혈 치료(저비용 대체재)</td><td>이끼 3</td></tr>
+          <tr><td>해독제</td><td>의료</td><td>중독 치료</td><td>섬유 4 + 베리 2</td></tr>
+          <tr><td>각성제</td><td>의료</td><td>일시 소모 정지(70초) — 대가로 다음 취침 회복 60% 상한</td><td>베리 4 + 섬유 3</td></tr>
+          <tr><td>생명의 영약</td><td>의료</td><td>생명력 완전 회복(+100)</td><td>붕대2+지혈대2+해독제2+베리6</td></tr>
+          <tr><td>가죽 갑옷</td><td>방어구</td><td>방어력 +4</td><td>가죽 4 + 섬유 3 — 작업대 필요</td></tr>
+          <tr><td>가죽 신발</td><td>방어구</td><td>방어력 +2, 이동속도 +3%(진입장벽 겸용)</td><td>가죽 2 + 섬유 2</td></tr>
+          <tr><td>가죽 모자</td><td>방어구</td><td>방어력 +2</td><td>가죽 2 + 섬유 1</td></tr>
+          <tr><td>생존력 보양식</td><td>버프 음식</td><td>300초간 소모 45% 완화</td><td>부엌 자동 생산(할머니 요리Lv 필요, 1막에서는 트리거 안 됨)</td></tr>
+          <tr><td>불씨</td><td>도구 재료</td><td>-</td><td>부싯돌 1 + 불쏘시개 1 — 아직 요구하는 레시피 없음(선행 준비)</td></tr>
+          <tr><td>찢어진 일기장 · 이니셜 나침반 · 고장난 무전기 부품</td><td>단서</td><td>2막 재회 엔딩용</td><td class="short">1막 데모엔 등장 안 함(ACT1_ONLY)</td></tr>
+          <tr><td>가족의 유품</td><td>단서</td><td>2막 재회 엔딩용</td><td class="short">표류물 유니크 — 주울 순 있으나 1막엔 쓰임 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subhead">건축 (7종)</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구조물</th><th>효과</th><th>재료</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>모닥불</td><td>조리 가능 지점</td><td>나무 3 + 돌 2</td><td>스테이지당 여러 채 가능</td></tr>
+          <tr><td>부엌</td><td>조리 + 할머니 요리 자동 생산</td><td>나무 15 + 돌 8 + 섬유 5</td><td>스테이지당 여러 채 가능</td></tr>
+          <tr><td>빗물 집수기</td><td>F로 안전하게 물 마시기(배탈 위험 없음)</td><td>나무 4 + 섬유 3</td><td>스테이지당 여러 채 가능</td></tr>
+          <tr><td>훈제 건조대</td><td>구운 고기/생선 훈제 가공</td><td>나무 5 + 돌 3 + 섬유 2</td><td>스테이지당 여러 채 가능</td></tr>
+          <tr><td>조잡한 작업대</td><td>상위 레시피(뼈창/활/가죽갑옷) 해금</td><td>나무 6 + 돌 4</td><td>한 번 지으면 계속 해금 유지</td></tr>
+          <tr><td>이동식 집(나뭇잎→나뭇잎텐트→텐트)</td><td>쉘터 레벨(취침 회복량, 악천후 보호)</td><td>나무 8 + 섬유 4(신축) / 나무 12 + 섬유 6(증축)</td><td class="short">섬 전체 1채만 — 다른 스테이지로 옮기려면 철거 후 재건축</td></tr>
+          <tr><td>이동식 집 철거</td><td>기존 이동식 집 제거(다른 곳에 새로 짓기 위함)</td><td>없음(재료 환급 없음)</td><td>2026-08-29 신설</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="act1-roadmap">
+    <h2>1막 로드맵 · 09</h2>
+    <h3 class="title">1막만 떼어놓고 본 진행 순서 — 과거·현재·다음</h3>
+    <p class="lead">
+      <a href="roadmap.html" target="_blank" rel="noopener">전체 로드맵</a>은 게임 전체(2막 이후
+      포함) 기준이라 지금 이 데모와 시간 축이 안 맞는다. 여긴 <strong>1막 데모 하나만</strong>
+      기준으로 마일스톤을 다시 줄 세운 것.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>마일스톤</th><th>시기</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>M1</td><td>2026-08-23~24</td><td>3D 프로토타입 뼈대 — 섬 지형/이동/카메라, 생존 스탯 4종 + 채집·제작 UI</td></tr>
+          <tr><td>M2</td><td>2026-08-24~25</td><td>전투·사냥, 동료 팔로우 AI, 밤낮·날씨, 세이브/로드, 사망→쉘터 리스폰</td></tr>
+          <tr><td>M3</td><td>2026-08-25</td><td>1막 집중 재조정 — 동료/야생동물 위협 비활성화, 공격 10배속, 타이틀 새 게임/이어하기 분리</td></tr>
+          <tr><td>M4</td><td>2026-08-26~27</td><td>로딩식 스테이지 전환(해변1→해변2→숲), 1막 자원표 20종 도입, 건축 위치 지정(고스트 프리뷰)</td></tr>
+          <tr><td>M5</td><td>2026-08-28</td><td>제미나이 "3시간 데모 완결판" 반영 — 채집 QTE, 베이스캠프 시설 3종, 구역 진입 장벽, 1구역 폭우 이벤트, 3구역 엔딩 확장, 퀘스트 4→8개 체인</td></tr>
+          <tr><td>M6</td><td>2026-08-29</td><td>데모/본편 git 분리(demo-act1 브랜치), 맵 비주얼 분리(해변 모래·야자수·바닷물 / 숲 유지), 캐릭터 오빠 고정, 건축 스테이지 제한 전면 철폐 + 이동식 집 철거 기능</td></tr>
+          <tr><td>다음</td><td>-</td><td>06장 "다음 우선순위" 표 참고 — 날씨의 생존 압박 체감, 건축 레벨업 체감, 아이콘/사운드 잔여, 실기기 성능 검증</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="design-decisions">
+    <h2>다음 설계 결정 · 10</h2>
+    <h3 class="title">문서로만 확정 — 구현은 나중</h3>
+    <p class="lead">
+      아래 둘은 사용자가 방향을 확정했지만 <strong>아직 코드에 반영하지 않은</strong> 설계
+      결정이다. 다음에 이 문서를 다시 열 때, 여기 적힌 대로 구현하면 된다.
+    </p>
+    <div class="offgrid">
+      <div class="offcard">
+        <h4>낚시 도구 게이팅 — 동생 합류 전/후</h4>
+        <p><strong>동생 합류 전(1막 내내)</strong>: 낚싯대 같은 "좋고 튼튼한 도구" 없이, 창/뼈창을
+        든 채 물속에서 찌르는 <strong>작살 낚시</strong>만 가능. <strong>동생 합류 후(2막+)</strong>:
+        낚싯대 등 상위 도구 사용 가능. 지금 코드는 <code>fishing_rod</code> 레시피가 1막에서도 바로
+        제작 가능한 상태라 이 설계와 어긋남 — 반영하려면 (1) <code>fishing_rod</code> 레시피에
+        <code>act1: false</code>를 걸어 1막에서 못 만들게 막고, (2)
+        <code>player.js</code>의 <code>resolveActionKind()</code>에 "창/뼈창 소지 + 물속"이면
+        <code>'spear_fish'</code> 같은 새 액션을 반환하도록 분기를 추가해야 한다.</p>
+      </div>
+      <div class="offcard">
+        <h4>손맛 타이밍(QTE) 적용 범위 원칙</h4>
+        <p>QTE(채집 타이밍 게이지)는 <strong>사냥·낚시·벌목·채광, 이 4개 "생활 스킬"에서만</strong>
+        나온다. 도구 없이 맨손으로 채집 가능한 나머지 전 자원(베리·섬유·과일·조개류·소금·허브 등)엔
+        절대 넣지 않는다. 지금은 벌목(나무)·채광(돌) 둘만 구현돼 있고(08장 자원 표의 "손맛(QTE)"
+        열 참고), 사냥·낚시는 아직 즉시 판정 — 나중에 사냥·낚시에도 QTE를 붙일 때는 이 원칙(4개
+        생활 스킬 한정, 손채집엔 없음)을 그대로 지킬 것.</p>
+      </div>
     </div>
   </section>
 
